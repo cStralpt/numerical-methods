@@ -13,4 +13,26 @@ a {
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root{
+  --color-act1: #FFD36E;
+  --color-act1-hover: #f38ba01f;
+  --color-act2: #F38BA0;
+  --color-act3: #FBF7F0;
+  --color-act4: #F7E2E2;
+
+
+  --color-act1-dark: #303841;
+  --color-act1-dark-hover: #7d739544;
+  --color-act2-dark: #a65f6d;
+  --color-act3-dark: #342056;
+  --color-act4-dark: #353941;
+}
+
+@media (prefers-color-scheme: dark) {
+  body{
+    background-color: black;
+  }
 }

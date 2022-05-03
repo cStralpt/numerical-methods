@@ -1,0 +1,246 @@
+.ioExecution_sheet {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-act3);
+  border-radius: 0 10px 10px 10px;
+}
+.userInput {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.findXContainer {
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+  border: 2px solid var(--color-act2);
+}
+.findX_input {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  border-radius: 100px;
+  font-size: 1em;
+  color: var(--color-act2);
+}
+
+.findX_input::placeholder {
+  color: var(--color-act2);
+}
+.findX_input:focus {
+  outline: var(--color-act1);
+}
+.tableDatas {
+  display: flex;
+  flex-direction: column;
+}
+.tableDatas_columnContainer {
+  display: flex;
+}
+.tableDatas_column {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: center;
+  flex-grow: 1;
+}
+.tableDatas_heading {
+  background-color: var(--color-act1);
+  padding: 10px;
+  text-align: center;
+  font-weight: 900;
+  color: var(--color-act3);
+}
+.tableDatas_Contents {
+  padding: 10px;
+  background-color: var(--color-act3);
+}
+.tableDatasContainer {
+  padding: 0 10px;
+}
+.tableDatas {
+  background-color: var(--color-act4);
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+}
+.prosesReults {
+  background-color: var(--color-act4);
+  display: flex;
+  justify-content: space-between;
+  margin: 0 10px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.prosessResults_tableResult,
+.prosessResults_Graph {
+  flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+.prosessResults_Heading,
+.prosessResults_graphheading {
+  width: 100%;
+  /* border: 2px solid var(--color-act3); */
+  background-color: var(--color-act3);
+  text-align: center;
+  padding: 5px;
+  font-weight: 900;
+  color: var(--color-act2);
+}
+.prosessResults_tableResult .tableDatas {
+  width: 100%;
+  border: 2px solid var(--color-act3);
+  margin-left: 2.5px;
+}
+.prosessResults_tableResult .tableDatas .tableDatas_column {
+  width: 50%;
+  text-align: right;
+}
+.prosessResults_tableResult .tableDatas .tableDatas_column:nth-child(1) {
+  width: fit-content;
+}
+/* TODO: */
+.prosessResults_graphResult {
+  border: 2px solid var(--color-act3);
+  height: 100%;
+  margin-right: 2.5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+.tableDatas_Icon {
+  /* border: 2px solid black; */
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-act3);
+  padding: 0 10px;
+}
+
+.tableDatas_Icon * {
+  cursor: pointer;
+}
+.tableDatas_Icon box-icon[name="x-circle"] {
+  margin-top: 3px;
+  position: relative;
+}
+.tableDatas_Icon box-icon[name="x-circle"]:hover::after {
+  content: attr(customTitle);
+  position: absolute;
+  /* background-color: var(--color-act3); */
+  -webkit-text-stroke: 0.2px var(--color-act3);
+  top: -20px;
+  right: -50px;
+  color: var(--color-act1);
+  font-size: larger;
+}
+.tableDatas_Icon box-icon[name="trash"] {
+  margin-top: 2px;
+}
+.tableDatas .tableDatas_column:nth-child(4) .tableDatas_heading sup {
+  opacity: 0;
+}
+.tableDatas .tableDatas_column form {
+  position: relative;
+}
+.tableDatas .tableDatas_column form input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-act3);
+  border: none;
+}
+.tableDatas .tableDatas_column form input:focus {
+  outline: none;
+}
+.entryNewData {
+  background-color: var(--color-act3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 2px;
+  margin-top: 5px;
+  border-radius: 3px;
+  transition: all ease 0.3s;
+  color: var(--color-act1);
+  font-weight: 700;
+  position: relative;
+}
+.entryNewData:hover {
+  /* background-color: var(--color-act1); */
+  color: var(--color-act4);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ioExecution_sheet {
+    background-color: var(--color-act3-dark);
+  }
+  .findXContainer {
+    border: 2px solid var(--color-act1-dark);
+  }
+  .findX_input {
+    color: var(--color-act1-dark);
+  }
+  
+  .findX_input::placeholder {
+    color: var(--color-act1-dark);
+  }
+  .findX_input:focus {
+    outline: var(--color-act1-dark);
+  }
+  .tableDatas_heading {
+    background-color: var(--color-act1-dark);
+    color: var(--color-act3-dark);
+  }
+  .tableDatas_Contents {
+    background-color: var(--color-act3-dark);
+  }
+  .tableDatas {
+    background-color: var(--color-act4-dark);
+  }
+  .prosesReults {
+    background-color: var(--color-act4-dark);
+  }
+  .prosessResults_Heading,
+  .prosessResults_graphheading {
+    background-color: var(--color-act3-dark);
+    color: var(--color-act1-dark);
+  }
+  .prosessResults_tableResult .tableDatas {
+    border: 2px solid var(--color-act3-dark);
+  }
+  /* TODO: */
+  .prosessResults_graphResult {
+    border: 2px solid var(--color-act3-dark);
+  }
+  .tableDatas_Icon {
+    background-color: var(--color-act3-dark);
+  }
+  
+  .tableDatas_Icon box-icon[name="x-circle"]:hover::after {
+    -webkit-text-stroke: 0.2px var(--color-act3-dark);
+    color: var(--color-act1-dark);
+  }
+  .tableDatas .tableDatas_column form input {
+    background-color: var(--color-act3-dark);
+  }
+  .entryNewData {
+    background-color: var(--color-act3-dark);
+    color: var(--color-act1-dark);
+  }
+  .entryNewData:hover {
+    color: var(--color-act4-dark);
+  }
+  
+}
