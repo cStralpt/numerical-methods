@@ -14,8 +14,8 @@ function Interpolasipolynomial() {
     <div className={styles.ioExecution_sheetsContainer}>
       <div className={styles.ioExecution_sheetsBar}>
         <div className={styles.ioExecution_barBtn_Container}>
-          {tabsContainer.map((d) => (
-            <div className={styles.barBtnpacker}>
+          {tabsContainer.map((d,index) => (
+            <div className={styles.barBtnpacker} key={index}>
               <input
                 type="radio"
                 id={d}

@@ -8,8 +8,9 @@ import { IntegerState } from "./IntegerGlobalState";
 import { PopupCtx } from "./PopUpGlobalState";
 import PopUpWindow from "./popUpWindow";
 import Interpolasipolynomial from "/Components/InterpolasiPolynomial";
-
+import Script from "next/script";
 export default function Home({ appId }) {
+  const router = useRouter();
   const [popUpstate, setPopUpState] = useContext(PopupCtx);
   const [isInteger, setIsInteger] = useContext(IntegerState);
   const [getDatas, setDatas] = useContext(DatasState);
@@ -20,7 +21,6 @@ export default function Home({ appId }) {
     return <PopUpWindow />;
     // <>oops! it seems you're in a wrong destination</>;
   }
-  const router = useRouter();
   return (
     <div className={styles.container}>
       <Head>
@@ -31,14 +31,6 @@ export default function Home({ appId }) {
           href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
           rel="stylesheet"
         ></link>
-        <script
-          type="module"
-          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-        ></script>
-        <script
-          nomodule
-          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-        ></script>
       </Head>
       {popUpstate === true && <PopUpWindow />}
       <main className={styles.main}>
@@ -168,6 +160,15 @@ export default function Home({ appId }) {
       </main>
 
       <footer className={styles.footer}></footer>
+
+      <Script
+        type="module"
+        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+      />
+      <Script
+        noModule
+        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+      />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { IntegerState } from "../IntegerGlobalState";
 import LineChart from "../LineChart";
 import { DatasState } from "../DatasContainer";
 import { AppPathState } from "../AppPath";
+import Script from "next/script";
 // import styles from "../../styles/Home.module.css";
 
 function Kuadratik() {
@@ -314,9 +315,6 @@ function Kuadratik() {
   };
   return (
     <>
-      <Head>
-        <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
-      </Head>
       <div className={styles.ioExecution_sheet}>
         <div className={styles.userInput}>
           <div className={styles.findXContainer}>
@@ -478,7 +476,7 @@ function Kuadratik() {
                       mncariTitiktrdkt?.titikKedua.x,
                       mncariTitiktrdkt?.titikKetiga.x,
                     ].map((data, index) => (
-                      <div className={styles.tableDatas_Contents}>
+                      <div className={styles.tableDatas_Contents} key={index}>
                         {index + 1}
                       </div>
                     ))}
@@ -529,6 +527,7 @@ function Kuadratik() {
           </div>
         </div>
       </div>
+      <Script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js" />
     </>
   );
 }

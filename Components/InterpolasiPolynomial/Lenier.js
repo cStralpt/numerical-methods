@@ -6,6 +6,7 @@ import LineChart from "../LineChart";
 import { IntegerState } from "../IntegerGlobalState";
 import { DatasState } from "../DatasContainer";
 import { AppPathState } from "../AppPath";
+import Script from "next/script";
 // import styles from "../../styles/Home.module.css";
 
 function Lenier() {
@@ -265,9 +266,6 @@ function Lenier() {
   }
   return (
     <>
-      <Head>
-        <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
-      </Head>
       <div className={styles.ioExecution_sheet}>
         <div className={styles.userInput}>
           <div className={styles.findXContainer}>
@@ -412,7 +410,7 @@ function Lenier() {
                       parseInt(xYgDicari),
                       mncariTitiktrdkt?.titikKedua.x,
                     ].map((data, index) => (
-                      <div className={styles.tableDatas_Contents}>
+                      <div className={styles.tableDatas_Contents} key={index}>
                         {index + 1}
                       </div>
                     ))}
@@ -461,6 +459,7 @@ function Lenier() {
           </div>
         </div>
       </div>
+      <Script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js" />
     </>
   );
 }
