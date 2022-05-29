@@ -22,7 +22,7 @@ function Lenier() {
   const [isInteger, setIsInteger] = useContext(IntegerState);
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAppPath, setAppPath] = useContext(AppPathState);
-  // const [getDatas.interpol.lenier, setgetDatas.interpol.lenier] = useState(getDatas.interpol.lenier);
+  // const [getDatas.datasContainer.interpol.lenier, setgetDatas.datasContainer.interpol.lenier] = useState(getDatas.datasContainer.interpol.lenier);
   const [graphDatas, setGraphDatas] = useState({
     labels: [mncariTitiktrdkt?.titikPertama.x, mncariTitiktrdkt?.titikKedua.x],
     datasets: [
@@ -37,7 +37,7 @@ function Lenier() {
       },
     ],
   });
-  getDatas.interpol.lenier.sort((a, b) => a.x + b.x);
+  getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x + b.x);
   const router = useRouter();
   useEffect(() => {
     setGraphDatas({
@@ -62,22 +62,22 @@ function Lenier() {
   const FormEditData = ({ depsData }) => {
     if (depsData === "x") {
       return (
-        getDatas.interpol.lenier &&
-        getDatas.interpol.lenier.map((data, index) => (
+        getDatas.datasContainer.interpol.lenier &&
+        getDatas.datasContainer.interpol.lenier.map((data, index) => (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
                 if (
-                  getDatas.interpol.lenier[getDatas.interpol.lenier.length - 1]
+                  getDatas.datasContainer.interpol.lenier[getDatas.datasContainer.interpol.lenier.length - 1]
                     .y === "DummyData"
                 ) {
                   alert("isi sumbu Y dulu");
                 } else if (
-                  getDatas.interpol.lenier[getDatas.interpol.lenier.length - 1]
+                  getDatas.datasContainer.interpol.lenier[getDatas.datasContainer.interpol.lenier.length - 1]
                     .y !== "DummyData"
                 ) {
-                  getDatas.interpol.lenier[editXvalue.index].x =
+                  getDatas.datasContainer.interpol.lenier[editXvalue.index].x =
                     editXvalue.value;
                   setEditX([]);
                 }
@@ -89,7 +89,7 @@ function Lenier() {
               className={styles.tableDatas_Contents}
               onClick={(e) => {
                 if (e.detail === 2) {
-                  setXDataValues(getDatas.interpol.lenier[index].x);
+                  setXDataValues(getDatas.datasContainer.interpol.lenier[index].x);
                   setEditX(index);
                   setEditY([]);
                 }
@@ -117,13 +117,13 @@ function Lenier() {
       );
     } else if (depsData === "y") {
       return (
-        getDatas.interpol.lenier &&
-        getDatas.interpol.lenier.map((data, index) => (
+        getDatas.datasContainer.interpol.lenier &&
+        getDatas.datasContainer.interpol.lenier.map((data, index) => (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
-                getDatas.interpol.lenier[editYvalue.index].y = editYvalue.value;
+                getDatas.datasContainer.interpol.lenier[editYvalue.index].y = editYvalue.value;
                 setEditY([]);
               }
             }}
@@ -133,7 +133,7 @@ function Lenier() {
               className={styles.tableDatas_Contents}
               onClick={(e) => {
                 if (e.detail === 2) {
-                  setYDataValues(getDatas.interpol.lenier[index].y);
+                  setYDataValues(getDatas.datasContainer.interpol.lenier[index].y);
                   setEditX([]);
                   setEditY(index);
                 }
@@ -161,8 +161,8 @@ function Lenier() {
       );
     } else if (depsData === "deleteBtn") {
       return (
-        getDatas.interpol.lenier &&
-        getDatas.interpol.lenier.map((data, index) => (
+        getDatas.datasContainer.interpol.lenier &&
+        getDatas.datasContainer.interpol.lenier.map((data, index) => (
           <div className={styles.tableDatas_Icon} key={index}>
             {(editX === index || editY === index) && (
               <box-icon
@@ -171,15 +171,15 @@ function Lenier() {
                 animation="tada-hover"
                 onClick={() => {
                   if (
-                    getDatas.interpol.lenier[
-                      getDatas.interpol.lenier.length - 1
+                    getDatas.datasContainer.interpol.lenier[
+                      getDatas.datasContainer.interpol.lenier.length - 1
                     ].x === "DummyData" ||
-                    getDatas.interpol.lenier[
-                      getDatas.interpol.lenier.length - 1
+                    getDatas.datasContainer.interpol.lenier[
+                      getDatas.datasContainer.interpol.lenier.length - 1
                     ].y === "DummyData"
                   ) {
-                    getDatas.interpol.lenier.splice(
-                      getDatas.interpol.lenier.length - 1,
+                    getDatas.datasContainer.interpol.lenier.splice(
+                      getDatas.datasContainer.interpol.lenier.length - 1,
                       1
                     );
                   }
@@ -190,13 +190,13 @@ function Lenier() {
                 customTitle="Batal"
               ></box-icon>
             )}
-            {getDatas.interpol.lenier[index].x !== "DummyData" && (
+            {getDatas.datasContainer.interpol.lenier[index].x !== "DummyData" && (
               <box-icon
                 name="trash"
                 color="#e78ea9"
                 animation="tada-hover"
                 onClick={() => {
-                  getDatas.interpol.lenier.splice(index, 1);
+                  getDatas.datasContainer.interpol.lenier.splice(index, 1);
                   router.replace(router.asPath);
                   setEditX([]);
                   setEditY([]);
@@ -210,32 +210,32 @@ function Lenier() {
   };
 
   const cariTtkTrdkt = (cariX) => {
-    if (cariX > getDatas.interpol.lenier.sort((a, b) => a.x - b.x)[0].x)
+    if (cariX > getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[0].x)
       setMncariTitikTrdkt({
         titikPertama: {
-          x: getDatas.interpol.lenier
+          x: getDatas.datasContainer.interpol.lenier
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x < cariX)[
-            getDatas.interpol.lenier
+            getDatas.datasContainer.interpol.lenier
               .sort((a, b) => a.x - b.x)
               .filter((data) => data.x < cariX).length - 1
           ]?.x,
-          y: getDatas.interpol.lenier
+          y: getDatas.datasContainer.interpol.lenier
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x < cariX)[
-            getDatas.interpol.lenier
+            getDatas.datasContainer.interpol.lenier
               .sort((a, b) => a.x - b.x)
               .filter((data) => data.x < cariX).length - 1
           ]?.y,
         },
         titikKedua: {
-          x: getDatas.interpol.lenier
+          x: getDatas.datasContainer.interpol.lenier
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x > cariX)[0]?.x,
-          y: getDatas.interpol.lenier
+          y: getDatas.datasContainer.interpol.lenier
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x > cariX)[
-            getDatas.interpol.lenier
+            getDatas.datasContainer.interpol.lenier
               .sort((a, b) => a.x - b.x)
               .filter((data) => data.x > cariX).length - 1
           ]?.y,
@@ -244,18 +244,18 @@ function Lenier() {
   };
   const clearValues = (e) => {
     if (
-      e >= getDatas.interpol.lenier.sort((a, b) => a.x - b.x)[0].x &&
+      e >= getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[0].x &&
       e <=
-        getDatas.interpol.lenier.sort((a, b) => a.x - b.x)[
-          getDatas.interpol.lenier.length - 1
+        getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[
+          getDatas.datasContainer.interpol.lenier.length - 1
         ].x &&
-      getDatas.interpol.lenier.map((data) => data.x).includes(parseInt(e))
+      getDatas.datasContainer.interpol.lenier.map((data) => data.x).includes(parseInt(e))
     ) {
       setTtkTarget([]);
     } else if (
       e >
-      getDatas.interpol.lenier.sort((a, b) => a.x - b.x)[
-        getDatas.interpol.lenier.length - 1
+      getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[
+        getDatas.datasContainer.interpol.lenier.length - 1
       ].x
     ) {
       setTtkTarget([]);
@@ -276,19 +276,19 @@ function Lenier() {
               placeholder="masukan titik yang di cari(X)"
               onChange={(e) => {
                 if (
-                  !!getDatas.interpol.lenier[0] &&
-                  getDatas.interpol.lenier[0].x !== "DummyData"
+                  !!getDatas.datasContainer.interpol.lenier[0] &&
+                  getDatas.datasContainer.interpol.lenier[0].x !== "DummyData"
                 ) {
                   setTtkTarget();
                   if (
                     e.target.value >
-                      getDatas.interpol.lenier.sort((a, b) => a.x - b.x)[0].x &&
+                      getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[0].x &&
                     e.target.value <
-                      getDatas.interpol.lenier.sort((a, b) => a.x - b.x)[
-                        getDatas.interpol.lenier.sort((a, b) => a.x - b.x)
+                      getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[
+                        getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)
                           .length - 1
                       ].x &&
-                    getDatas.interpol.lenier
+                    getDatas.datasContainer.interpol.lenier
                       .map((data) => data.x)
                       .includes(parseFloat(e.target.value)) == false
                   ) {
@@ -297,8 +297,8 @@ function Lenier() {
                   }
                   if (
                     e.target.value >=
-                    getDatas.interpol.lenier.sort((a, b) => a.x - b.x)[
-                      getDatas.interpol.lenier.length - 1
+                    getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[
+                      getDatas.datasContainer.interpol.lenier.length - 1
                     ].x
                   ) {
                     setTtkTarget([]);
@@ -310,19 +310,19 @@ function Lenier() {
                 setEditY([]);
 
                 if (
-                  !!getDatas.interpol.lenier[0] &&
-                  getDatas.interpol.lenier[0].x !== "DummyData"
+                  !!getDatas.datasContainer.interpol.lenier[0] &&
+                  getDatas.datasContainer.interpol.lenier[0].x !== "DummyData"
                 ) {
                   if (
-                    getDatas.interpol.lenier[
-                      getDatas.interpol.lenier.length - 1
+                    getDatas.datasContainer.interpol.lenier[
+                      getDatas.datasContainer.interpol.lenier.length - 1
                     ].y === "DummyData" ||
-                    getDatas.interpol.lenier[
-                      getDatas.interpol.lenier.length - 1
+                    getDatas.datasContainer.interpol.lenier[
+                      getDatas.datasContainer.interpol.lenier.length - 1
                     ].x === "DummyData"
                   ) {
-                    getDatas.interpol.lenier.splice(
-                      getDatas.interpol.lenier.length - 1,
+                    getDatas.datasContainer.interpol.lenier.splice(
+                      getDatas.datasContainer.interpol.lenier.length - 1,
                       1
                     );
                   }
@@ -331,7 +331,7 @@ function Lenier() {
               value={ttkTarget}
             />
             {console.log(
-              getDatas.interpol.lenier.map((data) => data.x).includes(2016)
+              getDatas.datasContainer.interpol.lenier.map((data) => data.x).includes(2016)
             )}
           </div>
           <div className={styles.tableDatasContainer}>
@@ -341,8 +341,8 @@ function Lenier() {
                   <div className={styles.tableDatas_heading}>
                     n<sup></sup>
                   </div>
-                  {getDatas.interpol.lenier &&
-                    getDatas.interpol.lenier.map((data, index) => (
+                  {getDatas.datasContainer.interpol.lenier &&
+                    getDatas.datasContainer.interpol.lenier.map((data, index) => (
                       <div className={styles.tableDatas_Contents} key={index}>
                         {index + 1}
                       </div>
@@ -370,13 +370,13 @@ function Lenier() {
               <div
                 className={styles.entryNewData}
                 onClick={() => {
-                  getDatas.interpol.lenier.push({
+                  getDatas.datasContainer.interpol.lenier.push({
                     x: "DummyData",
                     y: "DummyData",
                   });
                   // router.replace(router.asPath);
-                  setEditX(getDatas.interpol.lenier.length - 1);
-                  setEditY(getDatas.interpol.lenier.length - 1);
+                  setEditX(getDatas.datasContainer.interpol.lenier.length - 1);
+                  setEditY(getDatas.datasContainer.interpol.lenier.length - 1);
                 }}
               >
                 <box-icon

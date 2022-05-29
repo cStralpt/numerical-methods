@@ -184,11 +184,12 @@
   margin-top: -25px;
   font-weight: 700;
   color: var(--color-act2);
-
-  width: fit-content;
+  /* width: fit-content; */
+  max-width: fit-content;
   font-size: 15px;
   padding: 10px;
   text-align: center;
+  word-wrap: break-word;
   vertical-align: middle;
 }
 .main_appItem ion-icon {
@@ -253,5 +254,4 @@
   .main_appItem:hover {
     background-color: var(--color-act1-dark-hover);
   }
-  
 }

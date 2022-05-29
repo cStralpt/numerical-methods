@@ -7,9 +7,8 @@ import { DatasState } from "./DatasContainer";
 import { IntegerState } from "./IntegerGlobalState";
 import { PopupCtx } from "./PopUpGlobalState";
 import PopUpWindow from "./popUpWindow";
-import Interpolasipolynomial from "/Components/InterpolasiPolynomial";
 import Script from "next/script";
-export default function Home({ appId }) {
+export default function Home({ methodId }) {
   const router = useRouter();
   const [popUpstate, setPopUpState] = useContext(PopupCtx);
   const [isInteger, setIsInteger] = useContext(IntegerState);
@@ -17,7 +16,7 @@ export default function Home({ appId }) {
   const [getAppPath, setAppPath] = useContext(AppPathState);
   const [decimalCheck, setDecimalChecked] = useState(false);
   const [integerChecked, setIntegerChecked] = useState(true);
-  if (!appId) {
+  if (!methodId) {
     return <PopUpWindow />;
     // <>oops! it seems you're in a wrong destination</>;
   }
@@ -30,7 +29,7 @@ export default function Home({ appId }) {
         <link
           href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
           rel="stylesheet"
-        ></link>
+        />
       </Head>
       {popUpstate === true && <PopUpWindow />}
       <main className={styles.main}>
@@ -38,11 +37,23 @@ export default function Home({ appId }) {
           <div className={styles.topNav_Gap}></div>
           <div className={styles.ioContainer}>
             <div className={styles.ioExecution}>
-              {appId === "Interpolasi Polynomial" && <Interpolasipolynomial />}
+              {/* {(methodId === "Interpolasi Polynomial" && (
+                <Interpolasipolynomial />
+              )) ||
+                (methodId === "Biseksi" && <Biseksi />)} */}
+              {
+                getDatas.methods.find((data) => data.methodId === methodId)
+                  .component
+              }
               {/* navbar */}
               <div className={styles.ioExecution_topNav}>
                 <div className={styles.topNav_BtnContainer}>
-                  <div className={styles.topNavBtn}>{appId}</div>
+                  <div className={styles.topNavBtn}>
+                    {
+                      getDatas.methods.find((data) => data.methodId == methodId)
+                        .methodId
+                    }
+                  </div>
                 </div>
               </div>
               <div className={styles.ioExecution_rightNav}>
@@ -50,20 +61,53 @@ export default function Home({ appId }) {
                   <div
                     className={styles.ioExecution_rightNav_icons}
                     onClick={() => {
-                      if (appId === "Interpolasi Polynomial") {
+                      if (methodId === "Interpolasi Polynomial") {
                         if (getAppPath === "InterPolLenier") {
-                          getDatas.interpol.lenier.splice(
+                          getDatas.datasContainer.interpol.lenier.splice(
                             0,
-                            getDatas.interpol.lenier.length
+                            getDatas.datasContainer.interpol.lenier.length
                           );
                           router.replace(router.asPath);
                         } else if (getAppPath === "InterPolKuadratik") {
-                          getDatas.interpol.kuadratik.splice(
+                          getDatas.datasContainer.interpol.kuadratik.splice(
                             0,
-                            getDatas.interpol.kuadratik.length
+                            getDatas.datasContainer.interpol.kuadratik.length
                           );
                           router.replace(router.asPath);
                         }
+                      }
+                       else if (methodId === "Biseksi") {
+                        getDatas.datasContainer.biseksi.batasAtas.splice(
+                          0,
+                          getDatas.datasContainer.biseksi.batasAtas.length
+                        );
+                        getDatas.datasContainer.biseksi.batasBawah.splice(
+                          0,
+                          getDatas.datasContainer.biseksi.batasBawah.length
+                        );
+                        router.replace(router.asPath);
+                      }
+                       else if (methodId === "Regula Falsi") {
+                        getDatas.datasContainer.RegulaFalsi.batasAtas.splice(
+                          0,
+                          getDatas.datasContainer.RegulaFalsi.batasAtas.length
+                        );
+                        getDatas.datasContainer.RegulaFalsi.batasBawah.splice(
+                          0,
+                          getDatas.datasContainer.RegulaFalsi.batasBawah.length
+                        );
+                        router.replace(router.asPath);
+                      }
+                       else if (methodId === "Secant") {
+                        getDatas.datasContainer.Secant.batasAtas.splice(
+                          0,
+                          getDatas.datasContainer.Secant.batasAtas.length
+                        );
+                        getDatas.datasContainer.Secant.batasBawah.splice(
+                          0,
+                          getDatas.datasContainer.Secant.batasBawah.length
+                        );
+                        router.replace(router.asPath);
                       }
                     }}
                   >

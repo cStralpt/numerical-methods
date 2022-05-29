@@ -22,7 +22,7 @@ function Kuadratik() {
   const [isInteger, setIsInteger] = useContext(IntegerState);
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAppPath, setAppPath] = useContext(AppPathState);
-  // const [getDatas.interpol.kuadratik, setgetDatas.interpol.kuadratik] = useState(getDatas.interpol.kuadratik);
+  // const [getDatas.datasContainer.interpol.kuadratik, setgetDatas.datasContainer.interpol.kuadratik] = useState(getDatas.datasContainer.interpol.kuadratik);
   const [graphDatas, setGraphDatas] = useState({
     labels: [
       mncariTitiktrdkt?.titikPertama.y,
@@ -51,7 +51,7 @@ function Kuadratik() {
       },
     ],
   });
-  getDatas.interpol.kuadratik.sort((a, b) => a.x + b.x);
+  getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x + b.x);
   const router = useRouter();
   useEffect(() => {
     setGraphDatas({
@@ -88,24 +88,24 @@ function Kuadratik() {
   const FormEditData = ({ depsData }) => {
     if (depsData === "x") {
       return (
-        getDatas.interpol.kuadratik &&
-        getDatas.interpol.kuadratik.map((data, index) => (
+        getDatas.datasContainer.interpol.kuadratik &&
+        getDatas.datasContainer.interpol.kuadratik.map((data, index) => (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
                 if (
-                  getDatas.interpol.kuadratik[
-                    getDatas.interpol.kuadratik.length - 1
+                  getDatas.datasContainer.interpol.kuadratik[
+                    getDatas.datasContainer.interpol.kuadratik.length - 1
                   ].y === "DummyData"
                 ) {
                   alert("isi sumbu Y dulu");
                 } else if (
-                  getDatas.interpol.kuadratik[
-                    getDatas.interpol.kuadratik.length - 1
+                  getDatas.datasContainer.interpol.kuadratik[
+                    getDatas.datasContainer.interpol.kuadratik.length - 1
                   ].y !== "DummyData"
                 ) {
-                  getDatas.interpol.kuadratik[editXvalue.index].x =
+                  getDatas.datasContainer.interpol.kuadratik[editXvalue.index].x =
                     editXvalue.value;
                   setEditX([]);
                 }
@@ -117,7 +117,7 @@ function Kuadratik() {
               className={styles.tableDatas_Contents}
               onClick={(e) => {
                 if (e.detail === 2) {
-                  setXDataValues(getDatas.interpol.kuadratik[index].x);
+                  setXDataValues(getDatas.datasContainer.interpol.kuadratik[index].x);
                   setEditX(index);
                   setEditY([]);
                 }
@@ -145,13 +145,13 @@ function Kuadratik() {
       );
     } else if (depsData === "y") {
       return (
-        getDatas.interpol.kuadratik &&
-        getDatas.interpol.kuadratik.map((data, index) => (
+        getDatas.datasContainer.interpol.kuadratik &&
+        getDatas.datasContainer.interpol.kuadratik.map((data, index) => (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
-                getDatas.interpol.kuadratik[editYvalue.index].y =
+                getDatas.datasContainer.interpol.kuadratik[editYvalue.index].y =
                   editYvalue.value;
                 setEditY([]);
               }
@@ -162,7 +162,7 @@ function Kuadratik() {
               className={styles.tableDatas_Contents}
               onClick={(e) => {
                 if (e.detail === 2) {
-                  setYDataValues(getDatas.interpol.kuadratik[index].y);
+                  setYDataValues(getDatas.datasContainer.interpol.kuadratik[index].y);
                   setEditX([]);
                   setEditY(index);
                 }
@@ -190,8 +190,8 @@ function Kuadratik() {
       );
     } else if (depsData === "deleteBtn") {
       return (
-        getDatas.interpol.kuadratik &&
-        getDatas.interpol.kuadratik.map((data, index) => (
+        getDatas.datasContainer.interpol.kuadratik &&
+        getDatas.datasContainer.interpol.kuadratik.map((data, index) => (
           <div className={styles.tableDatas_Icon} key={index}>
             {(editX === index || editY === index) && (
               <box-icon
@@ -200,15 +200,15 @@ function Kuadratik() {
                 animation="tada-hover"
                 onClick={() => {
                   if (
-                    getDatas.interpol.kuadratik[
-                      getDatas.interpol.kuadratik.length - 1
+                    getDatas.datasContainer.interpol.kuadratik[
+                      getDatas.datasContainer.interpol.kuadratik.length - 1
                     ].x === "DummyData" ||
-                    getDatas.interpol.kuadratik[
-                      getDatas.interpol.kuadratik.length - 1
+                    getDatas.datasContainer.interpol.kuadratik[
+                      getDatas.datasContainer.interpol.kuadratik.length - 1
                     ].y === "DummyData"
                   ) {
-                    getDatas.interpol.kuadratik.splice(
-                      getDatas.interpol.kuadratik.length - 1,
+                    getDatas.datasContainer.interpol.kuadratik.splice(
+                      getDatas.datasContainer.interpol.kuadratik.length - 1,
                       1
                     );
                   }
@@ -219,13 +219,13 @@ function Kuadratik() {
                 customTitle="Batal"
               ></box-icon>
             )}
-            {getDatas.interpol.kuadratik[index].x !== "DummyData" && (
+            {getDatas.datasContainer.interpol.kuadratik[index].x !== "DummyData" && (
               <box-icon
                 name="trash"
                 color="#e78ea9"
                 animation="tada-hover"
                 onClick={() => {
-                  getDatas.interpol.kuadratik.splice(index, 1);
+                  getDatas.datasContainer.interpol.kuadratik.splice(index, 1);
                   router.replace(router.asPath);
                   setEditX([]);
                   setEditY([]);
@@ -238,28 +238,28 @@ function Kuadratik() {
     }
   };
   const cariTtkTrdkt = (cariX) => {
-    if (cariX > getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)[0].x)
+    if (cariX > getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[0].x)
       setMncariTitikTrdkt({
         titikPertama: {
-          x: getDatas.interpol.kuadratik
+          x: getDatas.datasContainer.interpol.kuadratik
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x < cariX)[
-            getDatas.interpol.kuadratik
+            getDatas.datasContainer.interpol.kuadratik
               .sort((a, b) => a.x - b.x)
               .filter((data) => data.x < cariX).length -
-              (getDatas.interpol.kuadratik
+              (getDatas.datasContainer.interpol.kuadratik
                 .sort((a, b) => a.x - b.x)
                 .filter((data) => data.x < cariX).length > 1
                 ? 2
                 : 1)
           ].x,
-          y: getDatas.interpol.kuadratik
+          y: getDatas.datasContainer.interpol.kuadratik
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x < cariX)[
-            getDatas.interpol.kuadratik
+            getDatas.datasContainer.interpol.kuadratik
               .sort((a, b) => a.x - b.x)
               .filter((data) => data.x < cariX).length -
-              (getDatas.interpol.kuadratik
+              (getDatas.datasContainer.interpol.kuadratik
                 .sort((a, b) => a.x - b.x)
                 .filter((data) => data.x < cariX).length > 1
                 ? 2
@@ -267,26 +267,26 @@ function Kuadratik() {
           ].y,
         },
         titikKedua: {
-          x: getDatas.interpol.kuadratik
+          x: getDatas.datasContainer.interpol.kuadratik
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x < cariX)[
-            getDatas.interpol.kuadratik
+            getDatas.datasContainer.interpol.kuadratik
               .sort((a, b) => a.x - b.x)
               .filter((data) => data.x < cariX).length - 1
           ].x,
-          y: getDatas.interpol.kuadratik
+          y: getDatas.datasContainer.interpol.kuadratik
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x < cariX)[
-            getDatas.interpol.kuadratik
+            getDatas.datasContainer.interpol.kuadratik
               .sort((a, b) => a.x - b.x)
               .filter((data) => data.x < cariX).length - 1
           ].y,
         },
         titikKetiga: {
-          x: getDatas.interpol.kuadratik
+          x: getDatas.datasContainer.interpol.kuadratik
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x > cariX)[0].x,
-          y: getDatas.interpol.kuadratik
+          y: getDatas.datasContainer.interpol.kuadratik
             .sort((a, b) => a.x - b.x)
             .filter((data) => data.x > cariX)[0].y,
         },
@@ -295,19 +295,19 @@ function Kuadratik() {
 
   const clearValues = (e) => {
     if (
-      e >= getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)[0].x &&
+      e >= getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[0].x &&
       e <=
-        getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)[
-          getDatas.interpol.kuadratik.length - 1
+        getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[
+          getDatas.datasContainer.interpol.kuadratik.length - 1
         ].x &&
-      getDatas.interpol.kuadratik.map((data) => data.x).includes(parseInt(e))
+      getDatas.datasContainer.interpol.kuadratik.map((data) => data.x).includes(parseInt(e))
     ) {
       // alert("asdkasjd");
       setTtkTarget([]);
     } else if (
       e >
-      getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)[
-        getDatas.interpol.kuadratik.length - 1
+      getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[
+        getDatas.datasContainer.interpol.kuadratik.length - 1
       ].x
     ) {
       setTtkTarget([]);
@@ -324,21 +324,21 @@ function Kuadratik() {
               autoFocus
               placeholder="masukan titik yang di cari(X)"
               onChange={(e) => {
-                if (!!getDatas.interpol.kuadratik[0]) {
+                if (!!getDatas.datasContainer.interpol.kuadratik[0]) {
                   setTtkTarget();
                   if (
                     e.target.value >
-                      getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)[0]
+                      getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[0]
                         .x &&
                     e.target.value <
-                      getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)[
-                        getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)
+                      getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[
+                        getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)
                           .length - 1
                       ].x &&
-                    getDatas.interpol.kuadratik
+                    getDatas.datasContainer.interpol.kuadratik
                       .map((data) => data.x)
                       .includes(parseFloat(e.target.value)) == false &&
-                    getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)[1]
+                    getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[1]
                       ?.x < parseFloat(e.target.value)
                       ? true
                       : false
@@ -348,8 +348,8 @@ function Kuadratik() {
                   }
                   if (
                     e.target.value >=
-                    getDatas.interpol.kuadratik.sort((a, b) => a.x - b.x)[
-                      getDatas.interpol.kuadratik.length - 1
+                    getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[
+                      getDatas.datasContainer.interpol.kuadratik.length - 1
                     ].x
                   ) {
                     setTtkTarget([]);
@@ -359,19 +359,19 @@ function Kuadratik() {
               value={ttkTarget}
               onFocus={() => {
                 if (
-                  !!getDatas.interpol.kuadratik[0] &&
-                  getDatas.interpol.kuadratik[0].x !== "DummyData"
+                  !!getDatas.datasContainer.interpol.kuadratik[0] &&
+                  getDatas.datasContainer.interpol.kuadratik[0].x !== "DummyData"
                 ) {
                   if (
-                    getDatas.interpol.kuadratik[
-                      getDatas.interpol.kuadratik.length - 1
+                    getDatas.datasContainer.interpol.kuadratik[
+                      getDatas.datasContainer.interpol.kuadratik.length - 1
                     ].y === "DummyData" ||
-                    getDatas.interpol.kuadratik[
-                      getDatas.interpol.kuadratik.length - 1
+                    getDatas.datasContainer.interpol.kuadratik[
+                      getDatas.datasContainer.interpol.kuadratik.length - 1
                     ].x === "DummyData"
                   ) {
-                    getDatas.interpol.kuadratik.splice(
-                      getDatas.interpol.kuadratik.length - 1,
+                    getDatas.datasContainer.interpol.kuadratik.splice(
+                      getDatas.datasContainer.interpol.kuadratik.length - 1,
                       1
                     );
                   }
@@ -382,13 +382,13 @@ function Kuadratik() {
             />
           </div>
           {console.log({
-            x: getDatas.interpol.kuadratik
+            x: getDatas.datasContainer.interpol.kuadratik
               .sort((a, b) => a.x - b.x)
               .filter((data) => data.x < 1)[
-              getDatas.interpol.kuadratik
+              getDatas.datasContainer.interpol.kuadratik
                 .sort((a, b) => a.x - b.x)
                 .filter((data) => data.x < 1).length -
-                (getDatas.interpol.kuadratik
+                (getDatas.datasContainer.interpol.kuadratik
                   .sort((a, b) => a.x - b.x)
                   .filter((data) => data.x < 1).length > 1
                   ? 2
@@ -402,8 +402,8 @@ function Kuadratik() {
                   <div className={styles.tableDatas_heading}>
                     n<sup></sup>
                   </div>
-                  {getDatas.interpol.kuadratik &&
-                    getDatas.interpol.kuadratik.map((data, index) => (
+                  {getDatas.datasContainer.interpol.kuadratik &&
+                    getDatas.datasContainer.interpol.kuadratik.map((data, index) => (
                       <div className={styles.tableDatas_Contents} key={index}>
                         {index + 1}
                       </div>
@@ -431,13 +431,13 @@ function Kuadratik() {
               <div
                 className={styles.entryNewData}
                 onClick={() => {
-                  getDatas.interpol.kuadratik.push({
+                  getDatas.datasContainer.interpol.kuadratik.push({
                     x: "DummyData",
                     y: "DummyData",
                   });
                   // router.replace(router.asPath);
-                  setEditX(getDatas.interpol.kuadratik.length - 1);
-                  setEditY(getDatas.interpol.kuadratik.length - 1);
+                  setEditX(getDatas.datasContainer.interpol.kuadratik.length - 1);
+                  setEditY(getDatas.datasContainer.interpol.kuadratik.length - 1);
                 }}
               >
                 <box-icon
