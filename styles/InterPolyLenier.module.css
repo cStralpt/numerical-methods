@@ -54,12 +54,61 @@
   font-weight: 900;
   color: var(--color-act3);
 }
+.tableDatas_heading .actionHeading {
+  opacity: 0;
+}
 .tableDatas_Contents {
   padding: 10px;
   background-color: var(--color-act3);
 }
 .tableDatasContainer {
   padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  /* border: 2px solid red; */
+  justify-content: space-between;
+}
+.tableDatasContainer span {
+  font-weight: 700;
+}
+.akarPersamaan_results {
+  display: flex;
+  justify-content: space-between;
+  /* border: 2px solid red; */
+  flex-grow: 1;
+  align-items: flex-start;
+}
+.akarPersamaan_Input {
+  display: flex;
+  background-color: var(--color-act4);
+  padding: 10px;
+  font-size: 20px;
+  margin-top: 8px;
+  border-radius: 2px;
+  color: var(--color-act2);
+  justify-content: center;
+  align-items: center;
+  order: 2;
+}
+.loopResults_Container {
+  /* border: 2px solid var(--color-act1); */
+  margin-left: 10px;
+  order: 1;
+  color: var(--color-act1);
+  font-weight: 700;
+  /* padding: 10px; */
+}
+.calculation_Result {
+  color: var(--color-act2);
+}
+.totalLoops_Container,
+.calculation {
+  display: flex;
+  gap: 10px;
+}
+.pangkatFormula {
+  /* border: 2px solid black; */
+  display: flex;
 }
 .tableDatas {
   background-color: var(--color-act4);
@@ -107,7 +156,6 @@
 .prosessResults_tableResult .tableDatas .tableDatas_column:nth-child(1) {
   width: fit-content;
 }
-/* TODO: */
 .prosessResults_graphResult {
   border: 2px solid var(--color-act3);
   height: 100%;
@@ -123,9 +171,48 @@
   align-items: center;
   background-color: var(--color-act3);
   padding: 0 10px;
+  font-size: 30px;
+  color: #e78ea9;
+}
+.tableDatas_Icon .checkBoxContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid black; */
+  height: 100%;
+  width: 30px;
+}
+.tableDatas_Icon .checkBoxContainer input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.tableDatas_Icon .checkBoxContainer .checkBox {
+  position: relative;
+  /* border: 2px solid black; */
+  height: 100%;
+  width: 100%;
+  font-size: 35px;
+}
+.tableDatas_Icon .checkBoxContainer .checkBox i {
+  position: absolute;
+  top: 4px;
+  left: 0;
+}
+.tableDatas_Icon .checkBoxContainer .checkBox + .checkBox {
+  display: none;
+}
+.tableDatas_Icon .checkBoxContainer input:checked + .checkBox + .checkBox {
+  display: block;
+}
+.tableDatas_Icon .checkBoxContainer input:checked + .checkBox {
+  display: none;
 }
 
-.tableDatas_Icon * {
+.tableDatas_Icon > i,
+.tableDatas_Icon > box-icon {
   cursor: pointer;
 }
 .tableDatas_Icon box-icon[name="x-circle"] {
@@ -192,7 +279,7 @@
   .findX_input {
     color: var(--color-act1-dark);
   }
-  
+
   .findX_input::placeholder {
     color: var(--color-act1-dark);
   }
@@ -227,7 +314,7 @@
   .tableDatas_Icon {
     background-color: var(--color-act3-dark);
   }
-  
+
   .tableDatas_Icon box-icon[name="x-circle"]:hover::after {
     -webkit-text-stroke: 0.2px var(--color-act3-dark);
     color: var(--color-act1-dark);
@@ -242,5 +329,4 @@
   .entryNewData:hover {
     color: var(--color-act4-dark);
   }
-  
 }

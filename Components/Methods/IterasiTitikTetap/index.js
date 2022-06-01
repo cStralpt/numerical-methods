@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import styles from "../../styles/Home.module.css";
-import Secant from "./Secant";
+import styles from "/styles/Home.module.css";
+import TitikTetapWindow from "./TitikTetap";
 function Index() {
-  const [biseksiTabs, setBiseksiTabs] = useState("Secant");
-  const [tabsContainer] = useState(["Secant"]);
+  const [biseksiTabs, setBiseksiTabs] = useState("Titik Tetap");
+  const [tabsContainer] = useState(["Titik Tetap"]);
   const [radioIsCheck, setRadioCheck] = useState(true);
   return (
     <div className={styles.ioExecution_sheetsContainer}>
@@ -14,7 +14,7 @@ function Index() {
               <input
                 type="radio"
                 id={d}
-                checked={d === "Secant" && radioIsCheck}
+                checked={d === "Titik Tetap" && radioIsCheck}
                 name="tabIndicator"
                 className={styles.ioExecution_barBtn_tabIndicator}
               />
@@ -25,7 +25,7 @@ function Index() {
           ))}
         </div>
       </div>
-      <Secant />
+      <TitikTetapWindow />
     </div>
   );
 }

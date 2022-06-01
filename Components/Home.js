@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "/styles/Home.module.css";
 import { AppPathState } from "./AppPath";
 import { DatasState } from "./DatasContainer";
 import { IntegerState } from "./IntegerGlobalState";
@@ -30,6 +30,10 @@ export default function Home({ methodId }) {
           href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
           rel="stylesheet"
         />
+        <link
+          href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+          rel="stylesheet"
+        ></link>
       </Head>
       {popUpstate === true && <PopUpWindow />}
       <main className={styles.main}>
@@ -75,8 +79,7 @@ export default function Home({ methodId }) {
                           );
                           router.replace(router.asPath);
                         }
-                      }
-                       else if (methodId === "Biseksi") {
+                      } else if (methodId === "Biseksi") {
                         getDatas.datasContainer.biseksi.batasAtas.splice(
                           0,
                           getDatas.datasContainer.biseksi.batasAtas.length
@@ -86,8 +89,7 @@ export default function Home({ methodId }) {
                           getDatas.datasContainer.biseksi.batasBawah.length
                         );
                         router.replace(router.asPath);
-                      }
-                       else if (methodId === "Regula Falsi") {
+                      } else if (methodId === "Regula Falsi") {
                         getDatas.datasContainer.RegulaFalsi.batasAtas.splice(
                           0,
                           getDatas.datasContainer.RegulaFalsi.batasAtas.length
@@ -97,8 +99,7 @@ export default function Home({ methodId }) {
                           getDatas.datasContainer.RegulaFalsi.batasBawah.length
                         );
                         router.replace(router.asPath);
-                      }
-                       else if (methodId === "Secant") {
+                      } else if (methodId === "Secant") {
                         getDatas.datasContainer.Secant.batasAtas.splice(
                           0,
                           getDatas.datasContainer.Secant.batasAtas.length

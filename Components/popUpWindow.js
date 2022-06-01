@@ -61,7 +61,7 @@ function PopUpWindow() {
             >
               <h5 className={pupStyles.popUp_header_windowName}>
                 <ion-icon name="calculator"></ion-icon>
-                Apps List
+                Methods List
               </h5>
               <div className={pupStyles.popUpWindow_header_actionContainer}>
                 {[1, 2, 3].map((data, index) => (

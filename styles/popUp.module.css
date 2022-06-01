@@ -74,10 +74,12 @@
   height: 600px;
   border-radius: 10px;
   overflow: hidden;
+  /* width: 400px;
+  height: 430px; */
   max-width: 700px;
   max-height: 700px;
   min-height: 35px;
-  min-width: 200px;
+  min-width: 230px;
   z-index: 2;
   resize: both;
   box-shadow: 0 0 20px 5px rgba(192, 192, 192, 0.534);
@@ -104,6 +106,7 @@
   align-items: center;
   gap: 1px;
   color: var(--color-act3);
+  width: max-content;
 }
 .popUpWindow_header h5 ion-icon {
   font-size: 25px;

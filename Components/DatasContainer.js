@@ -1,8 +1,9 @@
 import { createContext, useState } from "react";
-import Interpolasipolynomial from "/Components/InterpolasiPolynomial";
-import Biseksi from "/Components/Biseksi";
-import RegulaFalsi from "/Components/RegulaFalsi";
-import Secant from "/Components/Secant";
+import Interpolasipolynomial from "/Components/Methods/InterpolasiPolynomial";
+import Biseksi from "/Components/Methods/Biseksi";
+import RegulaFalsi from "/Components/Methods/RegulaFalsi";
+import Secant from "/Components/Methods/Secant";
+import IterasiTitikTetap from "/Components/Methods/IterasiTitikTetap";
 export const DatasState = createContext();
 function DatasContainer({ children }) {
   const datas = {
@@ -27,6 +28,11 @@ function DatasContainer({ children }) {
         slug: "secant",
         component: <Secant />,
       },
+      {
+        methodId: "Iterasi Titik Tetap",
+        slug: "iterasi-titik-tetap",
+        component: <IterasiTitikTetap />,
+      },
     ],
     datasContainer: {
       interpol: {
@@ -47,14 +53,18 @@ function DatasContainer({ children }) {
       biseksi: {
         batasAtas: [1],
         batasBawah: [2],
+        akarPrsmn: [3, 2, 2],
       },
       RegulaFalsi: {
-        batasAtas: [1],
-        batasBawah: [2],
+        batasAtas: [-5],
+        batasBawah: [1],
       },
       Secant: {
-        batasAtas: [1],
-        batasBawah: [2],
+        batasAtas: [-2],
+        batasBawah: [3],
+      },
+      IterasiTitikTetap: {
+        batasAtas: [4],
       },
     },
   };

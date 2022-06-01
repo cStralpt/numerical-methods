@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import styles from "../../styles/Home.module.css";
-import RegulaFalsi from "./RegulaFalsi";
+import styles from "/styles/Home.module.css";
+import Secant from "./Secant";
 function Index() {
-  const [biseksiTabs, setBiseksiTabs] = useState("Regula Falsi");
-  const [tabsContainer] = useState(["Regula Falsi"]);
+  const [biseksiTabs, setBiseksiTabs] = useState("Secant");
+  const [tabsContainer] = useState(["Secant"]);
   const [radioIsCheck, setRadioCheck] = useState(true);
   return (
     <div className={styles.ioExecution_sheetsContainer}>
@@ -14,7 +14,7 @@ function Index() {
               <input
                 type="radio"
                 id={d}
-                checked={d === "Regula Falsi" && radioIsCheck}
+                checked={d === "Secant" && radioIsCheck}
                 name="tabIndicator"
                 className={styles.ioExecution_barBtn_tabIndicator}
               />
@@ -25,7 +25,7 @@ function Index() {
           ))}
         </div>
       </div>
-      <RegulaFalsi />
+      <Secant />
     </div>
   );
 }

@@ -1,0 +1,64 @@
+.akarPersamaan_results {
+  display: flex;
+  justify-content: space-between;
+  /* border: 2px solid red; */
+  flex-grow: 1;
+  align-items: flex-start;
+}
+.akarPersamaan_Input {
+  display: flex;
+  background-color: var(--color-act1);
+  padding: 10px;
+  font-size: 5em;
+  margin-top: 8px;
+  border-radius: 2px;
+  color: var(--color-act3);
+  justify-content: center;
+  align-items: center;
+  order: 2;
+  padding: 30px;
+  border-radius: 10px;
+  position: relative;
+}
+.loopResults_Container {
+  /* border: 2px solid var(--color-act1); */
+  margin-left: 10px;
+  order: 1;
+  color: var(--color-act1);
+  font-weight: 700;
+  /* padding: 10px; */
+}
+.calculation_Result {
+  color: var(--color-act2);
+}
+.totalLoops_Container,
+.calculation {
+  display: flex;
+  gap: 10px;
+}
+.pangkatFormula {
+  display: flex;
+}
+.windowContainer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  /* border: 2px solid black; */
+  background-color: rgba(255, 255, 119, 0.329);
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  z-index: 10;
+}
+.closeWindowBtn {
+    position: absolute;
+    color: var(--color-act3);
+    font-size: 50px;
+    right: -20px;
+    top: -30px;
+}
+.closeWindowBtn i{
+    background-color: var(--color-act2);
+    border-radius: 100px;
+}

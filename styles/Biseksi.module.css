@@ -1,4 +1,36 @@
 .sumbuContainer {
   display: flex;
   gap: 10px;
+  flex-grow: 1;
+}
+
+/* update */
+.loopLimits_toleransiError{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  /* border: 2px solid red; */
+  gap: 10px;
+}
+.loopLimits_Container{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.loopLimits_input{
+  padding: 10px;
+  outline: none;
+  border: none;
+  font-size: 15px;
+  color: var(--color-act2);
+  /* background-color: var(--color-act4); */
+}
+.loopLimits_input::placeholder{
+  color: var(--color-act2);
+}
+.loopLimits_label{
+  color: var(--color-act2);
+  font-weight: 700;
+  margin-left: 10px;
 }

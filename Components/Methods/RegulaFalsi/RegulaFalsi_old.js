@@ -1,13 +1,14 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import styles from "../../styles/InterPolyLenier.module.css";
-import BiseksiStyles from "../../styles/Biseksi.module.css";
-import LineChart from "../LineChart";
-import { IntegerState } from "../IntegerGlobalState";
-import { DatasState } from "../DatasContainer";
-import { AppPathState } from "../AppPath";
+import styles from "/styles/InterPolyLenier.module.css";
+import BiseksiStyles from "/styles/Biseksi.module.css";
+import LineChart from "../../LineChart";
+import { IntegerState } from "../../IntegerGlobalState";
+import { DatasState } from "../../DatasContainer";
+import { AppPathState } from "../../AppPath";
 import Script from "next/script";
+import DeleteDummyDatas from "../../MikroCMPs/DeleteDummyDatas";
 // import styles from "../../styles/Home.module.css";
 
 function RegulaFalsi() {
@@ -41,8 +42,9 @@ function RegulaFalsi() {
       },
     ],
   });
-  getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x + b.x);
   const router = useRouter();
+  DeleteDummyDatas();
+
   useEffect(() => {
     setGraphDatas({
       labels: [
@@ -146,7 +148,8 @@ function RegulaFalsi() {
                   );
                   setEditX([]);
                 } else if (
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[index] !== "DummyData"
+                  getDatas.datasContainer.RegulaFalsi.batasBawah[index] !==
+                  "DummyData"
                 ) {
                   getDatas.datasContainer.RegulaFalsi.batasAtas.fill(
                     xDataValues,
@@ -163,7 +166,9 @@ function RegulaFalsi() {
               className={styles.tableDatas_Contents}
               onClick={(e) => {
                 if (e.detail === 2) {
-                  setXDataValues(getDatas.datasContainer.RegulaFalsi.batasBawah[index]);
+                  setXDataValues(
+                    getDatas.datasContainer.RegulaFalsi.batasBawah[index]
+                  );
                   setEditX(index);
                   setEditY([]);
                   if (
@@ -245,7 +250,8 @@ function RegulaFalsi() {
                   );
                   setEditY([]);
                 } else if (
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[editY] !== "DummyData"
+                  getDatas.datasContainer.RegulaFalsi.batasBawah[editY] !==
+                  "DummyData"
                 ) {
                   getDatas.datasContainer.RegulaFalsi.batasBawah.fill(
                     yDataValues,
@@ -262,8 +268,12 @@ function RegulaFalsi() {
               className={styles.tableDatas_Contents}
               onClick={(e) => {
                 if (e.detail === 2) {
-                  setXDataValues(getDatas.datasContainer.RegulaFalsi.batasAtas[index]);
-                  setYDataValues(getDatas.datasContainer.RegulaFalsi.batasBawah[index]);
+                  setXDataValues(
+                    getDatas.datasContainer.RegulaFalsi.batasAtas[index]
+                  );
+                  setYDataValues(
+                    getDatas.datasContainer.RegulaFalsi.batasBawah[index]
+                  );
                   setEditX([]);
                   setEditY(index);
                   if (
@@ -367,8 +377,14 @@ function RegulaFalsi() {
                 color="#e78ea9"
                 animation="tada-hover"
                 onClick={() => {
-                  getDatas.datasContainer.RegulaFalsi.batasAtas.splice(index, 1);
-                  getDatas.datasContainer.RegulaFalsi.batasBawah.splice(index, 1);
+                  getDatas.datasContainer.RegulaFalsi.batasAtas.splice(
+                    index,
+                    1
+                  );
+                  getDatas.datasContainer.RegulaFalsi.batasBawah.splice(
+                    index,
+                    1
+                  );
                   router.replace(router.asPath);
                   setEditX([]);
                   setEditY([]);
@@ -420,11 +436,13 @@ function RegulaFalsi() {
                     n<sup></sup>
                   </div>
                   {getDatas.datasContainer.RegulaFalsi &&
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.map((data, index) => (
-                      <div className={styles.tableDatas_Contents} key={index}>
-                        {index + 1}
-                      </div>
-                    ))}
+                    getDatas.datasContainer.RegulaFalsi.batasAtas.map(
+                      (data, index) => (
+                        <div className={styles.tableDatas_Contents} key={index}>
+                          {index + 1}
+                        </div>
+                      )
+                    )}
                 </div>
                 <div className={styles.tableDatas_column}>
                   <div className={styles.tableDatas_heading}>
@@ -448,11 +466,19 @@ function RegulaFalsi() {
               <div
                 className={styles.entryNewData}
                 onClick={() => {
-                  getDatas.datasContainer.RegulaFalsi.batasAtas.push("DummyData");
-                  getDatas.datasContainer.RegulaFalsi.batasBawah.push("DummyData");
+                  getDatas.datasContainer.RegulaFalsi.batasAtas.push(
+                    "DummyData"
+                  );
+                  getDatas.datasContainer.RegulaFalsi.batasBawah.push(
+                    "DummyData"
+                  );
                   // router.replace(router.asPath);
-                  setEditX(getDatas.datasContainer.RegulaFalsi.batasAtas.length - 1);
-                  setEditY(getDatas.datasContainer.RegulaFalsi.batasBawah.length - 1);
+                  setEditX(
+                    getDatas.datasContainer.RegulaFalsi.batasAtas.length - 1
+                  );
+                  setEditY(
+                    getDatas.datasContainer.RegulaFalsi.batasBawah.length - 1
+                  );
                 }}
               >
                 <box-icon

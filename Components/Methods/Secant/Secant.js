@@ -1,16 +1,20 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import styles from "../../styles/InterPolyLenier.module.css";
-import BiseksiStyles from "../../styles/Biseksi.module.css";
-import LineChart from "../LineChart";
-import { IntegerState } from "../IntegerGlobalState";
-import { DatasState } from "../DatasContainer";
-import { AppPathState } from "../AppPath";
+import styles from "/styles/InterPolyLenier.module.css";
+import BiseksiStyles from "../../../styles/Biseksi.module.css";
+import LineChart from "../../LineChart";
+import { IntegerState } from "../../IntegerGlobalState";
+import { DatasState } from "../../DatasContainer";
+import { AppPathState } from "../../AppPath";
 import Script from "next/script";
+import Table from "../../MikroCMPs/Table";
+import { akarPersamaanState } from "../../AkarPrsmnState";
+import DeleteDummyDatas from "../../MikroCMPs/DeleteDummyDatas";
+import AkarPrsmnWindow from "../../MikroCMPs/AkarPrsmnWindow";
 // import styles from "../../styles/Home.module.css";
 
-function Secant() {
+function SecantWindow() {
   const [editX, setEditX] = useState();
   const [editY, setEditY] = useState();
   const [ttkTarget, setTtkTarget] = useState();
@@ -26,43 +30,13 @@ function Secant() {
   const [batasTengah, setBatasTengah] = useState(null);
   const [akarTarget, setAkaraTarget] = useState();
   const [toleransiE, setToleransiE] = useState(0.0001);
-  // const [getDatas.datasContainer.interpol.lenier, setgetDatas.datasContainer.interpol.lenier] = useState(getDatas.datasContainer.interpol.lenier);
-  const [graphDatas, setGraphDatas] = useState({
-    labels: [mncariTitiktrdkt?.titikPertama.x, mncariTitiktrdkt?.titikKedua.x],
-    datasets: [
-      {
-        label: "Interpolasi Polynomial Lenier",
-        // lineTension: 0.4,
-        radius: 5,
-        data: [
-          mncariTitiktrdkt?.titikPertama.y,
-          mncariTitiktrdkt?.titikKedua.y,
-        ],
-      },
-    ],
-  });
-  getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x + b.x);
+  const [isDataChecked, setCheckedData] = useState();
+  const [getLoopLimits, setLoopLimits] = useState(1000);
+  const [totalIterasi, setTotalIterasi] = useState();
+  const [getAkarPrsmnWindow, setAkarPrsmnWindow] =
+    useContext(akarPersamaanState);
   const router = useRouter();
-  useEffect(() => {
-    setGraphDatas({
-      labels: [
-        mncariTitiktrdkt?.titikPertama.x,
-        mncariTitiktrdkt?.titikKedua.x,
-      ],
-      datasets: [
-        {
-          label: "Interpolasi Polynomial Lenier",
-          // lineTension: 0.4,
-          radius: 5,
-          data: [
-            mncariTitiktrdkt?.titikPertama.y,
-            mncariTitiktrdkt?.titikKedua.y,
-          ],
-        },
-      ],
-    });
-    setAppPath("InterPolLenier");
-  }, [xYgDicari]);
+  DeleteDummyDatas();
   const BeginSecant = (batasAtas, batasBawah, eRA) => {
     const perPangkatan = (nilai, pangkat) => {
       let hasilnya = nilai;
@@ -89,10 +63,11 @@ function Secant() {
         btsBwh = btsTngh;
       }
       btsTngh = (btsAtas + btsBwh) / 2;
-      if (loopLimits == 1000) {
+      if (loopLimits == getLoopLimits) {
         break;
       }
       loopLimits++;
+      setTotalIterasi(loopLimits);
     }
     return btsTngh;
   };
@@ -146,7 +121,8 @@ function Secant() {
                   );
                   setEditX([]);
                 } else if (
-                  getDatas.datasContainer.Secant.batasBawah[index] !== "DummyData"
+                  getDatas.datasContainer.Secant.batasBawah[index] !==
+                  "DummyData"
                 ) {
                   getDatas.datasContainer.Secant.batasAtas.fill(
                     xDataValues,
@@ -154,6 +130,7 @@ function Secant() {
                     index + 1
                   );
                   setEditX();
+                  setCheckedData();
                 }
               }
             }}
@@ -163,7 +140,9 @@ function Secant() {
               className={styles.tableDatas_Contents}
               onClick={(e) => {
                 if (e.detail === 2) {
-                  setXDataValues(getDatas.datasContainer.Secant.batasBawah[index]);
+                  setXDataValues(
+                    getDatas.datasContainer.Secant.batasBawah[index]
+                  );
                   setEditX(index);
                   setEditY([]);
                   if (
@@ -245,7 +224,8 @@ function Secant() {
                   );
                   setEditY([]);
                 } else if (
-                  getDatas.datasContainer.Secant.batasBawah[editY] !== "DummyData"
+                  getDatas.datasContainer.Secant.batasBawah[editY] !==
+                  "DummyData"
                 ) {
                   getDatas.datasContainer.Secant.batasBawah.fill(
                     yDataValues,
@@ -253,6 +233,7 @@ function Secant() {
                     index + 1
                   );
                   setEditY([]);
+                  setCheckedData();
                 }
               }
             }}
@@ -262,8 +243,12 @@ function Secant() {
               className={styles.tableDatas_Contents}
               onClick={(e) => {
                 if (e.detail === 2) {
-                  setXDataValues(getDatas.datasContainer.Secant.batasAtas[index]);
-                  setYDataValues(getDatas.datasContainer.Secant.batasBawah[index]);
+                  setXDataValues(
+                    getDatas.datasContainer.Secant.batasAtas[index]
+                  );
+                  setYDataValues(
+                    getDatas.datasContainer.Secant.batasBawah[index]
+                  );
                   setEditX([]);
                   setEditY(index);
                   if (
@@ -320,60 +305,85 @@ function Secant() {
         getDatas.datasContainer.Secant.batasAtas.map((data, index) => (
           <div className={styles.tableDatas_Icon} key={index}>
             {(editX === index || editY === index) && (
-              <box-icon
-                name="x-circle"
-                color="#e78ea9"
-                animation="tada-hover"
-                onClick={() => {
-                  if (
-                    getDatas.datasContainer.Secant.batasBawah[
-                      getDatas.datasContainer.Secant.batasBawah.findIndex(
-                        (data) => data == "DummyData"
-                      )
-                    ] == "DummyData" ||
-                    getDatas.datasContainer.Secant.batasAtas[
-                      getDatas.datasContainer.Secant.batasAtas.findIndex(
-                        (data) => data == "DummyData"
-                      )
-                    ] == "DummyData"
-                  ) {
-                    getDatas.datasContainer.Secant.batasAtas.splice(
-                      getDatas.datasContainer.Secant.batasAtas.findIndex(
-                        (data) => data == "DummyData"
-                      ),
-                      1
-                    );
-                    getDatas.datasContainer.Secant.batasBawah.splice(
-                      getDatas.datasContainer.Secant.batasBawah.findIndex(
-                        (data) => data == "DummyData"
-                      ),
-                      1
-                    );
-                  }
-                  router.replace(router.asPath);
-                  setEditX([]);
-                  setEditY([]);
-                }}
-                customTitle="Batal"
-              ></box-icon>
+              <>
+                <box-icon
+                  name="x-circle"
+                  color="#e78ea9"
+                  animation="tada-hover"
+                  onClick={() => {
+                    if (
+                      getDatas.datasContainer.Secant.batasBawah[
+                        getDatas.datasContainer.Secant.batasBawah.findIndex(
+                          (data) => data == "DummyData"
+                        )
+                      ] == "DummyData" ||
+                      getDatas.datasContainer.Secant.batasAtas[
+                        getDatas.datasContainer.Secant.batasAtas.findIndex(
+                          (data) => data == "DummyData"
+                        )
+                      ] == "DummyData"
+                    ) {
+                      getDatas.datasContainer.Secant.batasAtas.splice(
+                        getDatas.datasContainer.Secant.batasAtas.findIndex(
+                          (data) => data == "DummyData"
+                        ),
+                        1
+                      );
+                      getDatas.datasContainer.Secant.batasBawah.splice(
+                        getDatas.datasContainer.Secant.batasBawah.findIndex(
+                          (data) => data == "DummyData"
+                        ),
+                        1
+                      );
+                    }
+                    router.replace(router.asPath);
+                    setEditX([]);
+                    setEditY([]);
+                  }}
+                  customTitle="Batal"
+                ></box-icon>
+              </>
             )}
             {getDatas.datasContainer.Secant.batasBawah[
               getDatas.datasContainer.Secant.batasBawah.findIndex(
                 (data) => data == "DummyData"
               )
             ] !== "DummyData" && (
-              <box-icon
-                name="trash"
-                color="#e78ea9"
-                animation="tada-hover"
-                onClick={() => {
-                  getDatas.datasContainer.Secant.batasAtas.splice(index, 1);
-                  getDatas.datasContainer.Secant.batasBawah.splice(index, 1);
-                  router.replace(router.asPath);
-                  setEditX([]);
-                  setEditY([]);
-                }}
-              ></box-icon>
+              // update
+              <>
+                <i
+                  className="bx bx-trash bx-tada-hover"
+                  onClick={() => {
+                    getDatas.datasContainer.Secant.batasAtas.splice(index, 1);
+                    getDatas.datasContainer.Secant.batasBawah.splice(index, 1);
+                    router.replace(router.asPath);
+                    setEditX([]);
+                    setEditY([]);
+                  }}
+                ></i>
+                <div
+                  className={styles.checkBoxContainer}
+                  onClick={() => {
+                    cariAkar(
+                      getDatas.datasContainer.Secant.batasAtas[index],
+                      getDatas.datasContainer.Secant.batasBawah[index]
+                    );
+                    setCheckedData(index);
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="data_checked"
+                    checked={index === isDataChecked ? true : false}
+                  />
+                  <div className={styles.checkBox}>
+                    <i className="bx bx-checkbox"></i>
+                  </div>
+                  <div className={styles.checkBox}>
+                    <i className="bx bx-checkbox-checked"></i>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         ))
@@ -393,26 +403,49 @@ function Secant() {
     <>
       <div className={styles.ioExecution_sheet}>
         <div className={styles.userInput}>
-          <div className={BiseksiStyles.sumbuContainer}>
-            <div className={styles.findXContainer}>
+          {/* Update */}
+          <div className={BiseksiStyles.loopLimits_toleransiError}>
+            <div className={BiseksiStyles.loopLimits_Container}>
+              <label
+                className={BiseksiStyles.loopLimits_label}
+                for="loopLimits"
+              >
+                Loop Limits
+              </label>
               <input
-                className={styles.findX_input}
+                className={BiseksiStyles.loopLimits_input}
+                id="loopLimits"
                 type="number"
-                autoFocus
-                placeholder="Toleransi (eRA)"
                 onChange={(e) => {
-                  setToleransiE(e.target.value);
-                  console.log(parseFloat(e.target.value));
-                  cariAkar(
-                    getDatas.datasContainer.Secant.batasAtas[0],
-                    getDatas.datasContainer.Secant.batasBawah[0]
-                  );
+                  setLoopLimits(e.target.value);
+                  setCheckedData();
                 }}
-                value={toleransiE}
+                placeholder="masukan batas iterasi"
+                value={getLoopLimits}
               />
+            </div>
+            <div className={BiseksiStyles.sumbuContainer}>
+              <div className={styles.findXContainer}>
+                <input
+                  className={styles.findX_input}
+                  type="number"
+                  autoFocus
+                  placeholder="Toleransi (eRA)"
+                  onChange={(e) => {
+                    setToleransiE(e.target.value);
+                    cariAkar(
+                      getDatas.datasContainer.Secant.batasAtas[0],
+                      getDatas.datasContainer.Secant.batasBawah[0]
+                    );
+                    setCheckedData();
+                  }}
+                  value={toleransiE}
+                />
+              </div>
             </div>
           </div>
           <div className={styles.tableDatasContainer}>
+            {/* <Table /> */}
             <div className={styles.tableDatas}>
               <div className={styles.tableDatas_columnContainer}>
                 <div className={styles.tableDatas_column}>
@@ -420,11 +453,13 @@ function Secant() {
                     n<sup></sup>
                   </div>
                   {getDatas.datasContainer.Secant &&
-                    getDatas.datasContainer.Secant.batasAtas.map((data, index) => (
-                      <div className={styles.tableDatas_Contents} key={index}>
-                        {index + 1}
-                      </div>
-                    ))}
+                    getDatas.datasContainer.Secant.batasAtas.map(
+                      (data, index) => (
+                        <div className={styles.tableDatas_Contents} key={index}>
+                          {index + 1}
+                        </div>
+                      )
+                    )}
                 </div>
                 <div className={styles.tableDatas_column}>
                   <div className={styles.tableDatas_heading}>
@@ -452,7 +487,9 @@ function Secant() {
                   getDatas.datasContainer.Secant.batasBawah.push("DummyData");
                   // router.replace(router.asPath);
                   setEditX(getDatas.datasContainer.Secant.batasAtas.length - 1);
-                  setEditY(getDatas.datasContainer.Secant.batasBawah.length - 1);
+                  setEditY(
+                    getDatas.datasContainer.Secant.batasBawah.length - 1
+                  );
                 }}
               >
                 <box-icon
@@ -463,27 +500,49 @@ function Secant() {
                 Tambahkan Data
               </div>
             </div>
-          </div>
-        </div>
-        <div className={styles.prosesReults}>
-          <div className={styles.prosessResults_Graph}>
-            <div className={styles.prosessResults_graphheading}>Graph</div>
-            <div className={styles.prosessResults_graphResult}>
-              {/* <LineChart datas={graphDatas} /> */}
-            </div>
-          </div>
-          <div className={styles.prosessResults_tableResult}>
-            <div className={styles.prosessResults_Heading}>Result</div>
-            <div className={BiseksiStyles.biseksiResults}>
-              {getDatas.datasContainer.Secant.batasAtas &&
-                `Akar Yang Di Cari: ${akarTarget}`}
+            <div className={styles.akarPersamaan_results}>
+              <div
+                className={styles.akarPersamaan_Input}
+                onClick={() => {
+                  setAkarPrsmnWindow(true);
+                }}
+              >
+                <div className={styles.pangkatFormula}>
+                  <div>x</div>
+                  <h6>3</h6>
+                </div>
+                <span>+</span>
+                <div className={styles.pangkatFormula}>
+                  <div>x</div>
+                  <h6>2</h6>
+                </div>
+                <span>-</span>
+                <div>2</div>
+                <span>*</span>
+                <div>x</div>
+                <span>-</span>
+                <div>2</div>
+              </div>
+              <div className={styles.loopResults_Container}>
+                <div className={styles.totalLoops_Container}>
+                  <div className={styles.loopResults_label}>Total Iterasi:</div>
+                  <div className={styles.loopResults_total}>{totalIterasi}</div>
+                </div>
+                <div className={styles.calculation}>
+                  <div className={styles.calculation_label}>
+                    Hasil Kalkulasi:
+                  </div>
+                  <div className={styles.calculation_Result}>{akarTarget}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      {getAkarPrsmnWindow !== false && <AkarPrsmnWindow />}
       <Script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js" />
     </>
   );
 }
 
-export default Secant;
+export default SecantWindow;

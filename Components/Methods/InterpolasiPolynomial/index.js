@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Lenier from "/Components/InterpolasiPolynomial/Lenier";
-import Kuadratik from "/Components/InterpolasiPolynomial/Kuadratik";
-import styles from "../../styles/Home.module.css";
+import Lenier from "./Lenier";
+import Kuadratik from ".//Kuadratik";
+import styles from "/styles/Home.module.css";
 
 function Interpolasipolynomial() {
   const [polynomialTabs, setPolynomialTabs] = useState("Lenier");
