@@ -118,7 +118,7 @@ function Kuadratik() {
                   )
                 ) {
                   getDatas.datasContainer.interpol.kuadratik[
-                    editXvalue.index
+                    index
                   ].x = editXvalue.value;
                   setEditX([]);
                 }
@@ -199,6 +199,7 @@ function Kuadratik() {
                   );
                   setEditX([]);
                   setEditY(index);
+                  setYDataValues(parseInt(e.target.value));
                 }
               }}
             >
