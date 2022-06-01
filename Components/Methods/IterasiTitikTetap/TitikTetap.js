@@ -8,7 +8,6 @@ import { IntegerState } from "../../IntegerGlobalState";
 import { DatasState } from "../../DatasContainer";
 import { AppPathState } from "../../AppPath";
 import Script from "next/script";
-import Table from "../../MikroCMPs/Table";
 import { akarPersamaanState } from "../../AkarPrsmnState";
 import DeleteDummyDatas from "../../MikroCMPs/DeleteDummyDatas";
 import AkarPrsmnWindow from "../../MikroCMPs/AkarPrsmnWindow";
@@ -32,7 +31,7 @@ function TitikTetapWindow() {
   const [toleransiE, setToleransiE] = useState(0.000001);
   const [isDataChecked, setCheckedData] = useState();
   const [getLoopLimits, setLoopLimits] = useState(1000);
-  const [totalIterasi, setTotalIterasi] = useState();
+  const [totalIterasi, setTotalIterasi] = useState(0);
   const [getAkarPrsmnWindow, setAkarPrsmnWindow] =
     useContext(akarPersamaanState);
   const [label] = useState([]);
@@ -124,12 +123,6 @@ function TitikTetapWindow() {
         ) == 0
       ) {
         if (btsBwh < 0) {
-          console.log(
-            "convergen: " +
-              btsBwh.toString().split(".")[0].split("")[0] +
-              "" +
-              Math.round(btsBwh.toString().split("-")[1])
-          );
           tableResults.akar.push(
             btsBwh.toString().split(".")[0].split("")[0] +
               "" +
@@ -137,20 +130,17 @@ function TitikTetapWindow() {
           );
           tableResults.convergen.push(true);
           tableResults.iterasi.push(loopLimits);
-          console.log(tableResults.akar);
         } else {
-          console.log("convergen: " + Math.round(btsBwh));
           tableResults.akar.push(Math.round(btsBwh));
           tableResults.convergen.push(true);
           tableResults.iterasi.push(loopLimits);
-          console.log(tableResults.akar);
         }
       } else {
         tableResults.akar.push(btsBwh);
         tableResults.convergen.push(false);
         tableResults.iterasi.push(loopLimits);
-        console.log(tableResults.convergen);
       }
+      setTotalIterasi(totalIterasi + loopLimits);
       loopLimits = 0;
       errorRelatif = 1;
       btsAtas = batasAtas;
@@ -162,7 +152,6 @@ function TitikTetapWindow() {
         label.push(tableResults.iterasi.indexOf(b));
       }
     });
-    console.log({ label });
     setGraphDatas({
       labels: [
         tableResults.akar[label[0]],
@@ -183,7 +172,8 @@ function TitikTetapWindow() {
             tableResults.iterasi[label[1]],
             tableResults.iterasi.find((data) => {
               return (
-                data != tableResults.iterasi[label[0]] && tableResults.iterasi[label[1]]
+                data != tableResults.iterasi[label[0]] &&
+                tableResults.iterasi[label[1]]
               );
             }),
           ],
@@ -587,11 +577,6 @@ function TitikTetapWindow() {
               >
                 <div className={styles.pangkatFormula}>
                   <div>x</div>
-                  <h6>3</h6>
-                </div>
-                <span>+</span>
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
                   <h6>2</h6>
                 </div>
                 <span>-</span>
@@ -599,18 +584,12 @@ function TitikTetapWindow() {
                 <span>*</span>
                 <div>x</div>
                 <span>-</span>
-                <div>2</div>
+                <div>3</div>
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>
                   <div className={styles.loopResults_label}>Total Iterasi:</div>
                   <div className={styles.loopResults_total}>{totalIterasi}</div>
-                </div>
-                <div className={styles.calculation}>
-                  <div className={styles.calculation_label}>
-                    Hasil Kalkulasi:
-                  </div>
-                  <div className={styles.calculation_Result}>{akarTarget}</div>
                 </div>
               </div>
             </div>

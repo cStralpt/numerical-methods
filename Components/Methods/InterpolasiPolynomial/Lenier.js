@@ -22,13 +22,11 @@ function Lenier() {
   const [isInteger, setIsInteger] = useContext(IntegerState);
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAppPath, setAppPath] = useContext(AppPathState);
-  // const [getDatas.datasContainer.interpol.lenier, setgetDatas.datasContainer.interpol.lenier] = useState(getDatas.datasContainer.interpol.lenier);
   const [graphDatas, setGraphDatas] = useState({
     labels: [mncariTitiktrdkt?.titikPertama.x, mncariTitiktrdkt?.titikKedua.x],
     datasets: [
       {
         label: "Interpolasi Polynomial Lenier",
-        // lineTension: 0.4,
         radius: 5,
         data: [
           mncariTitiktrdkt?.titikPertama.y,
@@ -48,7 +46,6 @@ function Lenier() {
       datasets: [
         {
           label: "Interpolasi Polynomial Lenier",
-          // lineTension: 0.4,
           radius: 5,
           data: [
             mncariTitiktrdkt?.titikPertama.y,
@@ -242,28 +239,6 @@ function Lenier() {
         },
       });
   };
-  const clearValues = (e) => {
-    if (
-      e >= getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[0].x &&
-      e <=
-        getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[
-          getDatas.datasContainer.interpol.lenier.length - 1
-        ].x &&
-      getDatas.datasContainer.interpol.lenier.map((data) => data.x).includes(parseInt(e))
-    ) {
-      setTtkTarget([]);
-    } else if (
-      e >
-      getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x - b.x)[
-        getDatas.datasContainer.interpol.lenier.length - 1
-      ].x
-    ) {
-      setTtkTarget([]);
-    }
-  };
-  {
-    console.log(router.query);
-  }
   return (
     <>
       <div className={styles.ioExecution_sheet}>
@@ -330,9 +305,6 @@ function Lenier() {
               }}
               value={ttkTarget}
             />
-            {console.log(
-              getDatas.datasContainer.interpol.lenier.map((data) => data.x).includes(2016)
-            )}
           </div>
           <div className={styles.tableDatasContainer}>
             <div className={styles.tableDatas}>

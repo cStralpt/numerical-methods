@@ -57,7 +57,6 @@ function Kuadratik() {
     setGraphDatas({
       labels: [
         mncariTitiktrdkt?.titikPertama.x,
-        // xYgDicari,
         mncariTitiktrdkt?.titikKedua.x,
         mncariTitiktrdkt?.titikKetiga.x,
       ],
@@ -85,6 +84,13 @@ function Kuadratik() {
     });
     setAppPath("InterPolKuadratik");
   }, [xYgDicari]);
+  {
+    console.log(
+      getDatas.datasContainer.interpol.kuadratik
+        .map((d) => d.x === 1)
+        .includes(true)
+    );
+  }
   const FormEditData = ({ depsData }) => {
     if (depsData === "x") {
       return (
@@ -95,15 +101,21 @@ function Kuadratik() {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
                 if (
-                  getDatas.datasContainer.interpol.kuadratik[
-                    getDatas.datasContainer.interpol.kuadratik.length - 1
-                  ].y === "DummyData"
+                  getDatas.datasContainer.interpol.kuadratik.find(
+                    (d) => d.y === "DummyData"
+                  )
                 ) {
                   alert("isi sumbu Y dulu");
                 } else if (
-                  getDatas.datasContainer.interpol.kuadratik[
-                    getDatas.datasContainer.interpol.kuadratik.length - 1
-                  ].y !== "DummyData"
+                  getDatas.datasContainer.interpol.kuadratik
+                    .map((d) => d.x == e.target.inputNilai.value)
+                    .includes(true)
+                ) {
+                  alert("Penumpukan Data!");
+                } else if (
+                  getDatas.datasContainer.interpol.kuadratik.find(
+                    (d) => d.y !== "DummyData"
+                  )
                 ) {
                   getDatas.datasContainer.interpol.kuadratik[
                     editXvalue.index
@@ -154,8 +166,25 @@ function Kuadratik() {
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
-                getDatas.datasContainer.interpol.kuadratik[editYvalue.index].y =
-                  editYvalue.value;
+                if (
+                  getDatas.datasContainer.interpol.kuadratik
+                    .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                    .indexOf(true) !== -1
+                ) {
+                  getDatas.datasContainer.interpol.kuadratik[
+                    getDatas.datasContainer.interpol.kuadratik
+                      .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                      .indexOf(true)
+                  ].y = editYvalue.value;
+                } else if (
+                  getDatas.datasContainer.interpol.kuadratik
+                    .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                    .indexOf(true) === -1
+                ) {
+                  getDatas.datasContainer.interpol.kuadratik[
+                    editYvalue.index
+                  ].y = editYvalue.value;
+                }
                 setEditY([]);
               }
             }}
@@ -205,16 +234,19 @@ function Kuadratik() {
                 animation="tada-hover"
                 onClick={() => {
                   if (
-                    getDatas.datasContainer.interpol.kuadratik[
-                      getDatas.datasContainer.interpol.kuadratik.length - 1
-                    ].x === "DummyData" ||
-                    getDatas.datasContainer.interpol.kuadratik[
-                      getDatas.datasContainer.interpol.kuadratik.length - 1
-                    ].y === "DummyData"
+                    getDatas.datasContainer.interpol.kuadratik.find(
+                      (d) => d.x === "DummyData" || d.y === "DummyData"
+                    )
+                      ? true
+                      : false
                   ) {
                     getDatas.datasContainer.interpol.kuadratik.splice(
-                      getDatas.datasContainer.interpol.kuadratik.length - 1,
-                      1
+                      getDatas.datasContainer.interpol.kuadratik
+                        .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                        .indexOf(true),
+                      getDatas.datasContainer.interpol.kuadratik
+                        .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                        .indexOf(true) + 1
                     );
                   }
                   router.replace(router.asPath);
@@ -306,30 +338,6 @@ function Kuadratik() {
       });
   };
 
-  const clearValues = (e) => {
-    if (
-      e >=
-        getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[0]
-          .x &&
-      e <=
-        getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[
-          getDatas.datasContainer.interpol.kuadratik.length - 1
-        ].x &&
-      getDatas.datasContainer.interpol.kuadratik
-        .map((data) => data.x)
-        .includes(parseInt(e))
-    ) {
-      // alert("asdkasjd");
-      setTtkTarget([]);
-    } else if (
-      e >
-      getDatas.datasContainer.interpol.kuadratik.sort((a, b) => a.x - b.x)[
-        getDatas.datasContainer.interpol.kuadratik.length - 1
-      ].x
-    ) {
-      setTtkTarget([]);
-    }
-  };
   return (
     <>
       <div className={styles.ioExecution_sheet}>
@@ -386,16 +394,20 @@ function Kuadratik() {
                     "DummyData"
                 ) {
                   if (
-                    getDatas.datasContainer.interpol.kuadratik[
-                      getDatas.datasContainer.interpol.kuadratik.length - 1
-                    ].y === "DummyData" ||
-                    getDatas.datasContainer.interpol.kuadratik[
-                      getDatas.datasContainer.interpol.kuadratik.length - 1
-                    ].x === "DummyData"
+                    getDatas.datasContainer.interpol.kuadratik.find(
+                      (d) => d.x === "DummyData" || d.y === "DummyData"
+                    )
+                      ? true
+                      : false
                   ) {
                     getDatas.datasContainer.interpol.kuadratik.splice(
-                      getDatas.datasContainer.interpol.kuadratik.length - 1,
-                      1
+                      getDatas.datasContainer.interpol.kuadratik
+                        .map((d) => d.x == "DummyData" || d.y == "DummyData")
+                        .indexOf(true),
+
+                      getDatas.datasContainer.interpol.kuadratik
+                        .map((d) => d.x == "DummyData" || d.y == "DummyData")
+                        .indexOf(true) + 1
                     );
                   }
                 }
