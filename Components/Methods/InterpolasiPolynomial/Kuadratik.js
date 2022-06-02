@@ -117,9 +117,8 @@ function Kuadratik() {
                     (d) => d.y !== "DummyData"
                   )
                 ) {
-                  getDatas.datasContainer.interpol.kuadratik[
-                    index
-                  ].x = editXvalue.value;
+                  getDatas.datasContainer.interpol.kuadratik[index].x =
+                    editXvalue.value;
                   setEditX([]);
                 }
               }
@@ -235,11 +234,9 @@ function Kuadratik() {
                 animation="tada-hover"
                 onClick={() => {
                   if (
-                    getDatas.datasContainer.interpol.kuadratik.find(
-                      (d) => d.x === "DummyData" || d.y === "DummyData"
-                    )
-                      ? true
-                      : false
+                    getDatas.datasContainer.interpol.kuadratik
+                      .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                      .indexOf(true) !== -1
                   ) {
                     getDatas.datasContainer.interpol.kuadratik.splice(
                       getDatas.datasContainer.interpol.kuadratik
@@ -250,6 +247,7 @@ function Kuadratik() {
                         .indexOf(true) + 1
                     );
                   }
+
                   router.replace(router.asPath);
                   setEditX([]);
                   setEditY([]);
@@ -265,6 +263,20 @@ function Kuadratik() {
                 animation="tada-hover"
                 onClick={() => {
                   getDatas.datasContainer.interpol.kuadratik.splice(index, 1);
+                  if (
+                    getDatas.datasContainer.interpol.kuadratik
+                      .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                      .indexOf(true) !== -1
+                  ) {
+                    getDatas.datasContainer.interpol.kuadratik.splice(
+                      getDatas.datasContainer.interpol.kuadratik
+                        .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                        .indexOf(true),
+                      getDatas.datasContainer.interpol.kuadratik
+                        .map((d) => d.x === "DummyData" || d.y === "DummyData")
+                        .indexOf(true) + 1
+                    );
+                  }
                   router.replace(router.asPath);
                   setEditX([]);
                   setEditY([]);
