@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import styles from "/styles/InterPolyLenier.module.css";
-import BiseksiStyles from "../../../styles/Biseksi.module.css";
+import BijeksiStyles from "../../../styles/Bijeksi.module.css";
 import { IntegerState } from "../../IntegerGlobalState";
 import { DatasState } from "../../DatasContainer";
 import { AppPathState } from "../../AppPath";
@@ -402,16 +402,16 @@ function SecantWindow() {
       <div className={styles.ioExecution_sheet}>
         <div className={styles.userInput}>
           {/* Update */}
-          <div className={BiseksiStyles.loopLimits_toleransiError}>
-            <div className={BiseksiStyles.loopLimits_Container}>
+          <div className={BijeksiStyles.loopLimits_toleransiError}>
+            <div className={BijeksiStyles.loopLimits_Container}>
               <label
-                className={BiseksiStyles.loopLimits_label}
+                className={BijeksiStyles.loopLimits_label}
                 for="loopLimits"
               >
                 Loop Limits
               </label>
               <input
-                className={BiseksiStyles.loopLimits_input}
+                className={BijeksiStyles.loopLimits_input}
                 id="loopLimits"
                 type="number"
                 onChange={(e) => {
@@ -422,7 +422,7 @@ function SecantWindow() {
                 value={getLoopLimits}
               />
             </div>
-            <div className={BiseksiStyles.sumbuContainer}>
+            <div className={BijeksiStyles.sumbuContainer}>
               <div className={styles.findXContainer}>
                 <input
                   className={styles.findX_input}

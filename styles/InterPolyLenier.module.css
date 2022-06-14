@@ -67,6 +67,7 @@
   flex-direction: row;
   /* border: 2px solid red; */
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .tableDatasContainer span {
   font-weight: 700;
@@ -76,7 +77,11 @@
   justify-content: space-between;
   /* border: 2px solid red; */
   flex-grow: 1;
+  order: 2;
+  gap: 10px;
   align-items: flex-start;
+  flex-wrap: wrap;
+  cursor: context-menu;
 }
 .akarPersamaan_Input {
   display: flex;
@@ -88,8 +93,40 @@
   color: var(--color-act2);
   justify-content: center;
   align-items: center;
+  /* border: 2px solid red; */
+  margin-left: 5px;
   order: 2;
 }
+@media only screen and (max-width: 558px) {
+  .akarPersamaan_Input {
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
+  .tableDatas {
+    flex-grow: 1;
+  }
+  .akarPersamaan_results {
+    order: 1;
+  }
+  .tableDatasContainer {
+    flex-wrap: wrap !important;
+  }
+}
+@media only screen and (max-width: 733px) {
+  .akarPersamaan_results {
+    flex-wrap: wrap;
+  }
+  .akarPersamaan_Input {
+    margin-bottom: 5px;
+    flex-grow: 1;
+  }
+}
+@media only screen and (max-width: 737px) {
+  .tableDatasContainer {
+    flex-wrap: nowrap;
+  }
+}
+
 .loopResults_Container {
   /* border: 2px solid var(--color-act1); */
   margin-left: 10px;
@@ -115,6 +152,7 @@
   width: fit-content;
   padding: 5px;
   border-radius: 5px;
+  order: 2;
 }
 .prosesReults {
   background-color: var(--color-act4);
@@ -329,4 +367,34 @@
   .entryNewData:hover {
     color: var(--color-act4-dark);
   }
+}
+.isConvergen {
+  color: var(--color-act1);
+  font-weight: 700;
+  text-align: center;
+  -webkit-text-stroke: var(--color-act1) 2px;
+}
+.tableDatas_Contents i[customTitle="Divergen"] {
+  color: var(--color-act3);
+  -webkit-text-stroke: var(--color-act2) 2px;
+}
+.tableDatas_Contents i {
+  position: relative;
+}
+.tableDatas_Contents i:hover::after {
+  content: attr(customTitle);
+  position: absolute;
+  color: var(--color-act2);
+  -webkit-text-stroke: var(--color-act2) 0 !important;
+  font-size: 1.5em;
+  padding: 2px 5px 5px 5px;
+  left: 20px;
+  background-color: var(--color-act3);
+  width: max-content;
+  border-radius: 5px;
+  border: 2px solid var(--color-act2);
+  display: flex;
+  vertical-align: middle;
+  z-index: 1;
+  font-family: "Trebuchet MS";
 }

@@ -1,9 +1,11 @@
 import { createContext, useState } from "react";
 import Interpolasipolynomial from "/Components/Methods/InterpolasiPolynomial";
-import Biseksi from "/Components/Methods/Biseksi";
+import Bijeksi from "/Components/Methods/Bijeksi";
 import RegulaFalsi from "/Components/Methods/RegulaFalsi";
 import Secant from "/Components/Methods/Secant";
 import IterasiTitikTetap from "/Components/Methods/IterasiTitikTetap";
+import NewtonRaphson from "/Components/Methods/NewtonRaphson";
+import EliminasiGauss from "/Components/Methods/EliminasiGauss";
 export const DatasState = createContext();
 function DatasContainer({ children }) {
   const datas = {
@@ -14,9 +16,9 @@ function DatasContainer({ children }) {
         component: <Interpolasipolynomial />,
       },
       {
-        methodId: "Biseksi",
-        slug: "biseksi",
-        component: <Biseksi />,
+        methodId: "Bijeksi",
+        slug: "bijeksi",
+        component: <Bijeksi />,
       },
       {
         methodId: "Regula Falsi",
@@ -32,6 +34,16 @@ function DatasContainer({ children }) {
         methodId: "Iterasi Titik Tetap",
         slug: "iterasi-titik-tetap",
         component: <IterasiTitikTetap />,
+      },
+      {
+        methodId: "Newton Raphson",
+        slug: "newton-raphson",
+        component: <NewtonRaphson />,
+      },
+      {
+        methodId: "Eliminasi Gauss",
+        slug: "eliminasi-gauss",
+        component: <EliminasiGauss />,
       },
     ],
     datasContainer: {
@@ -50,7 +62,7 @@ function DatasContainer({ children }) {
           { x: 6, y: 16 },
         ],
       },
-      biseksi: {
+      Bijeksi: {
         batasAtas: [1],
         batasBawah: [2],
         akarPrsmn: [3, 2, 2],
@@ -65,6 +77,16 @@ function DatasContainer({ children }) {
       },
       IterasiTitikTetap: {
         batasAtas: [4],
+      },
+      NewtonRaphson: {
+        batasAtas: [5],
+      },
+      EliminasiGauss: {
+        variabkePersamaan: [
+          [1, -2, 1, 6],
+          [3, 1, -2, 4],
+          [7, -6, -1, 10],
+        ],
       },
     },
   };

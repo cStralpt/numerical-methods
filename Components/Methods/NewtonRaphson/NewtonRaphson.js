@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import styles from "/styles/InterPolyLenier.module.css";
 import BijeksiStyles from "../../../styles/Bijeksi.module.css";
+import LineChart from "../../LineChart";
 import { IntegerState } from "../../IntegerGlobalState";
 import { DatasState } from "../../DatasContainer";
 import { AppPathState } from "../../AppPath";
@@ -12,7 +13,7 @@ import DeleteDummyDatas from "../../MikroCMPs/DeleteDummyDatas";
 import AkarPrsmnWindow from "../../MikroCMPs/AkarPrsmnWindow";
 // import styles from "../../styles/Home.module.css";
 
-function RegulaFalsiWindow() {
+function NewtonRaphson() {
   const [editX, setEditX] = useState();
   const [editY, setEditY] = useState();
   const [ttkTarget, setTtkTarget] = useState();
@@ -26,16 +27,43 @@ function RegulaFalsiWindow() {
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAppPath, setAppPath] = useContext(AppPathState);
   const [batasTengah, setBatasTengah] = useState(null);
-  const [akarTarget, setAkaraTarget] = useState();
-  const [toleransiE, setToleransiE] = useState(0.0001);
+  const [akarTarget, setAkarTarget] = useState();
+  const [toleransiE, setToleransiE] = useState(0.000001);
   const [isDataChecked, setCheckedData] = useState();
   const [getLoopLimits, setLoopLimits] = useState(1000);
-  const [totalIterasi, setTotalIterasi] = useState();
+  const [totalIterasi, setTotalIterasi] = useState(0);
   const [getAkarPrsmnWindow, setAkarPrsmnWindow] =
     useContext(akarPersamaanState);
+  const [label] = useState([]);
+  const [tableResults] = useState({
+    akar: [],
+    convergen: [],
+    iterasi: [],
+  });
   const router = useRouter();
   DeleteDummyDatas();
-  const BeginRegulaFalsi = (batasAtas, batasBawah, eRA) => {
+  // Graph
+  const [graphDatas, setGraphDatas] = useState({
+    labels: [
+      tableResults?.akar[0],
+      tableResults?.akar[1],
+      tableResults?.akar[2],
+    ],
+    datasets: [
+      {
+        label: "Iterasi Titik Tetap",
+        lineTension: 0.4,
+        radius: 5,
+        data: [
+          tableResults?.iterasi[0],
+          tableResults?.iterasi[1],
+          tableResults?.iterasi[2],
+        ],
+      },
+    ],
+  });
+
+  const BeginNewtonRaphson = (batasAtas, eRA) => {
     const perPangkatan = (nilai, pangkat) => {
       let hasilnya = nilai;
       for (let n = 1; n < pangkat; n++) {
@@ -45,91 +73,63 @@ function RegulaFalsiWindow() {
       return hasilnya;
     };
     const fX = (x) => {
-      return perPangkatan(x, 3) + perPangkatan(x, 2) - 3 * x - 3;
+      return perPangkatan(x, 2) - 2 * x - 3;
     };
-    let loopLimits = 1;
+    const fXaccent = (x) => {
+      return 2 * x - 2;
+    };
+    let loopLimits = 0;
     let btsAtas = batasAtas;
-    let btsBwh = batasBawah;
-    let btsTngh =
-      (btsAtas - fX(btsAtas)) * ((btsBwh - btsAtas) / fX(btsBwh) - fX(btsAtas));
+    let btsBwh;
+    let errorRelatif = 1;
 
-    while (eRA < Math.abs(fX(btsTngh))) {
-      // setBatasTengah((btsAtas + btsBwh) / 2);
-      if (fX(btsAtas) * fX(btsTngh) > 0) {
-        btsAtas = btsTngh;
-      } else if (fX(btsAtas) * fX(btsTngh) < 0) {
-        btsBwh = btsTngh;
-      }
-      btsTngh = (btsAtas + btsBwh) / 2;
+    while (errorRelatif > eRA) {
+      btsBwh = btsAtas - fX(btsAtas) / fXaccent(btsAtas);
+      errorRelatif = Math.abs(btsBwh - btsAtas);
+      console.log(btsBwh);
       if (loopLimits == getLoopLimits) {
         break;
       }
       loopLimits++;
-      setTotalIterasi(loopLimits);
+      btsAtas = btsBwh;
     }
-    return btsTngh;
+    setTotalIterasi(totalIterasi + loopLimits);
+    return btsBwh;
   };
-  // console.log(perPangkatan(2, 3));
-  // console.log(BeginRegulaFalsi(1, 2, 0.0001));
-
   const FormEditData = ({ depsData }) => {
     if (depsData === "x") {
       return (
-        getDatas.datasContainer.RegulaFalsi &&
-        getDatas.datasContainer.RegulaFalsi.batasAtas.map((data, index) => (
+        getDatas.datasContainer.NewtonRaphson &&
+        getDatas.datasContainer.NewtonRaphson.batasAtas.map((data, index) => (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
-                cariAkar(
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[0],
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[0]
-                );
-
                 if (
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
+                  getDatas.datasContainer.NewtonRaphson.batasAtas[
+                    getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                       (data) => data == "DummyData"
                     )
                   ] === "DummyData"
                 ) {
-                  alert("isi sumbu Y dulu");
-                } else if (
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
-                      (data) => data == "DummyData"
-                    )
-                  ] !== "DummyData" &&
-                  getDatas.datasContainer.RegulaFalsi.batasAtas[
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
-                      (data) => data == "DummyData"
-                    )
-                  ] === "DummyData"
-                ) {
-                  // getDatas.datasContainer.RegulaFalsi.batasAtas[editXvalue.index] =
-                  //   editXvalue.value;
-                  getDatas.datasContainer.RegulaFalsi.batasAtas.fill(
+                  getDatas.datasContainer.NewtonRaphson.batasAtas.fill(
                     xDataValues,
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                       (data) => data == "DummyData"
                     ),
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                       (data) => data == "DummyData"
                     ) + 1
                   );
                   setEditX([]);
-                } else if (
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[index] !==
-                  "DummyData"
-                ) {
-                  getDatas.datasContainer.RegulaFalsi.batasAtas.fill(
-                    xDataValues,
-                    index,
-                    index + 1
-                  );
-                  setEditX();
-                  setCheckedData();
                 }
+
+                getDatas.datasContainer.NewtonRaphson.batasAtas.fill(
+                  e.target.inputNilai.value,
+                  index,
+                  index + 1
+                );
+                setEditX([]);
               }
             }}
             key={index}
@@ -139,30 +139,18 @@ function RegulaFalsiWindow() {
               onClick={(e) => {
                 if (e.detail === 2) {
                   setXDataValues(
-                    getDatas.datasContainer.RegulaFalsi.batasBawah[index]
+                    getDatas.datasContainer.NewtonRaphson.batasAtas[index]
                   );
                   setEditX(index);
-                  setEditY([]);
                   if (
-                    getDatas.datasContainer.RegulaFalsi.batasAtas[
-                      getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
-                        (data) => data == "DummyData"
-                      )
-                    ] === "DummyData" &&
-                    getDatas.datasContainer.RegulaFalsi.batasAtas[
-                      getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasAtas[
+                      getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData"
                   ) {
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.splice(
-                      getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
-                        (data) => data == "DummyData"
-                      ),
-                      1
-                    );
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.splice(
-                      getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasAtas.splice(
+                      getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       ),
                       1
@@ -193,39 +181,39 @@ function RegulaFalsiWindow() {
       );
     } else if (depsData === "y") {
       return (
-        getDatas.datasContainer.RegulaFalsi &&
-        getDatas.datasContainer.RegulaFalsi.batasBawah.map((data, index) => (
+        getDatas.datasContainer.NewtonRaphson &&
+        getDatas.datasContainer.NewtonRaphson.batasBawah.map((data, index) => (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
                 // getDatas.datasContainer.interpol.lenier[editYvalue.index].y = editYvalue.value;
                 cariAkar(
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[0],
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[0]
+                  getDatas.datasContainer.NewtonRaphson.batasBawah[0],
+                  getDatas.datasContainer.NewtonRaphson.batasBawah[0]
                 );
                 if (
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
+                  getDatas.datasContainer.NewtonRaphson.batasBawah[
+                    getDatas.datasContainer.NewtonRaphson.batasBawah.findIndex(
                       (data) => data == "DummyData"
                     )
                   ] === "DummyData"
                 ) {
-                  getDatas.datasContainer.RegulaFalsi.batasBawah.fill(
+                  getDatas.datasContainer.NewtonRaphson.batasBawah.fill(
                     yDataValues,
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasBawah.findIndex(
                       (data) => data == "DummyData"
                     ),
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasBawah.findIndex(
                       (data) => data == "DummyData"
                     ) + 1
                   );
                   setEditY([]);
                 } else if (
-                  getDatas.datasContainer.RegulaFalsi.batasBawah[editY] !==
+                  getDatas.datasContainer.NewtonRaphson.batasBawah[editY] !==
                   "DummyData"
                 ) {
-                  getDatas.datasContainer.RegulaFalsi.batasBawah.fill(
+                  getDatas.datasContainer.NewtonRaphson.batasBawah.fill(
                     yDataValues,
                     index,
                     index + 1
@@ -242,33 +230,33 @@ function RegulaFalsiWindow() {
               onClick={(e) => {
                 if (e.detail === 2) {
                   setXDataValues(
-                    getDatas.datasContainer.RegulaFalsi.batasAtas[index]
+                    getDatas.datasContainer.NewtonRaphson.batasAtas[index]
                   );
                   setYDataValues(
-                    getDatas.datasContainer.RegulaFalsi.batasBawah[index]
+                    getDatas.datasContainer.NewtonRaphson.batasBawah[index]
                   );
                   setEditX([]);
                   setEditY(index);
                   if (
-                    getDatas.datasContainer.RegulaFalsi.batasAtas[
-                      getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasAtas[
+                      getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData" &&
-                    getDatas.datasContainer.RegulaFalsi.batasAtas[
-                      getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasAtas[
+                      getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData"
                   ) {
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.splice(
-                      getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasAtas.splice(
+                      getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       ),
                       1
                     );
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.splice(
-                      getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
+                    getDatas.datasContainer.NewtonRaphson.batasBawah.splice(
+                      getDatas.datasContainer.NewtonRaphson.batasBawah.findIndex(
                         (data) => data == "DummyData"
                       ),
                       1
@@ -299,8 +287,8 @@ function RegulaFalsiWindow() {
       );
     } else if (depsData === "deleteBtn") {
       return (
-        getDatas.datasContainer.RegulaFalsi &&
-        getDatas.datasContainer.RegulaFalsi.batasAtas.map((data, index) => (
+        getDatas.datasContainer.NewtonRaphson &&
+        getDatas.datasContainer.NewtonRaphson.batasAtas.map((data, index) => (
           <div className={styles.tableDatas_Icon} key={index}>
             {(editX === index || editY === index) && (
               <>
@@ -310,25 +298,14 @@ function RegulaFalsiWindow() {
                   animation="tada-hover"
                   onClick={() => {
                     if (
-                      getDatas.datasContainer.RegulaFalsi.batasBawah[
-                        getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
-                          (data) => data == "DummyData"
-                        )
-                      ] == "DummyData" ||
-                      getDatas.datasContainer.RegulaFalsi.batasAtas[
-                        getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
+                      getDatas.datasContainer.NewtonRaphson.batasAtas[
+                        getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                           (data) => data == "DummyData"
                         )
                       ] == "DummyData"
                     ) {
-                      getDatas.datasContainer.RegulaFalsi.batasAtas.splice(
-                        getDatas.datasContainer.RegulaFalsi.batasAtas.findIndex(
-                          (data) => data == "DummyData"
-                        ),
-                        1
-                      );
-                      getDatas.datasContainer.RegulaFalsi.batasBawah.splice(
-                        getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
+                      getDatas.datasContainer.NewtonRaphson.batasAtas.splice(
+                        getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                           (data) => data == "DummyData"
                         ),
                         1
@@ -342,8 +319,8 @@ function RegulaFalsiWindow() {
                 ></box-icon>
               </>
             )}
-            {getDatas.datasContainer.RegulaFalsi.batasBawah[
-              getDatas.datasContainer.RegulaFalsi.batasBawah.findIndex(
+            {getDatas.datasContainer.NewtonRaphson.batasAtas[
+              getDatas.datasContainer.NewtonRaphson.batasAtas.findIndex(
                 (data) => data == "DummyData"
               )
             ] !== "DummyData" && (
@@ -352,11 +329,7 @@ function RegulaFalsiWindow() {
                 <i
                   className="bx bx-trash bx-tada-hover"
                   onClick={() => {
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.splice(
-                      index,
-                      1
-                    );
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.splice(
+                    getDatas.datasContainer.NewtonRaphson.batasAtas.splice(
                       index,
                       1
                     );
@@ -369,8 +342,7 @@ function RegulaFalsiWindow() {
                   className={styles.checkBoxContainer}
                   onClick={() => {
                     cariAkar(
-                      getDatas.datasContainer.RegulaFalsi.batasAtas[index],
-                      getDatas.datasContainer.RegulaFalsi.batasBawah[index]
+                      getDatas.datasContainer.NewtonRaphson.batasAtas[index]
                     );
                     setCheckedData(index);
                   }}
@@ -394,18 +366,16 @@ function RegulaFalsiWindow() {
       );
     }
   };
-  const cariAkar = (batasAtas, batasBawah) => {
-    if (
-      !!getDatas.datasContainer.RegulaFalsi.batasBawah[0] &&
-      !!getDatas.datasContainer.RegulaFalsi.batasAtas[0]
-    ) {
-      let akarTrgt = BeginRegulaFalsi(batasAtas, batasBawah, toleransiE);
-      setAkaraTarget(akarTrgt);
+  const cariAkar = (batasAtas) => {
+    if (!!getDatas.datasContainer.NewtonRaphson.batasAtas[0]) {
+      let akarTrgt = BeginNewtonRaphson(batasAtas, toleransiE);
+      setAkarTarget(akarTrgt);
     }
   };
   return (
     <>
       <div className={styles.ioExecution_sheet}>
+        {getAkarPrsmnWindow !== false && <AkarPrsmnWindow />}
         <div className={styles.userInput}>
           {/* Update */}
           <div className={BijeksiStyles.loopLimits_toleransiError}>
@@ -437,11 +407,12 @@ function RegulaFalsiWindow() {
                   placeholder="Toleransi (eRA)"
                   onChange={(e) => {
                     setToleransiE(e.target.value);
-                    cariAkar(
-                      getDatas.datasContainer.RegulaFalsi.batasAtas[0],
-                      getDatas.datasContainer.RegulaFalsi.batasBawah[0]
-                    );
-                    setCheckedData();
+                    if (!!getDatas.datasContainer.NewtonRaphson.batasAtas[0]) {
+                      cariAkar(
+                        getDatas.datasContainer.NewtonRaphson.batasAtas[0]
+                      );
+                      setCheckedData();
+                    }
                   }}
                   value={toleransiE}
                 />
@@ -456,8 +427,8 @@ function RegulaFalsiWindow() {
                   <div className={styles.tableDatas_heading}>
                     n<sup></sup>
                   </div>
-                  {getDatas.datasContainer.RegulaFalsi &&
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.map(
+                  {getDatas.datasContainer.NewtonRaphson &&
+                    getDatas.datasContainer.NewtonRaphson.batasAtas.map(
                       (data, index) => (
                         <div className={styles.tableDatas_Contents} key={index}>
                           {index + 1}
@@ -473,13 +444,7 @@ function RegulaFalsiWindow() {
                 </div>
                 <div className={styles.tableDatas_column}>
                   <div className={styles.tableDatas_heading}>
-                    <sup>Y</sup>n
-                  </div>
-                  <FormEditData depsData="y" />
-                </div>
-                <div className={styles.tableDatas_column}>
-                  <div className={styles.tableDatas_heading}>
-                    <sup>Y</sup>
+                    <sup className={styles.actionHeading}>Y</sup>
                   </div>
                   <FormEditData depsData="deleteBtn" />
                 </div>
@@ -487,18 +452,12 @@ function RegulaFalsiWindow() {
               <div
                 className={styles.entryNewData}
                 onClick={() => {
-                  getDatas.datasContainer.RegulaFalsi.batasAtas.push(
-                    "DummyData"
-                  );
-                  getDatas.datasContainer.RegulaFalsi.batasBawah.push(
+                  getDatas.datasContainer.NewtonRaphson.batasAtas.push(
                     "DummyData"
                   );
                   // router.replace(router.asPath);
                   setEditX(
-                    getDatas.datasContainer.RegulaFalsi.batasAtas.length - 1
-                  );
-                  setEditY(
-                    getDatas.datasContainer.RegulaFalsi.batasBawah.length - 1
+                    getDatas.datasContainer.NewtonRaphson.batasAtas.length - 1
                   );
                 }}
               >
@@ -519,11 +478,6 @@ function RegulaFalsiWindow() {
               >
                 <div className={styles.pangkatFormula}>
                   <div>x</div>
-                  <h6>3</h6>
-                </div>
-                <span>+</span>
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
                   <h6>2</h6>
                 </div>
                 <span>-</span>
@@ -531,7 +485,7 @@ function RegulaFalsiWindow() {
                 <span>*</span>
                 <div>x</div>
                 <span>-</span>
-                <div>2</div>
+                <div>3</div>
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>
@@ -547,12 +501,89 @@ function RegulaFalsiWindow() {
               </div>
             </div>
           </div>
+          <div className={styles.prosesReults}>
+            <div className={styles.prosessResults_Graph}>
+              <div className={styles.prosessResults_graphheading}>Graph</div>
+              <div className={styles.prosessResults_graphResult}>
+                {/* <HighchartsReact
+                highcharts={Highcharts}
+                options={options}
+              ></HighchartsReact> */}
+                <LineChart datas={graphDatas} />
+              </div>
+            </div>
+            <div className={styles.prosessResults_tableResult}>
+              <div className={styles.prosessResults_Heading}>Result</div>
+              <div className={styles.tableDatas}>
+                <div className={styles.tableDatas_columnContainer}>
+                  <div className={styles.tableDatas_column}>
+                    <div className={styles.tableDatas_heading}>n</div>
+
+                    {!!tableResults.akar &&
+                      tableResults.akar.map((data, index) => {
+                        return (
+                          <div className={styles.tableDatas_Contents}>
+                            {index + 1}
+                          </div>
+                        );
+                      })}
+                  </div>
+                  <div className={styles.tableDatas_column}>
+                    <div className={styles.tableDatas_heading}>Akar</div>
+                    {!!tableResults.akar &&
+                      tableResults.akar.map((data) => {
+                        return (
+                          <div className={styles.tableDatas_Contents}>
+                            {data}
+                          </div>
+                        );
+                      })}
+                  </div>
+                  <div className={styles.tableDatas_column}>
+                    <div className={styles.tableDatas_heading}>Iterasi</div>
+                    {!!tableResults.iterasi &&
+                      tableResults.iterasi.map((data) => {
+                        return (
+                          <div className={styles.tableDatas_Contents}>
+                            {data}
+                          </div>
+                        );
+                      })}
+                  </div>
+                  <div className={styles.tableDatas_column}>
+                    <div className={styles.tableDatas_heading}>fX(n)=0</div>
+                    {!!tableResults.convergen &&
+                      tableResults.convergen.map((data) => {
+                        return (
+                          <div className={styles.tableDatas_Contents}>
+                            {data ? (
+                              <div className={styles.isConvergen}>
+                                <i
+                                  className="bx bx-check"
+                                  customTitle={data ? "Konvergen" : "Divergen"}
+                                ></i>
+                              </div>
+                            ) : (
+                              <div className={styles.isConvergen}>
+                                <i
+                                  customTitle={data ? "Konvergen" : "Divergen"}
+                                  className="bx bx-x"
+                                ></i>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      {getAkarPrsmnWindow !== false && <AkarPrsmnWindow />}
       <Script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js" />
     </>
   );
 }
 
-export default RegulaFalsiWindow;
+export default NewtonRaphson;

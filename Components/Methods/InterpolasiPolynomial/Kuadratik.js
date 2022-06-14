@@ -198,6 +198,7 @@ function Kuadratik() {
                   );
                   setEditX([]);
                   setEditY(index);
+                  // TODO:
                   setYDataValues(parseInt(e.target.value));
                 }
               }}
@@ -234,9 +235,11 @@ function Kuadratik() {
                 animation="tada-hover"
                 onClick={() => {
                   if (
-                    getDatas.datasContainer.interpol.kuadratik
-                      .map((d) => d.x === "DummyData" || d.y === "DummyData")
-                      .indexOf(true) !== -1
+                    getDatas.datasContainer.interpol.kuadratik.find(
+                      (d) => d.x === "DummyData" || d.y === "DummyData"
+                    )
+                      ? true
+                      : false
                   ) {
                     getDatas.datasContainer.interpol.kuadratik.splice(
                       getDatas.datasContainer.interpol.kuadratik
@@ -487,10 +490,14 @@ function Kuadratik() {
                   });
                   // router.replace(router.asPath);
                   setEditX(
-                    getDatas.datasContainer.interpol.kuadratik.length - 1
+                    getDatas.datasContainer.interpol.kuadratik
+                      .map((d) => d.x === "DummyData")
+                      .indexOf(true)
                   );
                   setEditY(
-                    getDatas.datasContainer.interpol.kuadratik.length - 1
+                    getDatas.datasContainer.interpol.kuadratik
+                      .map((d) => d.y === "DummyData")
+                      .indexOf(true)
                   );
                 }}
               >

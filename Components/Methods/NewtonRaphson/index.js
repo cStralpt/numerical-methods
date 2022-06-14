@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "/styles/Home.module.css";
-import BiseksiWindow from "./Biseksi";
+import NewtonRaphson from "./NewtonRaphson";
 function Index() {
-  const [biseksiTabs, setBiseksiTabs] = useState("Biseksi");
-  const [tabsContainer] = useState(["Biseksi"]);
+  const [biseksiTabs, setBiseksiTabs] = useState("Newton Raphson");
+  const [tabsContainer] = useState(["Newton Raphson"]);
   const [radioIsCheck, setRadioCheck] = useState(true);
   return (
     <div className={styles.ioExecution_sheetsContainer}>
@@ -14,7 +14,7 @@ function Index() {
               <input
                 type="radio"
                 id={d}
-                checked={d === "Biseksi" && radioIsCheck}
+                checked={d === "Newton Raphson" && radioIsCheck}
                 name="tabIndicator"
                 className={styles.ioExecution_barBtn_tabIndicator}
               />
@@ -25,7 +25,7 @@ function Index() {
           ))}
         </div>
       </div>
-      <BiseksiWindow />
+      <NewtonRaphson />
     </div>
   );
 }

@@ -1,10 +1,10 @@
-import pupStyles from "../styles/popUp.module.css";
+import pupStyles from "../../styles/popUp.module.css";
 import { useState, createContext, useContext, useEffect } from "react";
 import Link from "next/link";
 import Draggable, { DraggableCore } from "react-draggable";
 import Script from "next/script";
-import { PopupCtx } from "./PopUpGlobalState";
-import { DatasState } from "./DatasContainer";
+import { PopupCtx } from "../PopUpGlobalState";
+import { DatasState } from "../DatasContainer";
 import Head from "next/head";
 function PopUpWindow() {
   const [getDraggable, setDraggable] = useState(true);

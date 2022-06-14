@@ -31,25 +31,25 @@ function DeleteDummyDatas() {
         );
       }
       if (
-        getDatas.datasContainer.biseksi.batasAtas[
-          getDatas.datasContainer.biseksi.batasAtas.findIndex(
+        getDatas.datasContainer.Bijeksi.batasAtas[
+          getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
             (data) => data == "DummyData"
           )
         ] === "DummyData" &&
-        getDatas.datasContainer.biseksi.batasAtas[
-          getDatas.datasContainer.biseksi.batasAtas.findIndex(
+        getDatas.datasContainer.Bijeksi.batasAtas[
+          getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
             (data) => data == "DummyData"
           )
         ] === "DummyData"
       ) {
-        getDatas.datasContainer.biseksi.batasAtas.splice(
-          getDatas.datasContainer.biseksi.batasAtas.findIndex(
+        getDatas.datasContainer.Bijeksi.batasAtas.splice(
+          getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
             (data) => data == "DummyData"
           ),
           1
         );
-        getDatas.datasContainer.biseksi.batasBawah.splice(
-          getDatas.datasContainer.biseksi.batasBawah.findIndex(
+        getDatas.datasContainer.Bijeksi.batasBawah.splice(
+          getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
             (data) => data == "DummyData"
           ),
           1

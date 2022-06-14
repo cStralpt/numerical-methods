@@ -13,7 +13,7 @@ import DeleteDummyDatas from "../../MikroCMPs/DeleteDummyDatas";
 import AkarPrsmnWindow from "../../MikroCMPs/AkarPrsmnWindow";
 // import styles from "../../styles/Home.module.css";
 
-function TitikTetapWindow() {
+function EliminasiGauss() {
   const [editX, setEditX] = useState();
   const [editY, setEditY] = useState();
   const [ttkTarget, setTtkTarget] = useState();
@@ -27,7 +27,7 @@ function TitikTetapWindow() {
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAppPath, setAppPath] = useContext(AppPathState);
   const [batasTengah, setBatasTengah] = useState(null);
-  const [akarTarget, setAkaraTarget] = useState();
+  const [akarTarget, setAkarTarget] = useState();
   const [toleransiE, setToleransiE] = useState(0.000001);
   const [isDataChecked, setCheckedData] = useState();
   const [getLoopLimits, setLoopLimits] = useState(1000);
@@ -63,140 +63,136 @@ function TitikTetapWindow() {
     ],
   });
 
-  const BeginTitikTetap = (batasAtas, eRA) => {
-    if (tableResults.akar) {
-      tableResults.akar = [];
-      tableResults.convergen = [];
-      tableResults.iterasi = [];
-    }
-    const perPangkatan = (nilai, pangkat) => {
-      let hasilnya = nilai;
-      for (let n = 1; n < pangkat; n++) {
-        hasilnya = hasilnya * nilai;
-      }
-      //   console.log(hasilnya);
-      return hasilnya;
+  const BeginEliminasiGauss = (variabkePersamaan, eRA) => {
+    let matrikEselon = [];
+    let b2KeNol = [];
+    let b2K2_ke1 = [];
+    let b2b3_keNol = [];
+    let b3k2_keNol = [];
+    let b3k3_keNol = [];
+    let index = 0;
+    const ubahB2KeNol = (b1, b2) => {
+      b2KeNol.push(
+        -getDatas.datasContainer.EliminasiGauss.variabkePersamaan[1][0] * b1 +
+          b2
+      );
     };
-    const fX = (x) => {
-      return perPangkatan(x, 2) - 2 * x - 3;
+    const ubahB2K2_keAngka1 = (k2) => {
+      b2K2_ke1.push((k2 * 1) / matrikEselon[1][1]);
     };
-    let loopLimits = 0;
-    let btsAtas = batasAtas;
-    let btsBwh;
-    let errorRelatif = 1;
-    const proses = [
-      {
-        procedure: (data) => {
-          return Math.sqrt(2 * data + 3);
-        },
-      },
-      {
-        procedure: (data) => {
-          return 3 / (data - 2);
-        },
-      },
-      {
-        procedure: (data) => {
-          return (perPangkatan(data, 2) - 3) / 2;
-        },
-      },
-    ];
-
-    proses.map((data) => {
-      while (errorRelatif > eRA) {
-        btsBwh = data.procedure(btsAtas);
-        errorRelatif = Math.abs((btsBwh - btsAtas) / btsBwh);
-        btsAtas = btsBwh;
-        // console.log(btsBwh);
-        if (loopLimits == getLoopLimits) {
-          break;
-        }
-        loopLimits++;
+    const ubahB3KeNol = (b1, b3) => {
+      b2b3_keNol.push(-matrikEselon[2][0] * b1 + b3);
+    };
+    const ubahB3K2KeNol = (b2, b3) => {
+      b3k2_keNol.push(-matrikEselon[2][1] * b2 + b3);
+    };
+    const ubahB3K3KeNol = (b3) => {
+      if (b3 != 0) {
+        b3k3_keNol.push((b3 * 1) / matrikEselon[2][2]);
+      } else {
+        b3k3_keNol.push(b3);
       }
-      if (fX(Math.round(btsBwh)) === 0) {
-        tableResults.convergen.push(true);
-        tableResults.iterasi.push(loopLimits);
-        tableResults.akar.push(Math.round(btsBwh));
-      } else if (fX(Math.round(btsBwh)) === 0) {
-        tableResults.convergen.push(true);
-        tableResults.iterasi.push(loopLimits);
-        tableResults.akar.push(btsBwh);
-      } else if (Math.round(btsBwh) !== 0) {
-        tableResults.convergen.push(false);
-        tableResults.iterasi.push(loopLimits);
-        tableResults.akar.push(Math.round(btsBwh));
-      }
-      setTotalIterasi(totalIterasi + loopLimits);
-      loopLimits = 0;
-      errorRelatif = 1;
-      btsAtas = batasAtas;
-    });
-    tableResults.iterasi.sort((a, b) => {
-      if (a - b < 0) {
-        label.push(tableResults.iterasi.indexOf(a));
-      } else if (a - b > 0) {
-        label.push(tableResults.iterasi.indexOf(b));
-      }
-    });
-    setGraphDatas({
-      labels: [
-        tableResults.akar[label[0]],
-        tableResults.akar[label[1]],
-        tableResults.akar.find((data) => {
-          return (
-            data != tableResults.akar[label[0]] && tableResults.akar[label[1]]
+    };
+    let convertToMatrikEselonBaris = () => {
+      // Ubah Baris Ke 2 Ke Nol
+      if (
+        -Math.abs(
+          getDatas.datasContainer.EliminasiGauss.variabkePersamaan[1][0]
+        ) *
+          getDatas.datasContainer.EliminasiGauss.variabkePersamaan[0][0] +
+          getDatas.datasContainer.EliminasiGauss.variabkePersamaan[1][0] ==
+        0
+      ) {
+        console.log({ t: true });
+        if (!formula[0]) {
+          matrikEselon.push(
+            getDatas.datasContainer.EliminasiGauss.variabkePersamaan[0]
           );
-        }),
-      ],
-      datasets: [
-        {
-          label: "Iterasi Titk Tetap",
-          lineTension: 0.4,
-          radius: 5,
-          data: [
-            tableResults.iterasi[label[0]],
-            tableResults.iterasi[label[1]],
-            tableResults.iterasi.find((data) => {
-              return (
-                data != tableResults.iterasi[label[0]] &&
-                tableResults.iterasi[label[1]]
-              );
-            }),
-          ],
-        },
-      ],
-    });
+        }
+        getDatas.datasContainer.EliminasiGauss.variabkePersamaan[0].map(
+          (data) => {
+            ubahB2KeNol(
+              data,
+              getDatas.datasContainer.EliminasiGauss.variabkePersamaan[1][index]
+            );
+            index++;
+          }
+        );
+        matrikEselon.push(b2KeNol);
+        matrikEselon.push(
+          getDatas.datasContainer.EliminasiGauss.variabkePersamaan[2]
+        );
+        index = 0;
+        // End B2keNol
+
+        matrikEselon[1].map((data) => {
+          ubahB2K2_keAngka1(data);
+          index++;
+        });
+        matrikEselon.fill(b2K2_ke1, 1, 2);
+        index = 0;
+        matrikEselon[2].map((data) => {
+          ubahB3KeNol(matrikEselon[0][index], data);
+          index++;
+        });
+        matrikEselon.fill(b2b3_keNol, 2, 3);
+        index = 0;
+        matrikEselon[2].map((data) => {
+          ubahB3K2KeNol(matrikEselon[1][index], data);
+          index++;
+        });
+        matrikEselon.fill(b3k2_keNol, 2, 3);
+        index = 0;
+        matrikEselon[2].map((data) => {
+          ubahB3K3KeNol(data);
+          index++;
+        });
+        matrikEselon.fill(b3k3_keNol, 2, 3);
+
+        console.log(matrikEselon);
+        console.log(b3k3_keNol);
+      }
+    };
+    convertToMatrikEselonBaris();
+    const substitusiMundur = () => {
+      console.log(datasContainer.datasContainer.EliminasiGauss);
+    };
+    console.log(
+      -Math.abs(
+        getDatas.datasContainer.EliminasiGauss.variabkePersamaan[1][0]
+      ) + 3
+    );
   };
+  BeginEliminasiGauss();
   const FormEditData = ({ depsData }) => {
     if (depsData === "x") {
       return (
-        getDatas.datasContainer.IterasiTitikTetap &&
-        getDatas.datasContainer.IterasiTitikTetap.batasAtas.map(
+        getDatas.datasContainer.EliminasiGauss &&
+        getDatas.datasContainer.EliminasiGauss.variabkePersamaan.map(
           (data, index) => (
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 if (!!e.target.inputNilai.value) {
                   if (
-                    getDatas.datasContainer.IterasiTitikTetap.batasAtas[
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
+                    getDatas.datasContainer.EliminasiGauss.variabkePersamaan[
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData"
                   ) {
-                    getDatas.datasContainer.IterasiTitikTetap.batasAtas.fill(
+                    getDatas.datasContainer.EliminasiGauss.variabkePersamaan.fill(
                       xDataValues,
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                         (data) => data == "DummyData"
                       ),
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                         (data) => data == "DummyData"
                       ) + 1
                     );
                     setEditX([]);
                   }
-
-                  getDatas.datasContainer.IterasiTitikTetap.batasAtas.fill(
+                  getDatas.datasContainer.EliminasiGauss.variabkePersamaan.fill(
                     e.target.inputNilai.value,
                     index,
                     index + 1
@@ -211,18 +207,20 @@ function TitikTetapWindow() {
                 onClick={(e) => {
                   if (e.detail === 2) {
                     setXDataValues(
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas[index]
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan[
+                        index
+                      ]
                     );
                     setEditX(index);
                     if (
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas[
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan[
+                        getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                           (data) => data == "DummyData"
                         )
                       ] === "DummyData"
                     ) {
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas.splice(
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan.splice(
+                        getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                           (data) => data == "DummyData"
                         ),
                         1
@@ -254,119 +252,116 @@ function TitikTetapWindow() {
       );
     } else if (depsData === "y") {
       return (
-        getDatas.datasContainer.IterasiTitikTetap &&
-        getDatas.datasContainer.IterasiTitikTetap.batasBawah.map(
-          (data, index) => (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!!e.target.inputNilai.value) {
-                  // getDatas.datasContainer.interpol.lenier[editYvalue.index].y = editYvalue.value;
-                  cariAkar(
-                    getDatas.datasContainer.IterasiTitikTetap.batasBawah[0],
-                    getDatas.datasContainer.IterasiTitikTetap.batasBawah[0]
+        getDatas.datasContainer.EliminasiGauss &&
+        getDatas.datasContainer.EliminasiGauss.batasBawah.map((data, index) => (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!!e.target.inputNilai.value) {
+                // getDatas.datasContainer.interpol.lenier[editYvalue.index].y = editYvalue.value;
+                cariAkar(
+                  getDatas.datasContainer.EliminasiGauss.batasBawah[0],
+                  getDatas.datasContainer.EliminasiGauss.batasBawah[0]
+                );
+                if (
+                  getDatas.datasContainer.EliminasiGauss.batasBawah[
+                    getDatas.datasContainer.EliminasiGauss.batasBawah.findIndex(
+                      (data) => data == "DummyData"
+                    )
+                  ] === "DummyData"
+                ) {
+                  getDatas.datasContainer.EliminasiGauss.batasBawah.fill(
+                    yDataValues,
+                    getDatas.datasContainer.EliminasiGauss.batasBawah.findIndex(
+                      (data) => data == "DummyData"
+                    ),
+                    getDatas.datasContainer.EliminasiGauss.batasBawah.findIndex(
+                      (data) => data == "DummyData"
+                    ) + 1
                   );
+                  setEditY([]);
+                } else if (
+                  getDatas.datasContainer.EliminasiGauss.batasBawah[editY] !==
+                  "DummyData"
+                ) {
+                  getDatas.datasContainer.EliminasiGauss.batasBawah.fill(
+                    yDataValues,
+                    index,
+                    index + 1
+                  );
+                  setEditY([]);
+                  setCheckedData();
+                }
+              }
+            }}
+            key={index}
+          >
+            <div
+              className={styles.tableDatas_Contents}
+              onClick={(e) => {
+                if (e.detail === 2) {
+                  setXDataValues(
+                    getDatas.datasContainer.EliminasiGauss.variabkePersamaan[
+                      index
+                    ]
+                  );
+                  setYDataValues(
+                    getDatas.datasContainer.EliminasiGauss.batasBawah[index]
+                  );
+                  setEditX([]);
+                  setEditY(index);
                   if (
-                    getDatas.datasContainer.IterasiTitikTetap.batasBawah[
-                      getDatas.datasContainer.IterasiTitikTetap.batasBawah.findIndex(
+                    getDatas.datasContainer.EliminasiGauss.variabkePersamaan[
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
+                        (data) => data == "DummyData"
+                      )
+                    ] === "DummyData" &&
+                    getDatas.datasContainer.EliminasiGauss.variabkePersamaan[
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData"
                   ) {
-                    getDatas.datasContainer.IterasiTitikTetap.batasBawah.fill(
-                      yDataValues,
-                      getDatas.datasContainer.IterasiTitikTetap.batasBawah.findIndex(
+                    getDatas.datasContainer.EliminasiGauss.variabkePersamaan.splice(
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                         (data) => data == "DummyData"
                       ),
-                      getDatas.datasContainer.IterasiTitikTetap.batasBawah.findIndex(
+                      1
+                    );
+                    getDatas.datasContainer.EliminasiGauss.batasBawah.splice(
+                      getDatas.datasContainer.EliminasiGauss.batasBawah.findIndex(
                         (data) => data == "DummyData"
-                      ) + 1
+                      ),
+                      1
                     );
-                    setEditY([]);
-                  } else if (
-                    getDatas.datasContainer.IterasiTitikTetap.batasBawah[
-                      editY
-                    ] !== "DummyData"
-                  ) {
-                    getDatas.datasContainer.IterasiTitikTetap.batasBawah.fill(
-                      yDataValues,
-                      index,
-                      index + 1
-                    );
-                    setEditY([]);
-                    setCheckedData();
                   }
                 }
               }}
-              key={index}
             >
-              <div
-                className={styles.tableDatas_Contents}
-                onClick={(e) => {
-                  if (e.detail === 2) {
-                    setXDataValues(
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas[index]
-                    );
-                    setYDataValues(
-                      getDatas.datasContainer.IterasiTitikTetap.batasBawah[
-                        index
-                      ]
-                    );
-                    setEditX([]);
-                    setEditY(index);
-                    if (
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas[
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
-                          (data) => data == "DummyData"
-                        )
-                      ] === "DummyData" &&
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas[
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
-                          (data) => data == "DummyData"
-                        )
-                      ] === "DummyData"
-                    ) {
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas.splice(
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
-                          (data) => data == "DummyData"
-                        ),
-                        1
-                      );
-                      getDatas.datasContainer.IterasiTitikTetap.batasBawah.splice(
-                        getDatas.datasContainer.IterasiTitikTetap.batasBawah.findIndex(
-                          (data) => data == "DummyData"
-                        ),
-                        1
-                      );
-                    }
-                  }
+              {data}
+            </div>
+            {editY === index && (
+              <input
+                type="number"
+                autoFocus
+                name="inputNilai"
+                onChange={(e) => {
+                  setYDataValues(parseFloat(e.target.value));
+                  setEditYvalue({
+                    value: parseFloat(e.target.value),
+                    index: index,
+                  });
                 }}
-              >
-                {data}
-              </div>
-              {editY === index && (
-                <input
-                  type="number"
-                  autoFocus
-                  name="inputNilai"
-                  onChange={(e) => {
-                    setYDataValues(parseFloat(e.target.value));
-                    setEditYvalue({
-                      value: parseFloat(e.target.value),
-                      index: index,
-                    });
-                  }}
-                  value={yDataValues}
-                />
-              )}
-            </form>
-          )
-        )
+                value={yDataValues}
+              />
+            )}
+          </form>
+        ))
       );
     } else if (depsData === "deleteBtn") {
       return (
-        getDatas.datasContainer.IterasiTitikTetap &&
-        getDatas.datasContainer.IterasiTitikTetap.batasAtas.map(
+        getDatas.datasContainer.EliminasiGauss &&
+        getDatas.datasContainer.EliminasiGauss.variabkePersamaan.map(
           (data, index) => (
             <div className={styles.tableDatas_Icon} key={index}>
               {(editX === index || editY === index) && (
@@ -377,14 +372,15 @@ function TitikTetapWindow() {
                     animation="tada-hover"
                     onClick={() => {
                       if (
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas[
-                          getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
+                        getDatas.datasContainer.EliminasiGauss
+                          .variabkePersamaan[
+                          getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                             (data) => data == "DummyData"
                           )
                         ] == "DummyData"
                       ) {
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas.splice(
-                          getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
+                        getDatas.datasContainer.EliminasiGauss.variabkePersamaan.splice(
+                          getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                             (data) => data == "DummyData"
                           ),
                           1
@@ -398,8 +394,8 @@ function TitikTetapWindow() {
                   ></box-icon>
                 </>
               )}
-              {getDatas.datasContainer.IterasiTitikTetap.batasAtas[
-                getDatas.datasContainer.IterasiTitikTetap.batasAtas.findIndex(
+              {getDatas.datasContainer.EliminasiGauss.variabkePersamaan[
+                getDatas.datasContainer.EliminasiGauss.variabkePersamaan.findIndex(
                   (data) => data == "DummyData"
                 )
               ] !== "DummyData" && (
@@ -408,7 +404,7 @@ function TitikTetapWindow() {
                   <i
                     className="bx bx-trash bx-tada-hover"
                     onClick={() => {
-                      getDatas.datasContainer.IterasiTitikTetap.batasAtas.splice(
+                      getDatas.datasContainer.EliminasiGauss.variabkePersamaan.splice(
                         index,
                         1
                       );
@@ -421,9 +417,8 @@ function TitikTetapWindow() {
                     className={styles.checkBoxContainer}
                     onClick={() => {
                       cariAkar(
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas[
-                          index
-                        ]
+                        getDatas.datasContainer.EliminasiGauss
+                          .variabkePersamaan[index]
                       );
                       setCheckedData(index);
                     }}
@@ -448,10 +443,10 @@ function TitikTetapWindow() {
       );
     }
   };
-  const cariAkar = (batasAtas) => {
-    if (!!getDatas.datasContainer.IterasiTitikTetap.batasAtas[0]) {
-      let akarTrgt = BeginTitikTetap(batasAtas, toleransiE);
-      setAkaraTarget(akarTrgt);
+  const cariAkar = (variabkePersamaan) => {
+    if (!!getDatas.datasContainer.EliminasiGauss.variabkePersamaan[0]) {
+      let akarTrgt = BeginEliminasiGauss(variabkePersamaan, toleransiE);
+      setAkarTarget(akarTrgt);
     }
   };
   return (
@@ -490,10 +485,12 @@ function TitikTetapWindow() {
                   onChange={(e) => {
                     setToleransiE(e.target.value);
                     if (
-                      !!getDatas.datasContainer.IterasiTitikTetap.batasAtas[0]
+                      !!getDatas.datasContainer.EliminasiGauss
+                        .variabkePersamaan[0]
                     ) {
                       cariAkar(
-                        getDatas.datasContainer.IterasiTitikTetap.batasAtas[0]
+                        getDatas.datasContainer.EliminasiGauss
+                          .variabkePersamaan[0]
                       );
                       setCheckedData();
                     }
@@ -508,42 +505,76 @@ function TitikTetapWindow() {
             <div className={styles.tableDatas}>
               <div className={styles.tableDatas_columnContainer}>
                 <div className={styles.tableDatas_column}>
-                  <div className={styles.tableDatas_heading}>
-                    n<sup></sup>
-                  </div>
-                  {getDatas.datasContainer.IterasiTitikTetap &&
-                    getDatas.datasContainer.IterasiTitikTetap.batasAtas.map(
-                      (data, index) => (
-                        <div className={styles.tableDatas_Contents} key={index}>
-                          {index + 1}
-                        </div>
-                      )
-                    )}
+                  <div className={styles.tableDatas_heading}>n</div>
+                  <div className={styles.tableDatas_Contents}>1</div>
+                  <div className={styles.tableDatas_Contents}>2</div>
+                  <div className={styles.tableDatas_Contents}>3</div>
                 </div>
                 <div className={styles.tableDatas_column}>
                   <div className={styles.tableDatas_heading}>
-                    <sup>X</sup>n
+                    Akar Persamaan
                   </div>
-                  <FormEditData depsData="x" />
-                </div>
-                <div className={styles.tableDatas_column}>
-                  <div className={styles.tableDatas_heading}>
-                    <sup className={styles.actionHeading}>Y</sup>
+
+                  <div className={styles.tableDatas_Contents}>
+                    <div
+                      style={{
+                        display: "flex",
+                        height: "100%",
+                        fontWeight: 700,
+                        color: "#e78ea9",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <div>x</div>
+                      <span>-</span>
+                      <div>2y</div>
+                      <span>+</span>
+                      <div>z</div>
+                      <span>=</span>
+                      <div>6</div>
+                    </div>
                   </div>
-                  <FormEditData depsData="deleteBtn" />
+                  <div className={styles.tableDatas_Contents}>
+                    <div
+                      style={{
+                        display: "flex",
+                        height: "100%",
+                        fontWeight: 700,
+                        color: "#e78ea9",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <div>3x</div>
+                      <span>+</span>
+                      <div>y</div>
+                      <span>-</span>
+                      <div>2z</div>
+                      <div>=4</div>
+                    </div>
+                  </div>
+                  <div className={styles.tableDatas_Contents}>
+                    <div
+                      style={{
+                        display: "flex",
+                        height: "100%",
+                        fontWeight: 700,
+                        color: "#e78ea9",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <div>7x</div>
+                      <span>-</span>
+                      <div>6y</div>
+                      <span>-</span>
+                      <div>z=10</div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
                 className={styles.entryNewData}
                 onClick={() => {
-                  getDatas.datasContainer.IterasiTitikTetap.batasAtas.push(
-                    "DummyData"
-                  );
-                  // router.replace(router.asPath);
-                  setEditX(
-                    getDatas.datasContainer.IterasiTitikTetap.batasAtas.length -
-                      1
-                  );
+                  setAkarPrsmnWindow(true);
                 }}
               >
                 <box-icon
@@ -555,27 +586,16 @@ function TitikTetapWindow() {
               </div>
             </div>
             <div className={styles.akarPersamaan_results}>
-              <div
-                className={styles.akarPersamaan_Input}
-                onClick={() => {
-                  setAkarPrsmnWindow(true);
-                }}
-              >
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
-                  <h6>2</h6>
-                </div>
-                <span>-</span>
-                <div>2</div>
-                <span>*</span>
-                <div>x</div>
-                <span>-</span>
-                <div>3</div>
-              </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>
                   <div className={styles.loopResults_label}>Total Iterasi:</div>
                   <div className={styles.loopResults_total}>{totalIterasi}</div>
+                </div>
+                <div className={styles.calculation}>
+                  <div className={styles.calculation_label}>
+                    Hasil Kalkulasi:
+                  </div>
+                  <div className={styles.calculation_Result}>{akarTarget}</div>
                 </div>
               </div>
             </div>
@@ -584,10 +604,6 @@ function TitikTetapWindow() {
             <div className={styles.prosessResults_Graph}>
               <div className={styles.prosessResults_graphheading}>Graph</div>
               <div className={styles.prosessResults_graphResult}>
-                {/* <HighchartsReact
-                highcharts={Highcharts}
-                options={options}
-              ></HighchartsReact> */}
                 <LineChart datas={graphDatas} />
               </div>
             </div>
@@ -597,7 +613,6 @@ function TitikTetapWindow() {
                 <div className={styles.tableDatas_columnContainer}>
                   <div className={styles.tableDatas_column}>
                     <div className={styles.tableDatas_heading}>n</div>
-
                     {!!tableResults.akar &&
                       tableResults.akar.map((data, index) => {
                         return (
@@ -665,4 +680,4 @@ function TitikTetapWindow() {
   );
 }
 
-export default TitikTetapWindow;
+export default EliminasiGauss;

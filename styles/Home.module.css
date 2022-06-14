@@ -25,18 +25,6 @@
   max-width: 450px;
   flex-grow: 1;
 }
-/* .dataContainer {
-  display: flex;
-  width: max-content;
-  flex-direction: column;
-  width: 100%;
-  max-width: 1200px;
-  gap: 20px;
-  background-color: var(--color-act1);
-  padding: 100px;
-  border-radius: 30px;
-  position: relative;
-} */
 .dataContainer .dataContainer_input {
   display: flex;
   justify-content: flex-start;
@@ -224,9 +212,41 @@
   /* background-color: var(--color-act4); */
 }
 /* Top Nav */
+
+@keyframes Animate_Navigations {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(none);
+  }
+}
+@keyframes Animate_Navigations_Top {
+  0% {
+    z-index: -1;
+    right: 0 !important;
+    opacity: 0;
+  }
+  30% {
+    opacity: 50%;
+    z-index: -1;
+    left: 200px;
+  }
+  90%{
+    opacity: 70%;
+
+  }
+  100% {
+    left: 0;
+    opacity: 100%;
+  }
+}
 .ioExecution_topNav,
 .ioExecution_rightNav {
   position: absolute;
+  transform-origin: top top;
+  /* border: 2px solid red; */
+  animation: Animate_Navigations 0.2s forwards;
 }
 .ioExecution_topNav {
   width: 100%;
@@ -238,6 +258,31 @@
   overflow: hidden;
   overflow-x: scroll;
   z-index: 1;
+  transform-origin: top right;
+  animation: none !important;
+}
+/* TODO: */
+.ioExecution_topNav_Contaienr {
+  position: relative;
+  /* border: 2px solid red; */
+  height: 50px;
+  display: none;
+  animation: Animate_Navigations_Top 0.1s forwards;
+  z-index: 9;
+  width: fit-content;
+}
+.ioExecution__topNav {
+  /* height: 100%; */
+  padding: 3px;
+  background-color: var(--color-act3);
+  border: 2px solid var(--color-act2);
+  border-radius: 100px;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  position: absolute;
 }
 .ioExecution_topNav::-webkit-scrollbar {
   display: none;
@@ -296,7 +341,22 @@
   align-items: center;
   gap: 2px;
 }
+
 .ioExecution_rightNav_icons {
+  background-color: var(--color-act3);
+  border: 2px solid var(--color-act4);
+  border-radius: 100px;
+  padding: 2px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+  color: var(--color-act2);
+  font-weight: 600;
+  width: 35px;
+  height: 35px;
+}
+.ioExecution_topNav__icons {
   background-color: var(--color-act3);
   border: 2px solid var(--color-act4);
   border-radius: 100px;
@@ -317,15 +377,38 @@
   0% {
     width: 0;
     left: 0;
-    transform: rotate(45deg);
+    transform: var(--nav-actionName-animation--rotate-1);
     opacity: 0;
+    transform-origin: left top;
   }
   100% {
+    /* width: 100%; */
+    transform: var(--nav-actionName-animation--rotate-2);
     width: 215px;
+    top: var(--nav-actionName-animation--top);
+    left: var(--nav-actionName-animation--left);
     width: max-content;
+    transform-origin: left top;
   }
 }
 /* TODO: */
+@media only screen and (max-width: 1359px) {
+  .ioExecution_rightNav {
+    display: none;
+  }
+  .ioExecution_topNav_Contaienr {
+    display: block;
+  }
+  .rightNav_Gap {
+    display: none;
+  }
+}
+@media only screen and (max-width: 907px) {
+  .dataContainer {
+    width: 100%;
+  }
+}
+
 .ioExecution_rightNav_icons:hover + .ioExecution_rightNav_icons_actionName {
   display: block;
 }
@@ -367,10 +450,19 @@
   border-radius: 0 100px 100px 0;
   z-index: 1;
   display: none;
-  /* overflow: hidden;
-  overflow-x: visible;
+  /* overflow: hidden; */
+  /* overflow-x: visible;
   transition: all 1s ease; */
+  /* TODO: */
   animation: ioExecution_rightNav_icons_actionName_animation 0.2s 1 forwards;
+}
+.rightNav_HeadingContainer {
+  /* border: 2px solid black; */
+  overflow-x: hidden;
+  /* width: 40PX; */
+}
+.rightNav_HeadingContainer .text {
+  width: max-content;
 }
 .ioExecution_rightNav_icons ion-icon {
   font-size: 20px;
@@ -439,47 +531,46 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  
-.ioExecution {
-  background-color: var(--color-act1-dark);
-}
-.topNavBtn {
-  background-color: var(--color-act1-dark);
-  color: var(--color-act3-dark);
-}
-/* TODO: End */
-.ioExecution_barBtn_tabIndicator:checked + .ioExecution_barBtn {
-  color: var(--color-act2-dark);
-  background-color: var(--color-act3-dark);
-}
-/* Top Nav End */
-.ioExecution_rightNav {
-  background-color: var(--color-act3-dark);
-  border: 2px solid var(--color-act2-dark);
-}
-.ioExecution_rightNav_icons {
-  background-color: var(--color-act3-dark);
-  border: 2px solid var(--color-act4-dark);
-  color: var(--color-act2-dark);
-}
-.ioExecution_rightNav_icons:hover {
-  border-color: var(--color-act2-dark);
-}
-.ioExecution_rightNav_icons_Indicator:checked + .ioExecution_rightNav_icons {
-  border: 2px solid var(--color-act2-dark);
-}
-.ioExecution_rightNav_icons_Indicator:hover + .ioExecution_rightNav_icons {
-  border: 2px solid var(--color-act2-dark);
-}
-.ioExecution_rightNav_icons_actionName {
-  background-color: var(--color-act2-dark);
-  color: var(--color-act3-dark);
-}
-.ioExecution_sheet {
-  background-color: var(--color-act3-dark);
-}
-.ioExecution_barBtn {
-  background-color: var(--color-act4-dark);
-  color: var(--color-act3-dark);
-}
+  .ioExecution {
+    background-color: var(--color-act1-dark);
+  }
+  .topNavBtn {
+    background-color: var(--color-act1-dark);
+    color: var(--color-act3-dark);
+  }
+  /* TODO: End */
+  .ioExecution_barBtn_tabIndicator:checked + .ioExecution_barBtn {
+    color: var(--color-act2-dark);
+    background-color: var(--color-act3-dark);
+  }
+  /* Top Nav End */
+  .ioExecution_rightNav {
+    background-color: var(--color-act3-dark);
+    border: 2px solid var(--color-act2-dark);
+  }
+  .ioExecution_rightNav_icons {
+    background-color: var(--color-act3-dark);
+    border: 2px solid var(--color-act4-dark);
+    color: var(--color-act2-dark);
+  }
+  .ioExecution_rightNav_icons:hover {
+    border-color: var(--color-act2-dark);
+  }
+  .ioExecution_rightNav_icons_Indicator:checked + .ioExecution_rightNav_icons {
+    border: 2px solid var(--color-act2-dark);
+  }
+  .ioExecution_rightNav_icons_Indicator:hover + .ioExecution_rightNav_icons {
+    border: 2px solid var(--color-act2-dark);
+  }
+  .ioExecution_rightNav_icons_actionName {
+    background-color: var(--color-act2-dark);
+    color: var(--color-act3-dark);
+  }
+  .ioExecution_sheet {
+    background-color: var(--color-act3-dark);
+  }
+  .ioExecution_barBtn {
+    background-color: var(--color-act4-dark);
+    color: var(--color-act3-dark);
+  }
 }

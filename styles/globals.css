@@ -36,3 +36,6 @@ a {
     background-color: black;
   }
 }
+ion-icon {
+  pointer-events: none;
+}

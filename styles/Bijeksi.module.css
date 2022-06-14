@@ -11,12 +11,14 @@
   width: 100%;
   /* border: 2px solid red; */
   gap: 10px;
+  /* flex-wrap: wrap; */
 }
 .loopLimits_Container{
   display: flex;
   gap: 10px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  flex-grow: 1;
 }
 .loopLimits_input{
   padding: 10px;
@@ -24,6 +26,9 @@
   border: none;
   font-size: 15px;
   color: var(--color-act2);
+  width: 20%;
+  max-width: 200px;
+  flex-grow: 1;
   /* background-color: var(--color-act4); */
 }
 .loopLimits_input::placeholder{
@@ -33,4 +38,12 @@
   color: var(--color-act2);
   font-weight: 700;
   margin-left: 10px;
+}
+@media only screen and (max-width: 446px) {
+  .loopLimits_toleransiError{
+    flex-wrap: wrap;
+  }
+  .loopLimits_input{
+    max-width: none;
+  }
 }

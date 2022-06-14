@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import styles from "/styles/InterPolyLenier.module.css";
-import BiseksiStyles from "../../../styles/Biseksi.module.css";
+import BijeksiStyles from "../../../styles/Bijeksi.module.css";
 import { IntegerState } from "../../IntegerGlobalState";
 import { DatasState } from "../../DatasContainer";
 import { AppPathState } from "../../AppPath";
@@ -12,7 +12,7 @@ import DeleteDummyDatas from "../../MikroCMPs/DeleteDummyDatas";
 import AkarPrsmnWindow from "../../MikroCMPs/AkarPrsmnWindow";
 // import styles from "../../styles/Home.module.css";
 
-function BiseksiWindow() {
+function BijeksiWindow() {
   const [editX, setEditX] = useState();
   const [editY, setEditY] = useState();
   const [ttkTarget, setTtkTarget] = useState();
@@ -50,7 +50,7 @@ function BiseksiWindow() {
     };
 
     const fX = (x) => {
-      return perPangkatan(x, 3) + perPangkatan(x, 2) - 2 * x - 2;
+      return perPangkatan(x, 3) + perPangkatan(x, 2) - 2 * x - 2;                                                                                                                                                                                                                                                                                                                                                          
     };
     while (btsBwh - btsAtas >= eRA) {
       console.log(`${loopLimits}` + { btsTngh, eps: btsBwh - btsAtas });
@@ -77,54 +77,54 @@ function BiseksiWindow() {
   const FormEditData = ({ depsData }) => {
     if (depsData === "x") {
       return (
-        getDatas.datasContainer.biseksi &&
-        getDatas.datasContainer.biseksi.batasAtas.map((data, index) => (
+        getDatas.datasContainer.Bijeksi &&
+        getDatas.datasContainer.Bijeksi.batasAtas.map((data, index) => (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
                 cariAkar(
-                  getDatas.datasContainer.biseksi.batasBawah[0],
-                  getDatas.datasContainer.biseksi.batasBawah[0]
+                  getDatas.datasContainer.Bijeksi.batasBawah[0],
+                  getDatas.datasContainer.Bijeksi.batasBawah[0]
                 );
 
                 if (
-                  getDatas.datasContainer.biseksi.batasBawah[
-                    getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                  getDatas.datasContainer.Bijeksi.batasBawah[
+                    getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                       (data) => data == "DummyData"
                     )
                   ] === "DummyData"
                 ) {
                   alert("isi sumbu Y dulu");
                 } else if (
-                  getDatas.datasContainer.biseksi.batasBawah[
-                    getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                  getDatas.datasContainer.Bijeksi.batasBawah[
+                    getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                       (data) => data == "DummyData"
                     )
                   ] !== "DummyData" &&
-                  getDatas.datasContainer.biseksi.batasAtas[
-                    getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                  getDatas.datasContainer.Bijeksi.batasAtas[
+                    getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                       (data) => data == "DummyData"
                     )
                   ] === "DummyData"
                 ) {
-                  // getDatas.datasContainer.biseksi.batasAtas[editXvalue.index] =
+                  // getDatas.datasContainer.Bijeksi.batasAtas[editXvalue.index] =
                   //   editXvalue.value;
-                  getDatas.datasContainer.biseksi.batasAtas.fill(
+                  getDatas.datasContainer.Bijeksi.batasAtas.fill(
                     xDataValues,
-                    getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                       (data) => data == "DummyData"
                     ),
-                    getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                       (data) => data == "DummyData"
                     ) + 1
                   );
                   setEditX([]);
                 } else if (
-                  getDatas.datasContainer.biseksi.batasBawah[index] !==
+                  getDatas.datasContainer.Bijeksi.batasBawah[index] !==
                   "DummyData"
                 ) {
-                  getDatas.datasContainer.biseksi.batasAtas.fill(
+                  getDatas.datasContainer.Bijeksi.batasAtas.fill(
                     xDataValues,
                     index,
                     index + 1
@@ -141,30 +141,30 @@ function BiseksiWindow() {
               onClick={(e) => {
                 if (e.detail === 2) {
                   setXDataValues(
-                    getDatas.datasContainer.biseksi.batasBawah[index]
+                    getDatas.datasContainer.Bijeksi.batasBawah[index]
                   );
                   setEditX(index);
                   setEditY([]);
                   if (
-                    getDatas.datasContainer.biseksi.batasAtas[
-                      getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasAtas[
+                      getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData" &&
-                    getDatas.datasContainer.biseksi.batasAtas[
-                      getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasAtas[
+                      getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData"
                   ) {
-                    getDatas.datasContainer.biseksi.batasAtas.splice(
-                      getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasAtas.splice(
+                      getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       ),
                       1
                     );
-                    getDatas.datasContainer.biseksi.batasBawah.splice(
-                      getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasBawah.splice(
+                      getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                         (data) => data == "DummyData"
                       ),
                       1
@@ -195,39 +195,39 @@ function BiseksiWindow() {
       );
     } else if (depsData === "y") {
       return (
-        getDatas.datasContainer.biseksi &&
-        getDatas.datasContainer.biseksi.batasBawah.map((data, index) => (
+        getDatas.datasContainer.Bijeksi &&
+        getDatas.datasContainer.Bijeksi.batasBawah.map((data, index) => (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               if (!!e.target.inputNilai.value) {
                 // getDatas.datasContainer.interpol.lenier[editYvalue.index].y = editYvalue.value;
                 cariAkar(
-                  getDatas.datasContainer.biseksi.batasBawah[0],
-                  getDatas.datasContainer.biseksi.batasBawah[0]
+                  getDatas.datasContainer.Bijeksi.batasBawah[0],
+                  getDatas.datasContainer.Bijeksi.batasBawah[0]
                 );
                 if (
-                  getDatas.datasContainer.biseksi.batasBawah[
-                    getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                  getDatas.datasContainer.Bijeksi.batasBawah[
+                    getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                       (data) => data == "DummyData"
                     )
                   ] === "DummyData"
                 ) {
-                  getDatas.datasContainer.biseksi.batasBawah.fill(
+                  getDatas.datasContainer.Bijeksi.batasBawah.fill(
                     yDataValues,
-                    getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                       (data) => data == "DummyData"
                     ),
-                    getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                       (data) => data == "DummyData"
                     ) + 1
                   );
                   setEditY([]);
                 } else if (
-                  getDatas.datasContainer.biseksi.batasBawah[editY] !==
+                  getDatas.datasContainer.Bijeksi.batasBawah[editY] !==
                   "DummyData"
                 ) {
-                  getDatas.datasContainer.biseksi.batasBawah.fill(
+                  getDatas.datasContainer.Bijeksi.batasBawah.fill(
                     yDataValues,
                     index,
                     index + 1
@@ -244,33 +244,33 @@ function BiseksiWindow() {
               onClick={(e) => {
                 if (e.detail === 2) {
                   setXDataValues(
-                    getDatas.datasContainer.biseksi.batasAtas[index]
+                    getDatas.datasContainer.Bijeksi.batasAtas[index]
                   );
                   setYDataValues(
-                    getDatas.datasContainer.biseksi.batasBawah[index]
+                    getDatas.datasContainer.Bijeksi.batasBawah[index]
                   );
                   setEditX([]);
                   setEditY(index);
                   if (
-                    getDatas.datasContainer.biseksi.batasAtas[
-                      getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasAtas[
+                      getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData" &&
-                    getDatas.datasContainer.biseksi.batasAtas[
-                      getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasAtas[
+                      getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       )
                     ] === "DummyData"
                   ) {
-                    getDatas.datasContainer.biseksi.batasAtas.splice(
-                      getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasAtas.splice(
+                      getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                         (data) => data == "DummyData"
                       ),
                       1
                     );
-                    getDatas.datasContainer.biseksi.batasBawah.splice(
-                      getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                    getDatas.datasContainer.Bijeksi.batasBawah.splice(
+                      getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                         (data) => data == "DummyData"
                       ),
                       1
@@ -301,8 +301,8 @@ function BiseksiWindow() {
       );
     } else if (depsData === "deleteBtn") {
       return (
-        getDatas.datasContainer.biseksi &&
-        getDatas.datasContainer.biseksi.batasAtas.map((data, index) => (
+        getDatas.datasContainer.Bijeksi &&
+        getDatas.datasContainer.Bijeksi.batasAtas.map((data, index) => (
           <div className={styles.tableDatas_Icon} key={index}>
             {(editX === index || editY === index) && (
               <>
@@ -312,25 +312,25 @@ function BiseksiWindow() {
                   animation="tada-hover"
                   onClick={() => {
                     if (
-                      getDatas.datasContainer.biseksi.batasBawah[
-                        getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                      getDatas.datasContainer.Bijeksi.batasBawah[
+                        getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                           (data) => data == "DummyData"
                         )
                       ] == "DummyData" ||
-                      getDatas.datasContainer.biseksi.batasAtas[
-                        getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                      getDatas.datasContainer.Bijeksi.batasAtas[
+                        getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                           (data) => data == "DummyData"
                         )
                       ] == "DummyData"
                     ) {
-                      getDatas.datasContainer.biseksi.batasAtas.splice(
-                        getDatas.datasContainer.biseksi.batasAtas.findIndex(
+                      getDatas.datasContainer.Bijeksi.batasAtas.splice(
+                        getDatas.datasContainer.Bijeksi.batasAtas.findIndex(
                           (data) => data == "DummyData"
                         ),
                         1
                       );
-                      getDatas.datasContainer.biseksi.batasBawah.splice(
-                        getDatas.datasContainer.biseksi.batasBawah.findIndex(
+                      getDatas.datasContainer.Bijeksi.batasBawah.splice(
+                        getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                           (data) => data == "DummyData"
                         ),
                         1
@@ -344,8 +344,8 @@ function BiseksiWindow() {
                 ></box-icon>
               </>
             )}
-            {getDatas.datasContainer.biseksi.batasBawah[
-              getDatas.datasContainer.biseksi.batasBawah.findIndex(
+            {getDatas.datasContainer.Bijeksi.batasBawah[
+              getDatas.datasContainer.Bijeksi.batasBawah.findIndex(
                 (data) => data == "DummyData"
               )
             ] !== "DummyData" && (
@@ -354,8 +354,8 @@ function BiseksiWindow() {
                 <i
                   className="bx bx-trash bx-tada-hover"
                   onClick={() => {
-                    getDatas.datasContainer.biseksi.batasAtas.splice(index, 1);
-                    getDatas.datasContainer.biseksi.batasBawah.splice(index, 1);
+                    getDatas.datasContainer.Bijeksi.batasAtas.splice(index, 1);
+                    getDatas.datasContainer.Bijeksi.batasBawah.splice(index, 1);
                     router.replace(router.asPath);
                     setEditX([]);
                     setEditY([]);
@@ -365,8 +365,8 @@ function BiseksiWindow() {
                   className={styles.checkBoxContainer}
                   onClick={() => {
                     cariAkar(
-                      getDatas.datasContainer.biseksi.batasAtas[index],
-                      getDatas.datasContainer.biseksi.batasBawah[index]
+                      getDatas.datasContainer.Bijeksi.batasAtas[index],
+                      getDatas.datasContainer.Bijeksi.batasBawah[index]
                     );
                     setCheckedData(index);
                   }}
@@ -392,8 +392,8 @@ function BiseksiWindow() {
   };
   const cariAkar = (batasAtas, batasBawah) => {
     if (
-      !!getDatas.datasContainer.biseksi.batasBawah[0] &&
-      !!getDatas.datasContainer.biseksi.batasAtas[0]
+      !!getDatas.datasContainer.Bijeksi.batasBawah[0] &&
+      !!getDatas.datasContainer.Bijeksi.batasAtas[0]
     ) {
       let akarTrgt = BeginBisection(batasAtas, batasBawah, toleransiE);
       setAkaraTarget(akarTrgt);
@@ -404,16 +404,16 @@ function BiseksiWindow() {
       <div className={styles.ioExecution_sheet}>
         <div className={styles.userInput}>
           {/* Update */}
-          <div className={BiseksiStyles.loopLimits_toleransiError}>
-            <div className={BiseksiStyles.loopLimits_Container}>
+          <div className={BijeksiStyles.loopLimits_toleransiError}>
+            <div className={BijeksiStyles.loopLimits_Container}>
               <label
-                className={BiseksiStyles.loopLimits_label}
+                className={BijeksiStyles.loopLimits_label}
                 for="loopLimits"
               >
                 Loop Limits
               </label>
               <input
-                className={BiseksiStyles.loopLimits_input}
+                className={BijeksiStyles.loopLimits_input}
                 id="loopLimits"
                 type="number"
                 onChange={(e) => {
@@ -424,7 +424,7 @@ function BiseksiWindow() {
                 value={getLoopLimits}
               />
             </div>
-            <div className={BiseksiStyles.sumbuContainer}>
+            <div className={BijeksiStyles.sumbuContainer}>
               <div className={styles.findXContainer}>
                 <input
                   className={styles.findX_input}
@@ -434,8 +434,8 @@ function BiseksiWindow() {
                   onChange={(e) => {
                     setToleransiE(e.target.value);
                     cariAkar(
-                      getDatas.datasContainer.biseksi.batasAtas[0],
-                      getDatas.datasContainer.biseksi.batasBawah[0]
+                      getDatas.datasContainer.Bijeksi.batasAtas[0],
+                      getDatas.datasContainer.Bijeksi.batasBawah[0]
                     );
                     setCheckedData();
                   }}
@@ -452,8 +452,8 @@ function BiseksiWindow() {
                   <div className={styles.tableDatas_heading}>
                     n<sup></sup>
                   </div>
-                  {getDatas.datasContainer.biseksi &&
-                    getDatas.datasContainer.biseksi.batasAtas.map(
+                  {getDatas.datasContainer.Bijeksi &&
+                    getDatas.datasContainer.Bijeksi.batasAtas.map(
                       (data, index) => (
                         <div className={styles.tableDatas_Contents} key={index}>
                           {index + 1}
@@ -483,14 +483,14 @@ function BiseksiWindow() {
               <div
                 className={styles.entryNewData}
                 onClick={() => {
-                  getDatas.datasContainer.biseksi.batasAtas.push("DummyData");
-                  getDatas.datasContainer.biseksi.batasBawah.push("DummyData");
+                  getDatas.datasContainer.Bijeksi.batasAtas.push("DummyData");
+                  getDatas.datasContainer.Bijeksi.batasBawah.push("DummyData");
                   // router.replace(router.asPath);
                   setEditX(
-                    getDatas.datasContainer.biseksi.batasAtas.length - 1
+                    getDatas.datasContainer.Bijeksi.batasAtas.length - 1
                   );
                   setEditY(
-                    getDatas.datasContainer.biseksi.batasBawah.length - 1
+                    getDatas.datasContainer.Bijeksi.batasBawah.length - 1
                   );
                 }}
               >
@@ -547,4 +547,4 @@ function BiseksiWindow() {
   );
 }
 
-export default BiseksiWindow;
+export default BijeksiWindow;
