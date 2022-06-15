@@ -412,7 +412,7 @@ function RegulaFalsiWindow() {
             <div className={BijeksiStyles.loopLimits_Container}>
               <label
                 className={BijeksiStyles.loopLimits_label}
-                for="loopLimits"
+                htmlFor="loopLimits"
               >
                 Loop Limits
               </label>

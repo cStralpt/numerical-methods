@@ -104,11 +104,11 @@ function EliminasiGauss() {
         0
       ) {
         console.log({ t: true });
-        if (!formula[0]) {
+        // if (!formula[0]) {
           matrikEselon.push(
             getDatas.datasContainer.EliminasiGauss.variabkePersamaan[0]
           );
-        }
+        // }
         getDatas.datasContainer.EliminasiGauss.variabkePersamaan[0].map(
           (data) => {
             ubahB2KeNol(
@@ -459,7 +459,7 @@ function EliminasiGauss() {
             <div className={BijeksiStyles.loopLimits_Container}>
               <label
                 className={BijeksiStyles.loopLimits_label}
-                for="loopLimits"
+                htmlFor="loopLimits"
               >
                 Loop Limits
               </label>
@@ -616,7 +616,7 @@ function EliminasiGauss() {
                     {!!tableResults.akar &&
                       tableResults.akar.map((data, index) => {
                         return (
-                          <div className={styles.tableDatas_Contents}>
+                          <div className={styles.tableDatas_Contents} key={index}>
                             {index + 1}
                           </div>
                         );
@@ -625,9 +625,9 @@ function EliminasiGauss() {
                   <div className={styles.tableDatas_column}>
                     <div className={styles.tableDatas_heading}>Akar</div>
                     {!!tableResults.akar &&
-                      tableResults.akar.map((data) => {
+                      tableResults.akar.map((data,index) => {
                         return (
-                          <div className={styles.tableDatas_Contents}>
+                          <div className={styles.tableDatas_Contents} key={index}>
                             {data}
                           </div>
                         );
@@ -636,9 +636,9 @@ function EliminasiGauss() {
                   <div className={styles.tableDatas_column}>
                     <div className={styles.tableDatas_heading}>Iterasi</div>
                     {!!tableResults.iterasi &&
-                      tableResults.iterasi.map((data) => {
+                      tableResults.iterasi.map((data,index) => {
                         return (
-                          <div className={styles.tableDatas_Contents}>
+                          <div className={styles.tableDatas_Contents} key={index}>
                             {data}
                           </div>
                         );
@@ -647,9 +647,9 @@ function EliminasiGauss() {
                   <div className={styles.tableDatas_column}>
                     <div className={styles.tableDatas_heading}>fX(n)=0</div>
                     {!!tableResults.convergen &&
-                      tableResults.convergen.map((data) => {
+                      tableResults.convergen.map((data,index) => {
                         return (
-                          <div className={styles.tableDatas_Contents}>
+                          <div className={styles.tableDatas_Contents} key={index}>
                             {data ? (
                               <div className={styles.isConvergen}>
                                 <i

@@ -110,9 +110,9 @@ function Lenier() {
                 autoFocus
                 name="inputNilai"
                 onChange={(e) => {
-                  setXDataValues(parseInt(e.target.value));
+                  setXDataValues(e.target.value);
                   setEditXvalue({
-                    value: parseInt(e.target.value),
+                    value: e.target.value,
                     index: index,
                   });
                 }}
@@ -145,9 +145,8 @@ function Lenier() {
                     .map((d) => d.x === "DummyData" || d.y === "DummyData")
                     .indexOf(true) === -1
                 ) {
-                  getDatas.datasContainer.interpol.lenier[
-                    editYvalue.index
-                  ].y = editYvalue.value;
+                  getDatas.datasContainer.interpol.lenier[editYvalue.index].y =
+                    editYvalue.value;
                 }
                 setEditY([]);
               }
@@ -164,7 +163,7 @@ function Lenier() {
                   setEditX([]);
                   setEditY(index);
                   // TODO:
-                  setXDataValues(parseInt(e.target.value));
+                  setXDataValues(e.target.value);
                 }
               }}
             >
@@ -176,9 +175,9 @@ function Lenier() {
                 autoFocus
                 name="inputNilai"
                 onChange={(e) => {
-                  setYDataValues(parseInt(e.target.value));
+                  setYDataValues(e.target.value);
                   setEditYvalue({
-                    value: parseInt(e.target.value),
+                    value: e.target.value,
                     index: index,
                   });
                 }}
@@ -229,7 +228,8 @@ function Lenier() {
                 color="#e78ea9"
                 animation="tada-hover"
                 onClick={() => {
-                  getDatas.datasContainer.interpol.lenier.splice(index, 1);if (
+                  getDatas.datasContainer.interpol.lenier.splice(index, 1);
+                  if (
                     getDatas.datasContainer.interpol.lenier
                       .map((d) => d.x === "DummyData" || d.y === "DummyData")
                       .indexOf(true) !== -1
@@ -457,7 +457,7 @@ function Lenier() {
                   {mncariTitiktrdkt &&
                     [
                       mncariTitiktrdkt?.titikPertama.x,
-                      parseInt(xYgDicari),
+                      parseFloat(xYgDicari),
                       mncariTitiktrdkt?.titikKedua.x,
                     ].map((data, index) => (
                       <div className={styles.tableDatas_Contents} key={index}>
