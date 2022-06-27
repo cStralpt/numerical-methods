@@ -143,11 +143,12 @@ function Kuadratik() {
               <input
                 type="number"
                 autoFocus
+                required
                 name="inputNilai"
                 onChange={(e) => {
-                  setXDataValues(parseInt(e.target.value));
+                  setXDataValues(e.target.value);
                   setEditXvalue({
-                    value: parseInt(e.target.value),
+                    value: e.target.value,
                     index: index,
                   });
                 }}
@@ -199,7 +200,7 @@ function Kuadratik() {
                   setEditX([]);
                   setEditY(index);
                   // TODO:
-                  setYDataValues(parseInt(e.target.value));
+                  setYDataValues(e.target.value);
                 }
               }}
             >
@@ -209,11 +210,12 @@ function Kuadratik() {
               <input
                 type="number"
                 autoFocus
+                required
                 name="inputNilai"
                 onChange={(e) => {
-                  setYDataValues(parseInt(e.target.value));
+                  setYDataValues(e.target.value);
                   setEditYvalue({
-                    value: parseInt(e.target.value),
+                    value: e.target.value,
                     index: index,
                   });
                 }}
@@ -533,7 +535,7 @@ function Kuadratik() {
                   {mncariTitiktrdkt &&
                     [
                       mncariTitiktrdkt?.titikPertama.x,
-                      parseInt(xYgDicari),
+                      parseFloat(xYgDicari),
                       mncariTitiktrdkt?.titikKedua.x,
                       mncariTitiktrdkt?.titikKetiga.x,
                     ].map((data, index) => (

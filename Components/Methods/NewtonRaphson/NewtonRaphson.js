@@ -42,27 +42,6 @@ function NewtonRaphson() {
   });
   const router = useRouter();
   DeleteDummyDatas();
-  // Graph
-  const [graphDatas, setGraphDatas] = useState({
-    labels: [
-      tableResults?.akar[0],
-      tableResults?.akar[1],
-      tableResults?.akar[2],
-    ],
-    datasets: [
-      {
-        label: "Iterasi Titik Tetap",
-        lineTension: 0.4,
-        radius: 5,
-        data: [
-          tableResults?.iterasi[0],
-          tableResults?.iterasi[1],
-          tableResults?.iterasi[2],
-        ],
-      },
-    ],
-  });
-
   const BeginNewtonRaphson = (batasAtas, eRA) => {
     const perPangkatan = (nilai, pangkat) => {
       let hasilnya = nilai;
@@ -497,84 +476,6 @@ function NewtonRaphson() {
                     Hasil Kalkulasi:
                   </div>
                   <div className={styles.calculation_Result}>{akarTarget}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.prosesReults}>
-            <div className={styles.prosessResults_Graph}>
-              <div className={styles.prosessResults_graphheading}>Graph</div>
-              <div className={styles.prosessResults_graphResult}>
-                {/* <HighchartsReact
-                highcharts={Highcharts}
-                options={options}
-              ></HighchartsReact> */}
-                <LineChart datas={graphDatas} />
-              </div>
-            </div>
-            <div className={styles.prosessResults_tableResult}>
-              <div className={styles.prosessResults_Heading}>Result</div>
-              <div className={styles.tableDatas}>
-                <div className={styles.tableDatas_columnContainer}>
-                  <div className={styles.tableDatas_column}>
-                    <div className={styles.tableDatas_heading}>n</div>
-
-                    {!!tableResults.akar &&
-                      tableResults.akar.map((data, index) => {
-                        return (
-                          <div className={styles.tableDatas_Contents} key={index}>
-                            {index + 1}
-                          </div>
-                        );
-                      })}
-                  </div>
-                  <div className={styles.tableDatas_column}>
-                    <div className={styles.tableDatas_heading}>Akar</div>
-                    {!!tableResults.akar &&
-                      tableResults.akar.map((data,index) => {
-                        return (
-                          <div className={styles.tableDatas_Contents} key={index}>
-                            {data}
-                          </div>
-                        );
-                      })}
-                  </div>
-                  <div className={styles.tableDatas_column}>
-                    <div className={styles.tableDatas_heading}>Iterasi</div>
-                    {!!tableResults.iterasi &&
-                      tableResults.iterasi.map((data,index) => {
-                        return (
-                          <div className={styles.tableDatas_Contents} key={index}>
-                            {data}
-                          </div>
-                        );
-                      })}
-                  </div>
-                  <div className={styles.tableDatas_column}>
-                    <div className={styles.tableDatas_heading}>fX(n)=0</div>
-                    {!!tableResults.convergen &&
-                      tableResults.convergen.map((data,index) => {
-                        return (
-                          <div className={styles.tableDatas_Contents} key={index}>
-                            {data ? (
-                              <div className={styles.isConvergen}>
-                                <i
-                                  className="bx bx-check"
-                                  customTitle={data ? "Konvergen" : "Divergen"}
-                                ></i>
-                              </div>
-                            ) : (
-                              <div className={styles.isConvergen}>
-                                <i
-                                  customTitle={data ? "Konvergen" : "Divergen"}
-                                  className="bx bx-x"
-                                ></i>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                  </div>
                 </div>
               </div>
             </div>
