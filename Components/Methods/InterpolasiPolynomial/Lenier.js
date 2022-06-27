@@ -35,6 +35,7 @@ function Lenier() {
       },
     ],
   });
+  console.log(mncariTitiktrdkt);
   getDatas.datasContainer.interpol.lenier.sort((a, b) => a.x + b.x);
   const router = useRouter();
   useEffect(() => {
@@ -175,7 +176,7 @@ function Lenier() {
                 autoFocus
                 name="inputNilai"
                 onChange={(e) => {
-                  setYDataValues(e.target.value);
+                  setYDataValues(parseFloat(e.target.value));
                   setEditYvalue({
                     value: e.target.value,
                     index: index,
@@ -262,32 +263,28 @@ function Lenier() {
     )
       setMncariTitikTrdkt({
         titikPertama: {
-          x: getDatas.datasContainer.interpol.lenier
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x < cariX)[
-            getDatas.datasContainer.interpol.lenier
-              .sort((a, b) => a.x - b.x)
-              .filter((data) => data.x < cariX).length - 1
+          x: getDatas.datasContainer.interpol.lenier.filter(
+            (data) => data.x < cariX
+          )[
+            getDatas.datasContainer.interpol.lenier.filter(
+              (data) => data.x < cariX
+            ).length - 1
           ]?.x,
-          y: getDatas.datasContainer.interpol.lenier
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x < cariX)[
-            getDatas.datasContainer.interpol.lenier
-              .sort((a, b) => a.x - b.x)
-              .filter((data) => data.x < cariX).length - 1
+          y: getDatas.datasContainer.interpol.lenier.filter(
+            (data) => data.x < cariX
+          )[
+            getDatas.datasContainer.interpol.lenier.filter(
+              (data) => data.x < cariX
+            ).length - 1
           ]?.y,
         },
         titikKedua: {
-          x: getDatas.datasContainer.interpol.lenier
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x > cariX)[0]?.x,
-          y: getDatas.datasContainer.interpol.lenier
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x > cariX)[
-            getDatas.datasContainer.interpol.lenier
-              .sort((a, b) => a.x - b.x)
-              .filter((data) => data.x > cariX).length - 1
-          ]?.y,
+          x: getDatas.datasContainer.interpol.lenier.filter(
+            (data) => data.x > cariX
+          )[0]?.x,
+          y: getDatas.datasContainer.interpol.lenier.filter(
+            (data) => data.x > cariX
+          )[0]?.y,
         },
       });
   };

@@ -16,16 +16,12 @@ function BijeksiWindow() {
   const [editX, setEditX] = useState();
   const [editY, setEditY] = useState();
   const [ttkTarget, setTtkTarget] = useState();
-  const [mncariTitiktrdkt, setMncariTitikTrdkt] = useState();
-  const [xYgDicari, setXygDicari] = useState();
   const [editXvalue, setEditXvalue] = useState();
   const [editYvalue, setEditYvalue] = useState();
   const [xDataValues, setXDataValues] = useState();
   const [yDataValues, setYDataValues] = useState();
-  const [isInteger, setIsInteger] = useContext(IntegerState);
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAppPath, setAppPath] = useContext(AppPathState);
-  const [batasTengah, setBatasTengah] = useState(null);
   const [akarTarget, setAkaraTarget] = useState();
   const [toleransiE, setToleransiE] = useState(0.0001);
   const [isDataChecked, setCheckedData] = useState();

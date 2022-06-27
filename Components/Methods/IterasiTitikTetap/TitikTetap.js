@@ -16,9 +16,6 @@ import AkarPrsmnWindow from "../../MikroCMPs/AkarPrsmnWindow";
 function TitikTetapWindow() {
   const [editX, setEditX] = useState();
   const [editY, setEditY] = useState();
-  const [ttkTarget, setTtkTarget] = useState();
-  const [mncariTitiktrdkt, setMncariTitikTrdkt] = useState();
-  const [xYgDicari, setXygDicari] = useState();
   const [editXvalue, setEditXvalue] = useState();
   const [editYvalue, setEditYvalue] = useState();
   const [xDataValues, setXDataValues] = useState();
@@ -26,7 +23,6 @@ function TitikTetapWindow() {
   const [isInteger, setIsInteger] = useContext(IntegerState);
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAppPath, setAppPath] = useContext(AppPathState);
-  const [batasTengah, setBatasTengah] = useState(null);
   const [akarTarget, setAkaraTarget] = useState();
   const [toleransiE, setToleransiE] = useState(0.000001);
   const [isDataChecked, setCheckedData] = useState();
@@ -601,7 +597,10 @@ function TitikTetapWindow() {
                     {!!tableResults.akar &&
                       tableResults.akar.map((data, index) => {
                         return (
-                          <div className={styles.tableDatas_Contents} key={index}>
+                          <div
+                            className={styles.tableDatas_Contents}
+                            key={index}
+                          >
                             {index + 1}
                           </div>
                         );
@@ -610,9 +609,12 @@ function TitikTetapWindow() {
                   <div className={styles.tableDatas_column}>
                     <div className={styles.tableDatas_heading}>Akar</div>
                     {!!tableResults.akar &&
-                      tableResults.akar.map((data,index) => {
+                      tableResults.akar.map((data, index) => {
                         return (
-                          <div className={styles.tableDatas_Contents} key={index}>
+                          <div
+                            className={styles.tableDatas_Contents}
+                            key={index}
+                          >
                             {data}
                           </div>
                         );
@@ -621,9 +623,12 @@ function TitikTetapWindow() {
                   <div className={styles.tableDatas_column}>
                     <div className={styles.tableDatas_heading}>Iterasi</div>
                     {!!tableResults.iterasi &&
-                      tableResults.iterasi.map((data,index) => {
+                      tableResults.iterasi.map((data, index) => {
                         return (
-                          <div className={styles.tableDatas_Contents} key={index}>
+                          <div
+                            className={styles.tableDatas_Contents}
+                            key={index}
+                          >
                             {data}
                           </div>
                         );
@@ -632,9 +637,12 @@ function TitikTetapWindow() {
                   <div className={styles.tableDatas_column}>
                     <div className={styles.tableDatas_heading}>fX(n)=0</div>
                     {!!tableResults.convergen &&
-                      tableResults.convergen.map((data,index) => {
+                      tableResults.convergen.map((data, index) => {
                         return (
-                          <div className={styles.tableDatas_Contents} key={index}>
+                          <div
+                            className={styles.tableDatas_Contents}
+                            key={index}
+                          >
                             {data ? (
                               <div className={styles.isConvergen}>
                                 <i
