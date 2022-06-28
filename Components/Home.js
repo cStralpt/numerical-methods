@@ -138,6 +138,12 @@ export default function Home({ methodId }) {
                           .length
                       );
                       router.replace(router.asPath);
+                    } else if (methodId === "Newton Raphson") {
+                      getDatas.datasContainer.NewtonRaphson.batasAtas.splice(
+                        0,
+                        getDatas.datasContainer.NewtonRaphson.batasAtas.length
+                      );
+                      router.replace(router.asPath);
                     }
                   }}
                 >
@@ -302,6 +308,12 @@ export default function Home({ methodId }) {
                           0,
                           getDatas.datasContainer.IterasiTitikTetap.batasAtas
                             .length
+                        );
+                        router.replace(router.asPath);
+                      } else if (methodId === "Newton Raphson") {
+                        getDatas.datasContainer.NewtonRaphson.batasAtas.splice(
+                          0,
+                          getDatas.datasContainer.NewtonRaphson.batasAtas.length
                         );
                         router.replace(router.asPath);
                       }
