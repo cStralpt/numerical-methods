@@ -584,15 +584,6 @@ function Kuadratik() {
                         b2 *
                           (xYgDicari - mncariTitiktrdkt?.titikPertama.x) *
                           (xYgDicari - mncariTitiktrdkt?.titikKedua.x),
-                      // mncariTitiktrdkt.titikPertama.y +
-                      //   ((mncariTitiktrdkt.titikKedua.y -
-                      //     mncariTitiktrdkt.titikPertama.y) /
-                      //     (mncariTitiktrdkt.titikKedua.x -
-                      //       mncariTitiktrdkt.titikPertama.x)) *
-                      //     (xYgDicari - mncariTitiktrdkt.titikPertama.x) +
-                      //   xYgDicari *
-                      //     (xYgDicari - mncariTitiktrdkt.titikPertama.x) *
-                      //     (xYgDicari - mncariTitiktrdkt.titikKedua.x),
                       mncariTitiktrdkt.titikKedua.y,
                       mncariTitiktrdkt.titikKetiga.y,
                     ].map((data, index) => (

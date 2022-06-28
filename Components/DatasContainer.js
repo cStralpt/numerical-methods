@@ -40,11 +40,11 @@ function DatasContainer({ children }) {
         slug: "newton-raphson",
         component: <NewtonRaphson />,
       },
-      {
-        methodId: "Eliminasi Gauss",
-        slug: "eliminasi-gauss",
-        component: <EliminasiGauss />,
-      },
+      // {
+      //   methodId: "Eliminasi Gauss",
+      //   slug: "eliminasi-gauss",
+      //   component: <EliminasiGauss />,
+      // },
     ],
     datasContainer: {
       interpol: {
