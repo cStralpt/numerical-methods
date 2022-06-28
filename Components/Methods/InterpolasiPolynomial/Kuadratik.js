@@ -23,6 +23,17 @@ function Kuadratik() {
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAppPath, setAppPath] = useContext(AppPathState);
   // const [getDatas.datasContainer.interpol.kuadratik, setgetDatas.datasContainer.interpol.kuadratik] = useState(getDatas.datasContainer.interpol.kuadratik);
+  // console.log(mncariTitiktrdkt);
+  let b0 = mncariTitiktrdkt?.titikPertama.y;
+  let b1 =
+    (mncariTitiktrdkt?.titikKedua.y - mncariTitiktrdkt?.titikPertama.y) /
+    (mncariTitiktrdkt?.titikKedua.x - mncariTitiktrdkt?.titikPertama.x);
+  let c1 =
+    (mncariTitiktrdkt?.titikKetiga.y - mncariTitiktrdkt?.titikKedua.y) /
+    (mncariTitiktrdkt?.titikKetiga.x - mncariTitiktrdkt?.titikKedua.x);
+  let b2 =
+    (c1 - b1) /
+    (mncariTitiktrdkt?.titikKetiga.x - mncariTitiktrdkt?.titikPertama.x);
   const [graphDatas, setGraphDatas] = useState({
     labels: [
       mncariTitiktrdkt?.titikPertama.y,
@@ -304,54 +315,54 @@ function Kuadratik() {
     )
       setMncariTitikTrdkt({
         titikPertama: {
-          x: getDatas.datasContainer.interpol.kuadratik
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x < cariX)[
-            getDatas.datasContainer.interpol.kuadratik
-              .sort((a, b) => a.x - b.x)
-              .filter((data) => data.x < cariX).length -
+          x: getDatas.datasContainer.interpol.kuadratik.filter(
+            (data) => data.x < cariX
+          )[
+            getDatas.datasContainer.interpol.kuadratik.filter(
+              (data) => data.x < cariX
+            ).length -
               (getDatas.datasContainer.interpol.kuadratik
                 .sort((a, b) => a.x - b.x)
                 .filter((data) => data.x < cariX).length > 1
                 ? 2
                 : 1)
           ].x,
-          y: getDatas.datasContainer.interpol.kuadratik
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x < cariX)[
-            getDatas.datasContainer.interpol.kuadratik
-              .sort((a, b) => a.x - b.x)
-              .filter((data) => data.x < cariX).length -
-              (getDatas.datasContainer.interpol.kuadratik
-                .sort((a, b) => a.x - b.x)
-                .filter((data) => data.x < cariX).length > 1
+          y: getDatas.datasContainer.interpol.kuadratik.filter(
+            (data) => data.x < cariX
+          )[
+            getDatas.datasContainer.interpol.kuadratik.filter(
+              (data) => data.x < cariX
+            ).length -
+              (getDatas.datasContainer.interpol.kuadratik.filter(
+                (data) => data.x < cariX
+              ).length > 1
                 ? 2
                 : 1)
           ].y,
         },
         titikKedua: {
-          x: getDatas.datasContainer.interpol.kuadratik
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x < cariX)[
-            getDatas.datasContainer.interpol.kuadratik
-              .sort((a, b) => a.x - b.x)
-              .filter((data) => data.x < cariX).length - 1
+          x: getDatas.datasContainer.interpol.kuadratik.filter(
+            (data) => data.x < cariX
+          )[
+            getDatas.datasContainer.interpol.kuadratik.filter(
+              (data) => data.x < cariX
+            ).length - 1
           ].x,
-          y: getDatas.datasContainer.interpol.kuadratik
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x < cariX)[
-            getDatas.datasContainer.interpol.kuadratik
-              .sort((a, b) => a.x - b.x)
-              .filter((data) => data.x < cariX).length - 1
+          y: getDatas.datasContainer.interpol.kuadratik.filter(
+            (data) => data.x < cariX
+          )[
+            getDatas.datasContainer.interpol.kuadratik.filter(
+              (data) => data.x < cariX
+            ).length - 1
           ].y,
         },
         titikKetiga: {
-          x: getDatas.datasContainer.interpol.kuadratik
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x > cariX)[0].x,
-          y: getDatas.datasContainer.interpol.kuadratik
-            .sort((a, b) => a.x - b.x)
-            .filter((data) => data.x > cariX)[0].y,
+          x: getDatas.datasContainer.interpol.kuadratik.filter(
+            (data) => data.x > cariX
+          )[0].x,
+          y: getDatas.datasContainer.interpol.kuadratik.filter(
+            (data) => data.x > cariX
+          )[0].y,
         },
       });
   };
@@ -568,15 +579,20 @@ function Kuadratik() {
                   {mncariTitiktrdkt &&
                     [
                       mncariTitiktrdkt.titikPertama.y,
-                      mncariTitiktrdkt.titikPertama.y +
-                        ((mncariTitiktrdkt.titikKedua.y -
-                          mncariTitiktrdkt.titikPertama.y) /
-                          (mncariTitiktrdkt.titikKedua.x -
-                            mncariTitiktrdkt.titikPertama.x)) *
-                          (xYgDicari - mncariTitiktrdkt.titikPertama.x) +
-                        xYgDicari *
-                          (xYgDicari - mncariTitiktrdkt.titikPertama.x) *
-                          (xYgDicari - mncariTitiktrdkt.titikKedua.x),
+                      b0 +
+                        b1 * (xYgDicari - mncariTitiktrdkt?.titikPertama.x) +
+                        b2 *
+                          (xYgDicari - mncariTitiktrdkt?.titikPertama.x) *
+                          (xYgDicari - mncariTitiktrdkt?.titikKedua.x),
+                      // mncariTitiktrdkt.titikPertama.y +
+                      //   ((mncariTitiktrdkt.titikKedua.y -
+                      //     mncariTitiktrdkt.titikPertama.y) /
+                      //     (mncariTitiktrdkt.titikKedua.x -
+                      //       mncariTitiktrdkt.titikPertama.x)) *
+                      //     (xYgDicari - mncariTitiktrdkt.titikPertama.x) +
+                      //   xYgDicari *
+                      //     (xYgDicari - mncariTitiktrdkt.titikPertama.x) *
+                      //     (xYgDicari - mncariTitiktrdkt.titikKedua.x),
                       mncariTitiktrdkt.titikKedua.y,
                       mncariTitiktrdkt.titikKetiga.y,
                     ].map((data, index) => (
