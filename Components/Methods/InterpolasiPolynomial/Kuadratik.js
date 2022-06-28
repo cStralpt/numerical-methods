@@ -37,11 +37,9 @@ function Kuadratik() {
   const [graphDatas, setGraphDatas] = useState({
     labels: [
       mncariTitiktrdkt?.titikPertama.y,
-      mncariTitiktrdkt?.titikPertama.y +
-        ((mncariTitiktrdkt?.titikKedua.y - mncariTitiktrdkt?.titikPertama.y) /
-          (mncariTitiktrdkt?.titikKedua.x - mncariTitiktrdkt?.titikPertama.x)) *
-          (xYgDicari - mncariTitiktrdkt?.titikPertama.x) +
-        xYgDicari *
+      b0 +
+        b1 * (xYgDicari - mncariTitiktrdkt?.titikPertama.x) +
+        b2 *
           (xYgDicari - mncariTitiktrdkt?.titikPertama.x) *
           (xYgDicari - mncariTitiktrdkt?.titikKedua.x),
       mncariTitiktrdkt?.titikKedua.y,
@@ -78,13 +76,9 @@ function Kuadratik() {
           radius: 5,
           data: [
             mncariTitiktrdkt?.titikPertama.y,
-            mncariTitiktrdkt?.titikPertama.y +
-              ((mncariTitiktrdkt?.titikKedua.y -
-                mncariTitiktrdkt?.titikPertama.y) /
-                (mncariTitiktrdkt?.titikKedua.x -
-                  mncariTitiktrdkt?.titikPertama.x)) *
-                (xYgDicari - mncariTitiktrdkt?.titikPertama.x) +
-              xYgDicari *
+            b0 +
+              b1 * (xYgDicari - mncariTitiktrdkt?.titikPertama.x) +
+              b2 *
                 (xYgDicari - mncariTitiktrdkt?.titikPertama.x) *
                 (xYgDicari - mncariTitiktrdkt?.titikKedua.x),
             mncariTitiktrdkt?.titikKedua.y,
@@ -445,20 +439,6 @@ function Kuadratik() {
               }}
             />
           </div>
-          {console.log({
-            x: getDatas.datasContainer.interpol.kuadratik
-              .sort((a, b) => a.x - b.x)
-              .filter((data) => data.x < 1)[
-              getDatas.datasContainer.interpol.kuadratik
-                .sort((a, b) => a.x - b.x)
-                .filter((data) => data.x < 1).length -
-                (getDatas.datasContainer.interpol.kuadratik
-                  .sort((a, b) => a.x - b.x)
-                  .filter((data) => data.x < 1).length > 1
-                  ? 2
-                  : 1)
-            ]?.x,
-          })}
           <div className={styles.tableDatasContainer}>
             <div className={styles.tableDatas}>
               <div className={styles.tableDatas_columnContainer}>
