@@ -224,7 +224,7 @@ export default function Home({ methodId }) {
                   ></box-icon>
                 </div>
                 <div className={styles.ioExecution_rightNav_icons_actionName}>
-                  <h6 className={styles.text}>App List</h6>
+                  <h6 className={styles.text}>Methods List</h6>
                 </div>
               </div>
               <div className={styles.ioExecution_rightNav_icons_container}>
@@ -396,7 +396,7 @@ export default function Home({ methodId }) {
                     ></box-icon>
                   </div>
                   <div className={styles.ioExecution_rightNav_icons_actionName}>
-                    <h6 className={styles.text}>App List</h6>
+                    <h6 className={styles.text}>Methods List</h6>
                   </div>
                 </div>
                 <div className={styles.ioExecution_rightNav_icons_container}>
