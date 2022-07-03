@@ -75,12 +75,12 @@ function DatasContainer({ children }) {
         akarPrsmn: [3, 2, 2],
       },
       RegulaFalsi: {
-        batasAtas: [-5],
-        batasBawah: [1],
+        batasAtas: [1],
+        batasBawah: [2],
       },
       Secant: {
-        batasAtas: [-2],
-        batasBawah: [3],
+        batasAtas: [1],
+        batasBawah: [2],
       },
       IterasiTitikTetap: {
         batasAtas: [4],

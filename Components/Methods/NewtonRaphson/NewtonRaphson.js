@@ -39,16 +39,8 @@ function NewtonRaphson() {
   const router = useRouter();
   DeleteDummyDatas();
   const BeginNewtonRaphson = (batasAtas, eRA) => {
-    const perPangkatan = (nilai, pangkat) => {
-      let hasilnya = nilai;
-      for (let n = 1; n < pangkat; n++) {
-        hasilnya = hasilnya * nilai;
-      }
-      //   console.log(hasilnya);
-      return hasilnya;
-    };
     const fX = (x) => {
-      return perPangkatan(x, 2) - 2 * x - 3;
+      return x**2 - 2 * x - 3;
     };
     const fXaccent = (x) => {
       return 2 * x - 2;

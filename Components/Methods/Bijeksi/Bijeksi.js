@@ -35,20 +35,13 @@ function BijeksiWindow() {
     let loopLimits = 1;
     let btsAtas = batasAtas;
     let btsBwh = batasBawah;
-    let btsTngh = (btsAtas + btsBwh) / 2;
-    const perPangkatan = (nilai, pangkat) => {
-      let hasilnya = nilai;
-      for (let n = 1; n < pangkat; n++) {
-        hasilnya = hasilnya * nilai;
-      }
-      //   console.log(hasilnya);
-      return hasilnya;
-    };
-
     const fX = (x) => {
-      return perPangkatan(x, 3) + perPangkatan(x, 2) - 2 * x - 2;                                                                                                                                                                                                                                                                                                                                                          
+      return x ** 3 + x ** 2 - 3 * x - 3;
     };
-    while (btsBwh - btsAtas >= eRA) {
+    let btsTngh = (btsAtas + btsBwh) / 2;
+    // alert(btsTngh);
+
+    while (Math.abs(fX(btsTngh)) >= eRA) {
       console.log(`${loopLimits}` + { btsTngh, eps: btsBwh - btsAtas });
       // setBatasTengah((btsAtas + btsBwh) / 2);
       if (fX(btsAtas) * fX(btsTngh) > 0) {
@@ -515,11 +508,11 @@ function BijeksiWindow() {
                   <h6>2</h6>
                 </div>
                 <span>-</span>
-                <div>2</div>
+                <div>3</div>
                 <span>*</span>
                 <div>x</div>
                 <span>-</span>
-                <div>2</div>
+                <div>3</div>
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>

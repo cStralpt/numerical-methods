@@ -36,37 +36,36 @@ function RegulaFalsiWindow() {
   const router = useRouter();
   DeleteDummyDatas();
   const BeginRegulaFalsi = (batasAtas, batasBawah, eRA) => {
-    const perPangkatan = (nilai, pangkat) => {
-      let hasilnya = nilai;
-      for (let n = 1; n < pangkat; n++) {
-        hasilnya = hasilnya * nilai;
-      }
-      //   console.log(hasilnya);
-      return hasilnya;
-    };
-    const fX = (x) => {
-      return perPangkatan(x, 3) + perPangkatan(x, 2) - 3 * x - 3;
-    };
     let loopLimits = 1;
     let btsAtas = batasAtas;
     let btsBwh = batasBawah;
-    let btsTngh =
-      (btsAtas - fX(btsAtas)) * ((btsBwh - btsAtas) / fX(btsBwh) - fX(btsAtas));
 
-    while (eRA < Math.abs(fX(btsTngh))) {
+    const fX = (x) => {
+      return x ** 3 + x ** 2 - 3 * x - 3;
+    };
+    let btsTngh =
+      btsAtas - fX(btsAtas) * ((btsBwh - btsAtas) / (fX(btsBwh) - fX(btsAtas)));
+    // alert(btsTngh);
+
+    while (Math.abs(fX(btsTngh)) >= eRA) {
+      console.log(`${loopLimits}` + { btsTngh, eps: btsBwh - btsAtas });
       // setBatasTengah((btsAtas + btsBwh) / 2);
       if (fX(btsAtas) * fX(btsTngh) > 0) {
         btsAtas = btsTngh;
       } else if (fX(btsAtas) * fX(btsTngh) < 0) {
         btsBwh = btsTngh;
       }
-      btsTngh = (btsAtas + btsBwh) / 2;
+      btsTngh =
+        btsAtas -
+        fX(btsAtas) * ((btsBwh - btsAtas) / (fX(btsBwh) - fX(btsAtas)));
       if (loopLimits == getLoopLimits) {
         break;
       }
       loopLimits++;
       setTotalIterasi(loopLimits);
+      // console.log(`${loopLimits}` + { btsTngh, eps: btsBwh - btsAtas });
     }
+    // console.log({ iterasi: loopLimits });
     return btsTngh;
   };
   // console.log(perPangkatan(2, 3));
@@ -527,11 +526,11 @@ function RegulaFalsiWindow() {
                   <h6>2</h6>
                 </div>
                 <span>-</span>
-                <div>2</div>
+                <div>3</div>
                 <span>*</span>
                 <div>x</div>
                 <span>-</span>
-                <div>2</div>
+                <div>3</div>
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>

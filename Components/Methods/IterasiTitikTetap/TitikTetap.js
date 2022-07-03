@@ -65,16 +65,9 @@ function TitikTetapWindow() {
       tableResults.convergen = [];
       tableResults.iterasi = [];
     }
-    const perPangkatan = (nilai, pangkat) => {
-      let hasilnya = nilai;
-      for (let n = 1; n < pangkat; n++) {
-        hasilnya = hasilnya * nilai;
-      }
-      //   console.log(hasilnya);
-      return hasilnya;
-    };
+
     const fX = (x) => {
-      return perPangkatan(x, 2) - 2 * x - 3;
+      return x ** 2 - 2 * x - 3;
     };
     let loopLimits = 0;
     let btsAtas = batasAtas;
@@ -93,7 +86,7 @@ function TitikTetapWindow() {
       },
       {
         procedure: (data) => {
-          return (perPangkatan(data, 2) - 3) / 2;
+          return (data ** 2 - 3) / 2;
         },
       },
     ];

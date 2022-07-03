@@ -36,6 +36,9 @@ function SecantWindow() {
   const router = useRouter();
   DeleteDummyDatas();
   const BeginSecant = (batasAtas, batasBawah, eRA) => {
+    let loopLimits = 1;
+    let btsAtas = batasAtas;
+    let btsBwh = batasBawah;
     const perPangkatan = (nilai, pangkat) => {
       let hasilnya = nilai;
       for (let n = 1; n < pangkat; n++) {
@@ -45,28 +48,36 @@ function SecantWindow() {
       return hasilnya;
     };
     const fX = (x) => {
-      return perPangkatan(x, 3) + perPangkatan(x, 2) - 3 * x - 3;
+      return x ** 3 + x ** 2 - 3 * x - 3;
     };
-    let loopLimits = 1;
-    let btsAtas = batasAtas;
-    let btsBwh = batasBawah;
     let btsTngh =
-      btsBwh - (fX(btsBwh) * (btsBwh - btsAtas)) / (fX(btsBwh) - fX(btsAtas));
+      btsBwh - fX(btsBwh) * ((btsBwh - btsAtas) / (fX(btsBwh) - fX(btsAtas)));
+    // alert(btsTngh);
 
-    while (eRA < Math.abs(fX(btsTngh))) {
+    while (Math.abs(fX(btsTngh)) >= eRA) {
+      console.log({
+        btsTngh,
+        fx2: fX(btsTngh),
+        absfx2: Math.abs(fX(btsTngh)),
+        fX1: fX(btsBwh),
+      });
       // setBatasTengah((btsAtas + btsBwh) / 2);
-      if (fX(btsAtas) * fX(btsTngh) > 0) {
-        btsAtas = btsTngh;
-      } else if (fX(btsAtas) * fX(btsTngh) < 0) {
+      if (Math.abs(fX(btsTngh)) > eRA) {
+        btsAtas = btsBwh;
+      }
+      if (Math.abs(fX(btsTngh)) > eRA) {
         btsBwh = btsTngh;
       }
-      btsTngh = (btsAtas + btsBwh) / 2;
+      btsTngh =
+        btsBwh - fX(btsBwh) * ((btsBwh - btsAtas) / (fX(btsBwh) - fX(btsAtas)));
       if (loopLimits == getLoopLimits) {
         break;
       }
       loopLimits++;
       setTotalIterasi(loopLimits);
+      // console.log(`${loopLimits}` + { btsTngh, eps: btsBwh - btsAtas });
     }
+    // console.log({ iterasi: loopLimits });
     return btsTngh;
   };
   // console.log(perPangkatan(2, 3));
@@ -515,11 +526,11 @@ function SecantWindow() {
                   <h6>2</h6>
                 </div>
                 <span>-</span>
-                <div>2</div>
+                <div>3</div>
                 <span>*</span>
                 <div>x</div>
                 <span>-</span>
-                <div>2</div>
+                <div>3</div>
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>
