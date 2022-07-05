@@ -516,7 +516,7 @@ function RegulaFalsiWindow() {
                   setAkarPrsmnWindow(true);
                 }}
               >
-                {getDatas.datasContainer.Bijeksi.akarPrsmn}
+                {getDatas.datasContainer.RegulaFalsi.akarPrsmn[0]}
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>

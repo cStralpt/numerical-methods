@@ -24,9 +24,8 @@ function AkarPrsmnWindow({ method }) {
   const takeAkarPersamaan = (e) => {
     e.preventDefault();
     const akarPersamaan = eval(`getDatas.datasContainer.${method}.akarPrsmn`);
-    akarPersamaan.splice(0, 1, e.target.akarPersamaan.value);
-    const x = 2;
-    console.log(getDatas.datasContainer.Bijeksi.akarPrsmn[0]);
+    akarPersamaan.splice(0, 1, e.target.akarPersamaan.value.toLowerCase());
+    setWindowCLosed(true);
   };
   return (
     <div className={styles.windowContainer}>
