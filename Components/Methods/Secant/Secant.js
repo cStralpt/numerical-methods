@@ -508,7 +508,7 @@ function SecantWindow() {
                   setAkarPrsmnWindow(true);
                 }}
               >
-                {getDatas.datasContainer.Bijeksi.akarPrsmn}
+                {getDatas.datasContainer.Secant.akarPrsmn}
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>
