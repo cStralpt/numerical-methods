@@ -41,7 +41,7 @@ function RegulaFalsiWindow() {
     let btsBwh = batasBawah;
 
     const fX = (x) => {
-      return x ** 3 + x ** 2 - 3 * x - 3;
+      return eval(getDatas.datasContainer.Bijeksi.akarPrsmn[0]);
     };
     let btsTngh =
       btsAtas - fX(btsAtas) * ((btsBwh - btsAtas) / (fX(btsBwh) - fX(btsAtas)));
@@ -516,21 +516,7 @@ function RegulaFalsiWindow() {
                   setAkarPrsmnWindow(true);
                 }}
               >
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
-                  <h6>3</h6>
-                </div>
-                <span>+</span>
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
-                  <h6>2</h6>
-                </div>
-                <span>-</span>
-                <div>3</div>
-                <span>*</span>
-                <div>x</div>
-                <span>-</span>
-                <div>3</div>
+                {getDatas.datasContainer.Bijeksi.akarPrsmn}
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>
@@ -548,7 +534,7 @@ function RegulaFalsiWindow() {
           </div>
         </div>
       </div>
-      {getAkarPrsmnWindow !== false && <AkarPrsmnWindow />}
+      {getAkarPrsmnWindow !== false && <AkarPrsmnWindow method="RegulaFalsi" />}
       <Script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js" />
     </>
   );

@@ -5,7 +5,7 @@ import styles from "/styles/AkarPrsmnWindow.module.css";
 import { PopupCtx } from "../PopUpGlobalState";
 import { DatasState } from "../DatasContainer";
 import Draggable, { DraggableCore } from "react-draggable";
-function AkarPrsmnWindow() {
+function AkarPrsmnWindow({ method }) {
   const [getDatas, setDatas] = useContext(DatasState);
   const [getAkarPrsmnWindow, setAkarPrsmnWindow] =
     useContext(akarPersamaanState);
@@ -21,6 +21,13 @@ function AkarPrsmnWindow() {
       return () => clearTimeout(timer);
     }
   }, [isWindowCLosed]);
+  const takeAkarPersamaan = (e) => {
+    e.preventDefault();
+    const akarPersamaan = eval(`getDatas.datasContainer.${method}.akarPrsmn`);
+    akarPersamaan.splice(0, 1, e.target.akarPersamaan.value);
+    const x = 2;
+    console.log(getDatas.datasContainer.Bijeksi.akarPrsmn[0]);
+  };
   return (
     <div className={styles.windowContainer}>
       <div className={[pupStyles.popupContainer]}>
@@ -53,7 +60,9 @@ function AkarPrsmnWindow() {
             >
               <h5 className={pupStyles.popUp_header_windowName}>
                 {/* <ion-icon name="calculator"></ion-icon> */}
-                <div className={styles.akarPrsmn_Logo}>x<sup>12</sup></div>
+                <div className={styles.akarPrsmn_Logo}>
+                  x<sup>12</sup>
+                </div>
                 Akar Persamaan
               </h5>
               <div className={pupStyles.popUpWindow_header_actionContainer}>
@@ -73,7 +82,10 @@ function AkarPrsmnWindow() {
               </div>
             </header>
             <main className={pupStyles.popUpWindow_main}>
-              <form className={styles.akarPrsmnContainer}>
+              <form
+                className={styles.akarPrsmnContainer}
+                onSubmit={(e) => takeAkarPersamaan(e)}
+              >
                 <div className={styles.akarPrsmn_Input_Container}>
                   <div className={styles.inputAkar_Container}>
                     <label
@@ -82,7 +94,11 @@ function AkarPrsmnWindow() {
                     >
                       Masukan Akar Persamaan
                     </label>
-                    <input className={styles.inputAkar} id="inputAkar" />
+                    <input
+                      className={styles.inputAkar}
+                      id="inputAkar"
+                      name="akarPersamaan"
+                    />
                   </div>
                   <div className={styles.outputAkar_Container}>
                     <label

@@ -67,7 +67,7 @@ function TitikTetapWindow() {
     }
 
     const fX = (x) => {
-      return x ** 2 - 2 * x - 3;
+      return eval(getDatas.datasContainer.IterasiTitikTetap.akarPrsmn[0]);
     };
     let loopLimits = 0;
     let btsAtas = batasAtas;
@@ -446,7 +446,9 @@ function TitikTetapWindow() {
   return (
     <>
       <div className={styles.ioExecution_sheet}>
-        {getAkarPrsmnWindow !== false && <AkarPrsmnWindow />}
+        {getAkarPrsmnWindow !== false && (
+          <AkarPrsmnWindow method="IterasiTitikTetap" />
+        )}
         <div className={styles.userInput}>
           {/* Update */}
           <div className={BijeksiStyles.loopLimits_toleransiError}>
@@ -550,16 +552,7 @@ function TitikTetapWindow() {
                   setAkarPrsmnWindow(true);
                 }}
               >
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
-                  <h6>2</h6>
-                </div>
-                <span>-</span>
-                <div>2</div>
-                <span>*</span>
-                <div>x</div>
-                <span>-</span>
-                <div>3</div>
+                {getDatas.datasContainer.IterasiTitikTetap.akarPrsmn[0]}
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>

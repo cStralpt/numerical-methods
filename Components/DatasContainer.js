@@ -62,31 +62,30 @@ function DatasContainer({ children }) {
           { x: 2025, y: 38.2 },
           { x: 2030, y: 39.1 },
           { x: 2035, y: 40.1 },
-          // { x: 8, y: 10 },
-          // { x: 1, y: 5 },
-          // { x: 2, y: 2 },
-          // { x: 3, y: 3 },
-          // { x: 6, y: 16 },
         ],
       },
       Bijeksi: {
         batasAtas: [1],
         batasBawah: [2],
-        akarPrsmn: [3, 2, 2],
+        akarPrsmn: ["x**3+x**2-3*x-3"],
       },
       RegulaFalsi: {
         batasAtas: [1],
         batasBawah: [2],
+        akarPrsmn: ["x**3+x**2-3*x-3"],
       },
       Secant: {
         batasAtas: [1],
         batasBawah: [2],
+        akarPrsmn: ["x**3+x**2-3*x-3"],
       },
       IterasiTitikTetap: {
         batasAtas: [4],
+        akarPrsmn: ["x**2-2*x-3"],
       },
       NewtonRaphson: {
         batasAtas: [5],
+        akarPrsmn: ["x**2-2*x-3"],
       },
       EliminasiGauss: {
         variabkePersamaan: [

@@ -7,7 +7,6 @@ import LineChart from "../../LineChart";
 import { DatasState } from "../../DatasContainer";
 import { AppPathState } from "../../AppPath";
 import Script from "next/script";
-// import styles from "../../styles/Home.module.css";
 
 function Kuadratik() {
   const [editX, setEditX] = useState();
@@ -309,58 +308,58 @@ function Kuadratik() {
     )
       setMncariTitikTrdkt({
         titikPertama: {
-          x: getDatas.datasContainer.interpol.kuadratik.filter(
-            (data) => data.x < cariX
-          )[
-            getDatas.datasContainer.interpol.kuadratik.filter(
-              (data) => data.x < cariX
-            ).length -
+          x: getDatas.datasContainer.interpol.kuadratik
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x < cariX)[
+            getDatas.datasContainer.interpol.kuadratik
+              .sort((a, b) => a.x - b.x)
+              .filter((data) => data.x < cariX).length -
               (getDatas.datasContainer.interpol.kuadratik
                 .sort((a, b) => a.x - b.x)
                 .filter((data) => data.x < cariX).length > 1
                 ? 2
                 : 1)
           ].x,
-          y: getDatas.datasContainer.interpol.kuadratik.filter(
-            (data) => data.x < cariX
-          )[
-            getDatas.datasContainer.interpol.kuadratik.filter(
-              (data) => data.x < cariX
-            ).length -
-              (getDatas.datasContainer.interpol.kuadratik.filter(
-                (data) => data.x < cariX
-              ).length > 1
+          y: getDatas.datasContainer.interpol.kuadratik
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x < cariX)[
+            getDatas.datasContainer.interpol.kuadratik
+              .sort((a, b) => a.x - b.x)
+              .filter((data) => data.x < cariX).length -
+              (getDatas.datasContainer.interpol.kuadratik
+                .sort((a, b) => a.x - b.x)
+                .filter((data) => data.x < cariX).length > 1
                 ? 2
                 : 1)
           ].y,
         },
         titikKedua: {
-          x: getDatas.datasContainer.interpol.kuadratik.filter(
-            (data) => data.x < cariX
-          )[
-            getDatas.datasContainer.interpol.kuadratik.filter(
-              (data) => data.x < cariX
-            ).length - 1
+          x: getDatas.datasContainer.interpol.kuadratik
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x < cariX)[
+            getDatas.datasContainer.interpol.kuadratik
+              .sort((a, b) => a.x - b.x)
+              .filter((data) => data.x < cariX).length - 1
           ].x,
-          y: getDatas.datasContainer.interpol.kuadratik.filter(
-            (data) => data.x < cariX
-          )[
-            getDatas.datasContainer.interpol.kuadratik.filter(
-              (data) => data.x < cariX
-            ).length - 1
+          y: getDatas.datasContainer.interpol.kuadratik
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x < cariX)[
+            getDatas.datasContainer.interpol.kuadratik
+              .sort((a, b) => a.x - b.x)
+              .filter((data) => data.x < cariX).length - 1
           ].y,
         },
         titikKetiga: {
-          x: getDatas.datasContainer.interpol.kuadratik.filter(
-            (data) => data.x > cariX
-          )[0].x,
-          y: getDatas.datasContainer.interpol.kuadratik.filter(
-            (data) => data.x > cariX
-          )[0].y,
+          x: getDatas.datasContainer.interpol.kuadratik
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x > cariX)[0].x,
+          y: getDatas.datasContainer.interpol.kuadratik
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x > cariX)[0].y,
         },
       });
   };
-
+  console.log(mncariTitiktrdkt);
   return (
     <>
       <div className={styles.ioExecution_sheet}>

@@ -40,7 +40,7 @@ function NewtonRaphson() {
   DeleteDummyDatas();
   const BeginNewtonRaphson = (batasAtas, eRA) => {
     const fX = (x) => {
-      return x**2 - 2 * x - 3;
+      return eval(getDatas.datasContainer.NewtonRaphson.akarPrsmn[0]);
     };
     const fXaccent = (x) => {
       return 2 * x - 2;
@@ -342,7 +342,9 @@ function NewtonRaphson() {
   return (
     <>
       <div className={styles.ioExecution_sheet}>
-        {getAkarPrsmnWindow !== false && <AkarPrsmnWindow />}
+        {getAkarPrsmnWindow !== false && (
+          <AkarPrsmnWindow method="NewtonRaphson" />
+        )}
         <div className={styles.userInput}>
           {/* Update */}
           <div className={BijeksiStyles.loopLimits_toleransiError}>
@@ -443,16 +445,7 @@ function NewtonRaphson() {
                   setAkarPrsmnWindow(true);
                 }}
               >
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
-                  <h6>2</h6>
-                </div>
-                <span>-</span>
-                <div>2</div>
-                <span>*</span>
-                <div>x</div>
-                <span>-</span>
-                <div>3</div>
+                {getDatas.datasContainer.NewtonRaphson.akarPrsmn[0]}
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>

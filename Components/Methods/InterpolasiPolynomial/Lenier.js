@@ -263,28 +263,28 @@ function Lenier() {
     )
       setMncariTitikTrdkt({
         titikPertama: {
-          x: getDatas.datasContainer.interpol.lenier.filter(
-            (data) => data.x < cariX
-          )[
-            getDatas.datasContainer.interpol.lenier.filter(
-              (data) => data.x < cariX
-            ).length - 1
+          x: getDatas.datasContainer.interpol.lenier
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x < cariX)[
+            getDatas.datasContainer.interpol.lenier
+              .sort((a, b) => a.x - b.x)
+              .filter((data) => data.x < cariX).length - 1
           ]?.x,
-          y: getDatas.datasContainer.interpol.lenier.filter(
-            (data) => data.x < cariX
-          )[
-            getDatas.datasContainer.interpol.lenier.filter(
-              (data) => data.x < cariX
-            ).length - 1
+          y: getDatas.datasContainer.interpol.lenier
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x < cariX)[
+            getDatas.datasContainer.interpol.lenier
+              .sort((a, b) => a.x - b.x)
+              .filter((data) => data.x < cariX).length - 1
           ]?.y,
         },
         titikKedua: {
-          x: getDatas.datasContainer.interpol.lenier.filter(
-            (data) => data.x > cariX
-          )[0]?.x,
-          y: getDatas.datasContainer.interpol.lenier.filter(
-            (data) => data.x > cariX
-          )[0]?.y,
+          x: getDatas.datasContainer.interpol.lenier
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x > cariX)[0]?.x,
+          y: getDatas.datasContainer.interpol.lenier
+            .sort((a, b) => a.x - b.x)
+            .filter((data) => data.x > cariX)[0]?.y,
         },
       });
   };

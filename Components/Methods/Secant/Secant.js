@@ -39,28 +39,20 @@ function SecantWindow() {
     let loopLimits = 1;
     let btsAtas = batasAtas;
     let btsBwh = batasBawah;
-    const perPangkatan = (nilai, pangkat) => {
-      let hasilnya = nilai;
-      for (let n = 1; n < pangkat; n++) {
-        hasilnya = hasilnya * nilai;
-      }
-      //   console.log(hasilnya);
-      return hasilnya;
-    };
     const fX = (x) => {
-      return x ** 3 + x ** 2 - 3 * x - 3;
+      return eval(getDatas.datasContainer.Bijeksi.akarPrsmn[0]);
     };
     let btsTngh =
       btsBwh - fX(btsBwh) * ((btsBwh - btsAtas) / (fX(btsBwh) - fX(btsAtas)));
     // alert(btsTngh);
 
     while (Math.abs(fX(btsTngh)) >= eRA) {
-      console.log({
-        btsTngh,
-        fx2: fX(btsTngh),
-        absfx2: Math.abs(fX(btsTngh)),
-        fX1: fX(btsBwh),
-      });
+      // console.log({
+      //   btsTngh,
+      //   fx2: fX(btsTngh),
+      //   absfx2: Math.abs(fX(btsTngh)),
+      //   fX1: fX(btsBwh),
+      // });
       // setBatasTengah((btsAtas + btsBwh) / 2);
       if (Math.abs(fX(btsTngh)) > eRA) {
         btsAtas = btsBwh;
@@ -516,21 +508,7 @@ function SecantWindow() {
                   setAkarPrsmnWindow(true);
                 }}
               >
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
-                  <h6>3</h6>
-                </div>
-                <span>+</span>
-                <div className={styles.pangkatFormula}>
-                  <div>x</div>
-                  <h6>2</h6>
-                </div>
-                <span>-</span>
-                <div>3</div>
-                <span>*</span>
-                <div>x</div>
-                <span>-</span>
-                <div>3</div>
+                {getDatas.datasContainer.Bijeksi.akarPrsmn}
               </div>
               <div className={styles.loopResults_Container}>
                 <div className={styles.totalLoops_Container}>
@@ -548,7 +526,7 @@ function SecantWindow() {
           </div>
         </div>
       </div>
-      {getAkarPrsmnWindow !== false && <AkarPrsmnWindow />}
+      {getAkarPrsmnWindow !== false && <AkarPrsmnWindow method="Secant" />}
       <Script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js" />
     </>
   );
